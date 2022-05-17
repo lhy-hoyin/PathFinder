@@ -1,5 +1,5 @@
 # PathFinder
 NUS Orbital 2022
 
-## Requirements
+## Dependencies
 Node.js
