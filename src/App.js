@@ -1,10 +1,15 @@
+import Header from "./components/Header";
+import Auth from "./components/Auth";
+
+import "./styles.css";
+
 export default function App() {
     return (
-        <>
-            <h1>PathFinder</h1>
-            <p>Hello World</p>
-
-            <div></div>
-        </>
+        <div className="App">
+            <Header />
+            <main>
+                <Auth />
+            </main>
+        </div>
     );
 }

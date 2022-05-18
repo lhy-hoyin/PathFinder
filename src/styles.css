@@ -1,0 +1,11 @@
+.App {
+    font-family: sans-serif;
+    text-align: center;
+    max-width: 64rem;
+    margin: 0 auto;
+}
+
+.AuthBox {
+    flex-basis: 50%;
+    flex-grow: 0;
+}
