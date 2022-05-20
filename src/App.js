@@ -1,7 +1,5 @@
-import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
-import Header from "./components/Header";
-import Auth from "./components/Auth";
 import Home from "./pages/Home";
 import Login from"./pages/Login";
 import SignUp from"./pages/SignUp";
@@ -25,11 +23,10 @@ export default function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path = "/" element = {<Home/>}/>
-                    <Route path = "/Login" element = {<Login/>}/>
-                    <Route path = "/SignUp" element = {<SignUp/>}/>
+                    <Route path = "/login" element = {<Login/>}/>
+                    <Route path = "/sign-up" element = {<SignUp/>}/>
                 </Routes>
             </BrowserRouter>
-
         </div>
     );
 }

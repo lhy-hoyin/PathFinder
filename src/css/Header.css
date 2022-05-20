@@ -21,71 +21,39 @@ body {
     text-align: right;
 }
 
-    .nav-links ul li {
+.nav-links ul li {
+    font-family: var(--custom-font-family);
+    font-size: var(--custom-font-size);
+    color: var(--custom-font-color);
+    text-decoration: none;
+    list-style: none;
+    display: inline-block;
+    padding: 8px 12px;
+    position: relative;
+}
+
+        
+.nav-links ul li a {
         font-family: var(--custom-font-family);
         font-size: var(--custom-font-size);
         color: var(--custom-font-color);
         text-decoration: none;
-        list-style: none;
-        display: inline-block;
-        padding: 8px 12px;
-        position: relative;
-    }
+}
+   
+.clickable::after {
+    content: '';
+    width: 0%;
+    height: 2px;
+    background: #807272;
+    display: block;
+    margin: auto;
+    transition: 0.5s;
+}
 
-        
-    .nav-links ul li a {
-            font-family: var(--custom-font-family);
-            font-size: var(--custom-font-size);
-            color: var(--custom-font-color);
-            text-decoration: none;
-    }
+.clickable:hover::after {
+    width: 100%;
+}
 
-    .userName {
-        user-select: none;
-    }
-        
-    .login-link::after {
-        content: '';
-        width: 0%;
-        height: 2px;
-        background: #807272;
-        display: block;
-        margin: auto;
-        transition: 0.5s;
-    }
-
-    
-    .signup-link::after {
-        content: '';
-        width: 0%;
-        height: 2px;
-        background: #807272;
-        display: block;
-        margin: auto;
-        transition: 0.5s;
-    }
-
-    .logout-link::after {
-        content: '';
-        width: 0%;
-        height: 2px;
-        background: #807272;
-        display: block;
-        margin: auto;
-        transition: 0.5s;
-    }
-
-    .signup-link:hover::after{
-        width: 100%;
-    }
-    .login-link:hover::after{
-        width: 100%;
-    }
-
-    .logout-link:hover::after{
-        width: 100%;
-    }
-    
     
 /*   This one is suppose to be for mobile version 
 @media(max-width: 700px) {

@@ -4,8 +4,8 @@ import "../css/Header.css";
 
 export default function Header() {
 
-    //const [username, setUsername] = useState(null);
-    const [username, setUsername] = useState("Joe"); // TODO
+    const [username, setUsername] = useState(null);
+    //const [username, setUsername] = useState("Joe"); // TODO
 
     return (
         <section className="header">
@@ -17,14 +17,13 @@ export default function Header() {
             <div className="nav-links">
                 {username == null ? (
                     <ul>
-                        <li className='signup-link'><a href="/SignUp">Sign Up</a></li>
-                        <li className='Loginin-link'><a href="/Login">Login</a></li>
+                        <li className='clickable'><a href="/sign-up">Sign Up</a></li>
+                        <li className='clickable'><a href="/login">Login</a></li>
                     </ul>
                 ) : (
                     <ul>
-                        <li className='userName'>Welcome, {username}!</li>
-
-                        <li className='logout-link'><a href="/Logout">Logout</a></li>
+                        <li>Welcome, {username}!</li>
+                        <li className='clickable'><a href="/logout">Logout</a></li>
                     </ul>
                 )}
             </div>
