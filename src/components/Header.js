@@ -17,13 +17,14 @@ export default function Header() {
             <div className="nav-links">
                 {username == null ? (
                     <ul>
-                        <li><a href="/SignUp">Sign Up</a></li>
-                        <li><a href="/Login">Login</a></li>
+                        <li className='signup-link'><a href="/SignUp">Sign Up</a></li>
+                        <li className='Loginin-link'><a href="/Login">Login</a></li>
                     </ul>
                 ) : (
                     <ul>
-                        <li>Welcome, {username}!</li>
-                        <li><a href="/Logout">Logout</a></li>
+                        <li className='userName'>Welcome, {username}!</li>
+
+                        <li className='logout-link'><a href="/Logout">Logout</a></li>
                     </ul>
                 )}
             </div>
