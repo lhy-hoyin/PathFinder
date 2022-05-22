@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import Popup from 'reactjs-popup';
+
+import LoginPop from './LoginPop';
 
 import "../css/Header.css";
 
@@ -18,7 +21,9 @@ export default function Header() {
                 {username == null ? (
                     <ul>
                         <li className='clickable'><a href="/sign-up">Sign Up</a></li>
-                        <li className='clickable'><a href="/login">Login</a></li>
+                        <Popup className='login-popups' trigger={<button> Login</button>}>
+                            <LoginPop/>
+                        </Popup>
                     </ul>
                 ) : (
                     <ul>
