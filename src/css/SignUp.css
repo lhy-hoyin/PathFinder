@@ -1,6 +1,5 @@
 @import "styles.css";
 
-button,
 .button {
     color: var(--btn-color-text);
     border: var(--custom-border);
@@ -12,7 +11,7 @@ button,
     cursor: pointer;
     text-align: center;
     font-size: 0.9rem;
-    text-transform: uppercase;
+    font-family: var(--custom-font-family);
 }
 
     button.primary,

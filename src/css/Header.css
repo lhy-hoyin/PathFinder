@@ -19,23 +19,20 @@ body {
 .nav-links {
     flex: 1;
     text-align: right;
-}
-
-.nav-links ul li {
     font-family: var(--custom-font-family);
     font-size: var(--custom-font-size);
     color: var(--custom-font-color);
+}
+
+.nav-links ul li {
     text-decoration: none;
     list-style: none;
     display: inline-block;
     padding: 8px 12px;
     position: relative;
 }
-
-        
+ 
 .nav-links ul li a {
-        font-family: var(--custom-font-family);
-        font-size: var(--custom-font-size);
         color: var(--custom-font-color);
         text-decoration: none;
 }

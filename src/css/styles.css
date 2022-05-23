@@ -1,4 +1,6 @@
 * {
+    --custom-font-family: monospace;
+
     --btn-color-text: #ffffff;
     --btn-color-bg-default: #0026ff;
     --btn-color-bg-hover: #0094ff;
