@@ -1,15 +1,32 @@
-import Header from "./components/Header";
-import Auth from "./components/Auth";
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
-import "./styles.css";
+import Home from "./pages/Home";
+import Login from"./pages/Login";
+import SignUp from"./pages/SignUp";
+
+import "./css/styles.css";
 
 export default function App() {
+    /*
+    const [session, setSession] = useState(null)
+
+    useEffect(() => {
+        setSession(supabase.auth.session())
+        supabase.auth.onAuthStateChange((_event, session) => {
+            setSession(session)
+        })
+    }, [])
+    */
+
     return (
         <div className="App">
-            <Header />
-            <main>
-                <Auth />
-            </main>
+            <BrowserRouter>
+                <Routes>
+                    <Route path = "/" element = {<Home/>}/>
+                    <Route path = "/login" element = {<Login/>}/>
+                    <Route path = "/sign-up" element = {<SignUp/>}/>
+                </Routes>
+            </BrowserRouter>
         </div>
     );
 }
