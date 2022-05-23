@@ -3,12 +3,16 @@ import { supabase } from "../supabaseClient";
 
 import "../css/LoginPop.css";
 
-export default function LoginPop() {
+export default function LoginPop(props) {
 
     const [isLoading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState(""); // probably should hex the password first for security etc
     const user = supabase.auth.user()
+
+    const update = (data) => {
+      props.checkUser(data)
+    }
 
     const handleLogin = async e => {
     
@@ -20,7 +24,8 @@ export default function LoginPop() {
     
           const { error } = await supabase.auth.signIn({ email, password });
           if (error) throw error;
-          alert("Signed in");
+          update(true)
+          //alert("Signed in");
         } catch (error) {
           alert(error.error_description || error.message);
         } finally {
