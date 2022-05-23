@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Popup from 'reactjs-popup';
 
 import { supabase } from "../supabaseClient";
@@ -21,8 +21,6 @@ export default function Header() {
     }, [username]);
     */
 
-    const [chkUser, setChkUser] = useState(false)
-
     return (
         <section className="header">
 
@@ -39,8 +37,7 @@ export default function Header() {
                             trigger={
                                 <li className="clickable">Login</li>
                             }>
-                            <LoginPop checkUser = {setChkUser}/>
-                            {chkUser? window.location.reload(chkUser): ""}
+                            <LoginPop />
                         </Popup>
                     
                     </ul>

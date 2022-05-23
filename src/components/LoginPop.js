@@ -4,7 +4,7 @@ import { Auth } from "../components/Auth";
 
 import "../css/LoginPop.css";
 
-export default function LoginPop(props) {
+export default function LoginPop() {
 
     const [isLoading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
