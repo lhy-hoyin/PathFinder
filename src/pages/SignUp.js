@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { supabase } from "../supabaseClient";
 
+import { supabase } from "../supabaseClient";
 import Header from "../components/Header";
 
 import "../css/SignUp.css";
@@ -20,8 +20,7 @@ export default function SignUp() {
             if (error) throw error;
             setMessage("Check your email for the login link!");
         } catch (error) {
-            alert(error.error_description || error.message);
-            setMessage("Oops..something wrong happened");
+            setMessage(error.error_description || error.message);
         }
 
     }
@@ -39,23 +38,20 @@ export default function SignUp() {
                             type="email"
                             placeholder="Simply register for an account using your email"
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
+                            onChange={(e) => setEmail(e.target.value)} />
                         <input
                             id="password"
                             className="inputField"
                             type="password"
                             placeholder="Password (Minimum 6 characters)"
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
+                            onChange={(e) => setPassword(e.target.value)} />
                         <button className="button block" aria-live="polite" onClick="handleSignup">
                             Register As New User
                         </button>
                     </form>
                 </div>
             </div>
-
             <p>{message}</p>
         </>
     )
