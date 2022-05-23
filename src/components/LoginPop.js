@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { supabase } from "../supabaseClient";
+import { Auth } from "../components/Auth";
 
 import "../css/LoginPop.css";
 
@@ -10,46 +11,31 @@ export default function LoginPop() {
     const [password, setPassword] = useState(""); // probably should hex the password first for security etc
     const user = supabase.auth.user()
 
-    const handleLogin = async e => {
-    
-        e.preventDefault();
-
-        // FIXME: Let Auth.js handle this
-        try {
-          setLoading(true);
-    
-          const { error } = await supabase.auth.signIn({ email, password });
-          if (error) throw error;
-          alert("Signed in");
-        } catch (error) {
-          alert(error.error_description || error.message);
-        } finally {
-          setLoading(false);
-        }
-    
-      };
+    const { login } = Auth();
 
     return (
-        <form className = 'login-popup'onSubmit={handleLogin}>
+        <form className='login-popup' onSubmit={login(email, password)}>
             <div className="inside-login-popup">
                 <label> Login Details</label>
                 <input
-                id="email"
-                className="inputField"
-                type="email"
-                placeholder="Your email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                />
+                    id="email"
+                    className="inputField"
+                    type="email"
+                    placeholder="Your email"
+                    autoComplete="email"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    />
 
                 <input
-                id="password"
-                className="inputField"
-                type="password"
-                placeholder="Enter Password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                />
+                    id="password"
+                    className="inputField"
+                    type="password"
+                    placeholder="Enter Password"
+                    autoComplete="current-password"
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    />
 
                 <button className = "Button block" >
                     Log In

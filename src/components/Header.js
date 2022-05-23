@@ -1,14 +1,25 @@
 import { useState } from 'react';
 import Popup from 'reactjs-popup';
 
+import { supabase } from "../supabaseClient";
+import { Auth } from "../components/Auth";
 import LoginPop from './LoginPop';
 
 import "../css/Header.css";
 
 export default function Header() {
 
-    const [username, setUsername] = useState(null);
+    const [displayname, setDisplayname] = useState(null);
     //const [username, setUsername] = useState("Joe"); // TODO
+    const user = supabase.auth.user();
+
+    const { username, logout } = Auth();
+
+    /*
+    useEffect(() => {
+        setDisplayname(displayname);
+    }, [username]);
+    */
 
     return (
         <section className="header">
@@ -18,7 +29,7 @@ export default function Header() {
             </a>
 
             <div className="nav-links">
-                {username == null ? (
+                {!user ? (
                     <ul>
                         <li className='clickable'><a href="/sign-up">Sign Up</a></li>
                         <Popup
@@ -26,13 +37,14 @@ export default function Header() {
                             trigger={
                                 <li className="clickable">Login</li>
                             }>
-                            <LoginPop/>
+                            <LoginPop />
                         </Popup>
+                    
                     </ul>
                 ) : (
                     <ul>
-                        <li>Welcome, {username}!</li>
-                        <li className='clickable'><a href="/logout">Logout</a></li>
+                            <li>Welcome, {displayname}!</li>
+                            <li className='clickable'><a onClick={logout}>Logout</a></li>
                     </ul>
                 )}
             </div>
