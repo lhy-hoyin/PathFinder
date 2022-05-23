@@ -1,0 +1,23 @@
+.login-popup {
+    text-align: center;
+    height: 150px;
+    width: 100%;
+    position: relative;
+    font-size: 18px;
+    display: flex;
+    border: 10cm;
+    font-family: monospace;
+    right: 10px;
+}
+
+.inside-login-popup {
+    width: 100%;
+    color: #686565;
+    font-size: 20px;
+    font-family: monospace;
+}
+
+.inputField {
+    width: 95%;
+    
+}

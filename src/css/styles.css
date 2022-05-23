@@ -1,0 +1,18 @@
+* {
+    --custom-font-family: monospace;
+
+    --btn-color-text: #ffffff;
+    --btn-color-bg-default: #0026ff;
+    --btn-color-bg-hover: #0094ff;
+}
+
+.App {
+    font-family: sans-serif;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.AuthBox {
+    flex-basis: 50%;
+    flex-grow: 0;
+}

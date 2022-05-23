@@ -1,0 +1,76 @@
+body {
+    --custom-font-size: 20px;
+    --custom-font-color: #808080;
+    --custom-font-family: monospace;
+}
+
+.header {
+    min-width: 100vh;
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.nav-links {
+    flex: 1;
+    text-align: right;
+    font-family: var(--custom-font-family);
+    font-size: var(--custom-font-size);
+    color: var(--custom-font-color);
+}
+
+.nav-links ul li {
+    text-decoration: none;
+    list-style: none;
+    display: inline-block;
+    padding: 8px 12px;
+    position: relative;
+}
+ 
+.nav-links ul li a {
+        color: var(--custom-font-color);
+        text-decoration: none;
+}
+   
+.clickable::after {
+    content: '';
+    width: 0%;
+    height: 2px;
+    background: #807272;
+    display: block;
+    margin: auto;
+    transition: 0.5s;
+}
+
+.clickable:hover::after {
+    width: 100%;
+}
+
+    
+/*   This one is suppose to be for mobile version 
+@media(max-width: 700px) {
+    .nav-links {
+        position: absolute;
+        background: #00ff21;
+        top: 0;
+        right: 0;
+        text-align: left;
+        z-index: 2;
+        transition: 1s;
+    }
+    //background: #b6adad;
+
+    .nav-links ul li {
+        display: block;
+    }
+
+    .nav-links ul li:hover::after {
+        width: 0%;
+    }
+}
+*/
