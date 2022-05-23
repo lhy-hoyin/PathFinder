@@ -29,7 +29,7 @@ export default function SignUp() {
                             onChange={(e) => setEmail(e.target.value)}
                         />
                         <button className="button block" aria-live="polite" onClick="handleSignup">
-                            Register as new user
+                            Register As New User
                         </button>
                     </form>
                 </div>

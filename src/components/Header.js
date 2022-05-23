@@ -21,7 +21,11 @@ export default function Header() {
                 {username == null ? (
                     <ul>
                         <li className='clickable'><a href="/sign-up">Sign Up</a></li>
-                        <Popup className='login-popups' trigger={<button> Login</button>}>
+                        <Popup
+                            className='login-popups'
+                            trigger={
+                                <li className="clickable">Login</li>
+                            }>
                             <LoginPop/>
                         </Popup>
                     </ul>

@@ -13,7 +13,8 @@ export default function LoginPop() {
     const handleLogin = async e => {
     
         e.preventDefault();
-    
+
+        // FIXME: Let Auth.js handle this
         try {
           setLoading(true);
     
