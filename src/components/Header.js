@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Popup from 'reactjs-popup';
+import { supabase } from "../supabaseClient";
 
 import LoginPop from './LoginPop';
 
@@ -9,6 +10,7 @@ export default function Header() {
 
     const [username, setUsername] = useState(null);
     //const [username, setUsername] = useState("Joe"); // TODO
+    const user = supabase.auth.user()
 
     return (
         <section className="header">
@@ -18,7 +20,7 @@ export default function Header() {
             </a>
 
             <div className="nav-links">
-                {username == null ? (
+                {!user ? (
                     <ul>
                         <li className='clickable'><a href="/sign-up">Sign Up</a></li>
                         <Popup
@@ -31,7 +33,7 @@ export default function Header() {
                     </ul>
                 ) : (
                     <ul>
-                        <li>Welcome, {username}!</li>
+                        <li>Welcome, useer123!</li>
                         <li className='clickable'><a href="/logout">Logout</a></li>
                     </ul>
                 )}
