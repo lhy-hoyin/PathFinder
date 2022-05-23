@@ -52,7 +52,7 @@ export default function LoginPop() {
                 />
 
                 <button className = "Button block" >
-                    Sign in
+                    Log In
                 </button>
 
                 <a className='clickable' href="/reset_password">Forget Password?</a>
