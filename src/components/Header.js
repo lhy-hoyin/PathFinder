@@ -21,6 +21,8 @@ export default function Header() {
     }, [username]);
     */
 
+    const [chkUser, setChkUser] = useState(false)
+
     return (
         <section className="header">
 
@@ -37,8 +39,10 @@ export default function Header() {
                             trigger={
                                 <li className="clickable">Login</li>
                             }>
-                            <LoginPop/>
+                            <LoginPop checkUser = {setChkUser}/>
+                            {chkUser? window.location.reload(chkUser): ""}
                         </Popup>
+                    
                     </ul>
                 ) : (
                     <ul>
