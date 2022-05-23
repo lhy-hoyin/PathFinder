@@ -10,7 +10,7 @@ export default function SignUp() {
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
 
-    //hack
+    // FIXME: Let Auth.js handle this
     const handleSignup = async e => {
         e.preventDefault();
 
