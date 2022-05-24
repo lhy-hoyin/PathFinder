@@ -14,11 +14,7 @@ export const Auth = () => {
 
 function useProvideAuth() {
     const user = supabase.auth.user()
-
     const [session, setSession] = useState(null)
-
-    const [email, setEmail] = useState(null);
-    const [password, setPassword] = useState(null);
 
     const [username, setUsername] = useState(null);
     //const [website, setWebsite] = useState(null);
@@ -28,20 +24,17 @@ function useProvideAuth() {
         setSession(supabase.auth.session());
 
         supabase.auth.onAuthStateChange((_event, session) => {
-            setSession(session)
+            setSession(session);
+            getUserProfile();
         })
-    }, []);
+    }, []);    
 
-    // Watches session
-    useEffect(() => {
-        getProfile()
-    }, [session])
-    
-
-    const getProfile = async () => {
-        console.log("triggered");
+    const getUserProfile = async () => {
         try {
-            const user = supabase.auth.user()
+            const user = supabase.auth.user();
+
+            if (user == null)
+                return
 
             let { data, error, status } = await supabase
                 .from('profiles')
@@ -64,19 +57,19 @@ function useProvideAuth() {
         }
     }
 
-    /*
-    const signup = (email, password) => async e => {
+    const signup = (email, displayMessage, password) => async e => {
         e.preventDefault();
 
         try {
           const { error } = await supabase.auth.signUp({ email, password });
           if (error) throw error;
-          alert("Check your email for the login link!");
+            displayMessage("Check your email for the login link!");
+            console.log("Verification email sent");
         } catch (error) {
-          alert(error.error_description || error.message);
+            console.error(error.error_description || error.message);
+            displayMessage(error.error_description || error.message);
         }
     };
-    */
 
     const login = (email, password) => async e => {
         e.preventDefault();
@@ -84,10 +77,10 @@ function useProvideAuth() {
         try {
           const { error } = await supabase.auth.signIn({ email, password });
           if (error) throw error;
-            console.debug("User logged in");
+            console.log("User logged in");
         } catch (error) {
             alert(error.error_description || error.message);
-            console.warn(error.error_description || error.message);
+            console.error(error.error_description || error.message);
         }
     };
 
@@ -97,16 +90,17 @@ function useProvideAuth() {
         try {
             const { error } = await supabase.auth.signOut();
             if (error) throw error;
-            console.debug("User logged out");
+            console.log("User logged out");
         } catch (error) {
-            console.log(error.error_description || error.message);
+            console.error(error.error_description || error.message);
         }
     };
 
     return {
-        //signup,
+        signup,
         login,
         logout,
+
         username,
         //email,
         //avatar_url,

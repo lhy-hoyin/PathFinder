@@ -6,7 +6,6 @@ import "../css/LoginPop.css";
 
 export default function LoginPop() {
 
-    const [isLoading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState(""); // probably should hex the password first for security etc
     const user = supabase.auth.user()

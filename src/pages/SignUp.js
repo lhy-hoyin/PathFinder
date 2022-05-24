@@ -1,29 +1,16 @@
 import { useState } from "react";
 
-import { supabase } from "../supabaseClient";
+import { Auth } from "../components/Auth";
 import Header from "../components/Header";
 
 import "../css/SignUp.css";
 
 export default function SignUp() {
+
+    const { signup } = Auth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
-
-    // FIXME: Let Auth.js handle this
-    const handleSignup = async e => {
-        e.preventDefault();
-
-        try {
-            setMessage("Signing up ... please be patient...");
-            const { error } = await supabase.auth.signUp({ email, password });
-            if (error) throw error;
-            setMessage("Check your email for the login link!");
-        } catch (error) {
-            setMessage(error.error_description || error.message);
-        }
-
-    }
 
     return (
         <>
@@ -31,7 +18,7 @@ export default function SignUp() {
             <div className="frame">
                 <div className="register-new" aria-live="polite">
                     <h1>Sign Up</h1> 
-                    <form onSubmit={handleSignup}>
+                    <form onSubmit={signup(email, setMessage, password)}>
                         <input
                             id="email"
                             className="inputField"
@@ -46,7 +33,7 @@ export default function SignUp() {
                             placeholder="Password (Minimum 6 characters)"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)} />
-                        <button className="button block" aria-live="polite" onClick="handleSignup">
+                        <button className="button block" aria-live="polite">
                             Register As New User
                         </button>
                     </form>

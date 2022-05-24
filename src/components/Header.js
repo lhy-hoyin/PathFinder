@@ -11,8 +11,6 @@ export default function Header() {
 
     const user = supabase.auth.user();
     const { username, logout } = Auth();
-    const [displayname, setDisplayname] = useState(null);
-    
 
     return (
         <section className="header">
