@@ -13,38 +13,32 @@ export const Auth = () => {
 };
 
 function useProvideAuth() {
-    const [email, setEmail] = useState(null);
-    const [password, setPassword] = useState(null);
-
-    const [username, setUsername] = useState(null);
-    const [website, setWebsite] = useState(null);
-    const [avatar_url, setAvatarUrl] = useState(null);
-
+    //const user = supabase.auth.user()
     const [session, setSession] = useState(null)
 
-    const user = supabase.auth.user()
+    const [username, setUsername] = useState(null);
+    //const [avatar_url, setAvatarUrl] = useState(null);
+    const [isReady, setIsReady] = useState(null);
 
     useEffect(() => {
         setSession(supabase.auth.session());
 
         supabase.auth.onAuthStateChange((_event, session) => {
-            setSession(session)
+            setSession(session);
+            getUserProfile();
         })
-    }, []);
+    }, []);    
 
-    /*
-    useEffect(() => {
-        getProfile()
-    }, [session])
-    */
-
-    const getProfile = async () => {
+    const getUserProfile = async () => {
         try {
-            const user = supabase.auth.user()
+            const user = supabase.auth.user();
+
+            if (user == null)
+                return
 
             let { data, error, status } = await supabase
                 .from('profiles')
-                .select(`username, website, avatar_url`)
+                .select(`username, avatar_url, isReady`)
                 .eq('id', user.id)
                 .single()
 
@@ -53,28 +47,48 @@ function useProvideAuth() {
             }
 
             if (data) {
-                setUsername(data.username)
-                setWebsite(data.website)
-                setAvatarUrl(data.avatar_url)
+                setUsername(data.username);
+                //setAvatarUrl(data.avatar_url);
+                setIsReady(data.isReady);
             }
         } catch (error) {
-            alert(error.message)
+            console.error(error.message);
+            
         }
     }
 
-    /*
-    const signup = (email, password) => async e => {
+    const signup = (email, password1, password2, setMessage) => async e => {
         e.preventDefault();
 
+        // Verify that password is matching
+        if (password1 != password2) {
+            setMessage("Password does not match");
+            console.log("User input mis-matched password");
+            return;
+        }
+
+        var password = password1;
+
+        if (password.length < 6) {
+            setMessage("Password too short (min 6 sharacters)");
+            console.log("User password too short");
+            return;
+        }
+
+        //TODO: hex password here for security
+        //note: login also need to hex, when this is implemented
+
         try {
-          const { error } = await supabase.auth.signUp({ email, password });
-          if (error) throw error;
-          alert("Check your email for the login link!");
+            setMessage("Signing up ... please be patient...");
+            const { error } = await supabase.auth.signUp({ email, password });
+            if (error) throw error;
+            setMessage("Check your email for the login link!");
+            console.log("Verification email sent");
         } catch (error) {
-          alert(error.error_description || error.message);
+            console.error(error.error_description || error.message);
+            setMessage(error.error_description || error.message);
         }
     };
-    */
 
     const login = (email, password) => async e => {
         e.preventDefault();
@@ -82,10 +96,10 @@ function useProvideAuth() {
         try {
           const { error } = await supabase.auth.signIn({ email, password });
           if (error) throw error;
-            console.debug("User logged in");
+            console.log("User logged in");
         } catch (error) {
             alert(error.error_description || error.message);
-            console.warn(error.error_description || error.message);
+            console.error(error.error_description || error.message);
         }
     };
 
@@ -95,18 +109,20 @@ function useProvideAuth() {
         try {
             const { error } = await supabase.auth.signOut();
             if (error) throw error;
-            console.debug("User logged out");
+            console.log("User logged out");
         } catch (error) {
-            console.log(error.error_description || error.message);
+            console.error(error.error_description || error.message);
         }
     };
 
     return {
-        //signup,
+        signup,
         login,
         logout,
-        //username,
+
+        username,
         //email,
         //avatar_url,
+        isReady,
     };
 }
