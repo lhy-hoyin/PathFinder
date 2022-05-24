@@ -34,7 +34,7 @@ export default function Header() {
                     </ul>
                 ) : (
                     <ul>
-                            <li>Welcome, {username}!</li>
+                            <li>Welcome, {username?? "user"}!</li>
                             <li className='clickable'><a onClick={logout}>Logout</a></li>
                     </ul>
                 )}

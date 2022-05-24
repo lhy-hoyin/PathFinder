@@ -13,12 +13,12 @@ export const Auth = () => {
 };
 
 function useProvideAuth() {
-    const user = supabase.auth.user()
+    //const user = supabase.auth.user()
     const [session, setSession] = useState(null)
 
     const [username, setUsername] = useState(null);
-    //const [website, setWebsite] = useState(null);
     //const [avatar_url, setAvatarUrl] = useState(null);
+    const [isReady, setIsReady] = useState(null);
 
     useEffect(() => {
         setSession(supabase.auth.session());
@@ -38,7 +38,7 @@ function useProvideAuth() {
 
             let { data, error, status } = await supabase
                 .from('profiles')
-                .select(`username, website, avatar_url`)
+                .select(`username, avatar_url, isReady`)
                 .eq('id', user.id)
                 .single()
 
@@ -48,8 +48,8 @@ function useProvideAuth() {
 
             if (data) {
                 setUsername(data.username);
-                //setWebsite(data.website);
                 //setAvatarUrl(data.avatar_url);
+                setIsReady(data.isReady);
             }
         } catch (error) {
             console.error(error.message);
@@ -57,17 +57,36 @@ function useProvideAuth() {
         }
     }
 
-    const signup = (email, displayMessage, password) => async e => {
+    const signup = (email, password1, password2, setMessage) => async e => {
         e.preventDefault();
 
+        // Verify that password is matching
+        if (password1 != password2) {
+            setMessage("Password does not match");
+            console.log("User input mis-matched password");
+            return;
+        }
+
+        var password = password1;
+
+        if (password.length < 6) {
+            setMessage("Password too short (min 6 sharacters)");
+            console.log("User password too short");
+            return;
+        }
+
+        //TODO: hex password here for security
+        //note: login also need to hex, when this is implemented
+
         try {
-          const { error } = await supabase.auth.signUp({ email, password });
-          if (error) throw error;
-            displayMessage("Check your email for the login link!");
+            setMessage("Signing up ... please be patient...");
+            const { error } = await supabase.auth.signUp({ email, password });
+            if (error) throw error;
+            setMessage("Check your email for the login link!");
             console.log("Verification email sent");
         } catch (error) {
             console.error(error.error_description || error.message);
-            displayMessage(error.error_description || error.message);
+            setMessage(error.error_description || error.message);
         }
     };
 
@@ -104,5 +123,6 @@ function useProvideAuth() {
         username,
         //email,
         //avatar_url,
+        isReady,
     };
 }

@@ -9,7 +9,8 @@ export default function SignUp() {
 
     const { signup } = Auth();
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [password1, setPassword1] = useState('');
+    const [password2, setPassword2] = useState('');
     const [message, setMessage] = useState('');
 
     return (
@@ -18,12 +19,13 @@ export default function SignUp() {
             <div className="frame">
                 <div className="register-new" aria-live="polite">
                     <h1>Sign Up</h1> 
-                    <form onSubmit={signup(email, setMessage, password)}>
+                    <form onSubmit={signup(email, password1, password2, setMessage )}>
                         <input
                             id="email"
                             className="inputField"
                             type="email"
                             placeholder="Simply register for an account using your email"
+                            autoComplete="email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)} />
                         <input
@@ -31,8 +33,17 @@ export default function SignUp() {
                             className="inputField"
                             type="password"
                             placeholder="Password (Minimum 6 characters)"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)} />
+                            autoComplete="new-password"
+                            value={password1}
+                            onChange={(e) => setPassword1(e.target.value)} />
+                        <input
+                            id="confirm-password"
+                            className="inputField"
+                            type="password"
+                            placeholder="Re-enter your password again"
+                            autoComplete="off"
+                            value={password2}
+                            onChange={(e) => setPassword2(e.target.value)} />
                         <button className="button block" aria-live="polite">
                             Register As New User
                         </button>
