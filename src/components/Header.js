@@ -9,17 +9,10 @@ import "../css/Header.css";
 
 export default function Header() {
 
-    const [displayname, setDisplayname] = useState(null);
-    //const [username, setUsername] = useState("Joe"); // TODO
     const user = supabase.auth.user();
-
     const { username, logout } = Auth();
-
-    /*
-    useEffect(() => {
-        setDisplayname(displayname);
-    }, [username]);
-    */
+    const [displayname, setDisplayname] = useState(null);
+    
 
     return (
         <section className="header">
@@ -43,7 +36,7 @@ export default function Header() {
                     </ul>
                 ) : (
                     <ul>
-                            <li>Welcome, {displayname}!</li>
+                            <li>Welcome, {username}!</li>
                             <li className='clickable'><a onClick={logout}>Logout</a></li>
                     </ul>
                 )}

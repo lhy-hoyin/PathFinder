@@ -13,16 +13,16 @@ export const Auth = () => {
 };
 
 function useProvideAuth() {
+    const user = supabase.auth.user()
+
+    const [session, setSession] = useState(null)
+
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
 
     const [username, setUsername] = useState(null);
-    const [website, setWebsite] = useState(null);
-    const [avatar_url, setAvatarUrl] = useState(null);
-
-    const [session, setSession] = useState(null)
-
-    const user = supabase.auth.user()
+    //const [website, setWebsite] = useState(null);
+    //const [avatar_url, setAvatarUrl] = useState(null);
 
     useEffect(() => {
         setSession(supabase.auth.session());
@@ -32,13 +32,14 @@ function useProvideAuth() {
         })
     }, []);
 
-    /*
+    // Watches session
     useEffect(() => {
         getProfile()
     }, [session])
-    */
+    
 
     const getProfile = async () => {
+        console.log("triggered");
         try {
             const user = supabase.auth.user()
 
@@ -53,12 +54,13 @@ function useProvideAuth() {
             }
 
             if (data) {
-                setUsername(data.username)
-                setWebsite(data.website)
-                setAvatarUrl(data.avatar_url)
+                setUsername(data.username);
+                //setWebsite(data.website);
+                //setAvatarUrl(data.avatar_url);
             }
         } catch (error) {
-            alert(error.message)
+            console.error(error.message);
+            
         }
     }
 
@@ -105,7 +107,7 @@ function useProvideAuth() {
         //signup,
         login,
         logout,
-        //username,
+        username,
         //email,
         //avatar_url,
     };
