@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Popup from 'reactjs-popup';
 
 import { supabase } from "../supabaseClient";
@@ -16,7 +15,7 @@ export default function Header() {
         <section className="header">
 
             <a href="/">
-                <img src="img/icon.png" alt="Pathfinder" height="100" width="100"/>
+                <img src="img/banner.png" alt="Pathfinder" height="100"/>
             </a>
 
             <div className="nav-links">
