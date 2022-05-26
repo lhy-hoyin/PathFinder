@@ -1,30 +1,17 @@
 import { useState } from "react";
-import { supabase } from "../supabaseClient";
 
+import { Auth } from "../components/Auth";
 import Header from "../components/Header";
 
 import "../css/SignUp.css";
 
 export default function SignUp() {
+
+    const { signup } = Auth();
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [password1, setPassword1] = useState('');
+    const [password2, setPassword2] = useState('');
     const [message, setMessage] = useState('');
-
-    // FIXME: Let Auth.js handle this
-    const handleSignup = async e => {
-        e.preventDefault();
-
-        try {
-            setMessage("Signing up ... please be patient...");
-            const { error } = await supabase.auth.signUp({ email, password });
-            if (error) throw error;
-            setMessage("Check your email for the login link!");
-        } catch (error) {
-            alert(error.error_description || error.message);
-            setMessage("Oops..something wrong happened");
-        }
-
-    }
 
     return (
         <>
@@ -32,30 +19,37 @@ export default function SignUp() {
             <div className="frame">
                 <div className="register-new" aria-live="polite">
                     <h1>Sign Up</h1> 
-                    <form onSubmit={handleSignup}>
+                    <form onSubmit={signup(email, password1, password2, setMessage )}>
                         <input
                             id="email"
                             className="inputField"
                             type="email"
                             placeholder="Simply register for an account using your email"
+                            autoComplete="email"
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
+                            onChange={(e) => setEmail(e.target.value)} />
                         <input
                             id="password"
                             className="inputField"
                             type="password"
                             placeholder="Password (Minimum 6 characters)"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                        <button className="button block" aria-live="polite" onClick="handleSignup">
+                            autoComplete="new-password"
+                            value={password1}
+                            onChange={(e) => setPassword1(e.target.value)} />
+                        <input
+                            id="confirm-password"
+                            className="inputField"
+                            type="password"
+                            placeholder="Re-enter your password again"
+                            autoComplete="off"
+                            value={password2}
+                            onChange={(e) => setPassword2(e.target.value)} />
+                        <button className="button block" aria-live="polite">
                             Register As New User
                         </button>
                     </form>
                 </div>
             </div>
-
             <p>{message}</p>
         </>
     )
