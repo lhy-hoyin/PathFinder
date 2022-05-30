@@ -115,10 +115,23 @@ function useProvideAuth() {
         }
     };
 
+    const send_password_reset = (email, setMessage) => async e => {
+        e.preventDefault();
+        try {
+            const { data, error } = await supabase.auth.api.resetPasswordForEmail(email)
+            if (error) throw error;
+              alert("Recovery link has been sent to your email");
+          } catch (error) {
+              setMessage("Email does not exist");
+              console.error(error.error_description);
+          }
+    };
+
     return {
         signup,
         login,
         logout,
+        send_password_reset,
 
         username,
         //email,
