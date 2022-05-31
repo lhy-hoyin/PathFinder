@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Popup from 'reactjs-popup';
 
 import { supabase } from "../supabaseClient";
@@ -10,7 +9,7 @@ import "../css/Header.css";
 export default function Header() {
 
     const user = supabase.auth.user();
-    const { username, logout } = Auth();
+    const { email, firstName, lastName, logout } = Auth();
 
     return (
         <section className="header">
@@ -34,7 +33,7 @@ export default function Header() {
                     </ul>
                 ) : (
                     <ul>
-                            <li>Welcome, {username?? "user"}!</li>
+                            <li>Welcome, {firstName ?? lastName ?? email ?? "user"}!</li>
                             <li className='clickable'><a onClick={logout}>Logout</a></li>
                     </ul>
                 )}

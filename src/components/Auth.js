@@ -13,21 +13,23 @@ export const Auth = () => {
 };
 
 function useProvideAuth() {
-    //const user = supabase.auth.user()
-    const [session, setSession] = useState(null)
+    const [session, setSession] = useState(null);
 
-    const [username, setUsername] = useState(null);
-    //const [avatar_url, setAvatarUrl] = useState(null);
+    // User-releated info
+    const [email, setEmail] = useState(null);
+    const [firstName, setFirstName] = useState(null);
+    const [lastName, setLastName] = useState(null);
     const [isReady, setIsReady] = useState(null);
+    const [isLocked, setIsLocked] = useState(null);
 
     useEffect(() => {
         setSession(supabase.auth.session());
+        supabase.auth.onAuthStateChange((_event, session) => {setSession();})
+    }, []);
 
-        supabase.auth.onAuthStateChange((_event, session) => {
-            setSession(session);
-            getUserProfile();
-        })
-    }, []);    
+    useEffect(() => {
+        getUserProfile();
+    }, [session]);
 
     const getUserProfile = async () => {
         try {
@@ -36,26 +38,56 @@ function useProvideAuth() {
             if (user == null)
                 return
 
+            setEmail(user.email);
+
             let { data, error, status } = await supabase
                 .from('profiles')
-                .select(`username, avatar_url, isReady`)
+                .select(`FirstName, LastName, isReady, isLocked`)
                 .eq('id', user.id)
                 .single()
 
-            if (error && status !== 406) {
+            if (error && status !== 406)
                 throw error
-            }
 
             if (data) {
-                setUsername(data.username);
-                //setAvatarUrl(data.avatar_url);
+                setFirstName(data.FirstName);
+                setLastName(data.LastName);
                 setIsReady(data.isReady);
+                setIsLocked(data.isLocked);
             }
         } catch (error) {
             console.error(error.message);
-            
         }
-    }
+    };
+
+    const updateUserProfile = (f_name, l_name) => async () => {
+        e.preventDefault();
+
+        try {
+            const user = supabase.auth.user()
+
+            if (user == null)
+                return
+
+            const updates = {
+                id: user.id,
+                f_name,
+                l_name,
+                updated_at: new Date(),
+            }
+
+            //FIXME: 'updates' not same structure as in DB
+            let { error } = await supabase.from('profiles').upsert(updates, {
+                returning: 'minimal', // Don't return the value after inserting
+            })
+
+            if (error)
+                throw error
+
+        } catch (error) {
+            console.error(error.message);
+        }
+    };
 
     const signup = (email, password1, password2, setMessage) => async e => {
         e.preventDefault();
@@ -93,6 +125,9 @@ function useProvideAuth() {
     const login = (email, password) => async e => {
         e.preventDefault();
 
+        //TODO: hex password here for security
+        //note: singup also need to hex, when this is implemented
+
         try {
           const { error } = await supabase.auth.signIn({ email, password });
           if (error) throw error;
@@ -113,16 +148,17 @@ function useProvideAuth() {
         } catch (error) {
             console.error(error.error_description || error.message);
         }
-    };
+    };  
 
     return {
         signup,
         login,
         logout,
 
-        username,
-        //email,
-        //avatar_url,
+        email,
+        firstName,
+        lastName,
         isReady,
+        isLocked,
     };
 }
