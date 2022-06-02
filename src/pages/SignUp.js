@@ -19,7 +19,7 @@ export default function SignUp() {
             <div className="frame">
                 <div className="register-new" aria-live="polite">
                     <h1>Sign Up</h1> 
-                    <form onSubmit={signup(email, password1, password2, setMessage )}>
+                    <form onSubmit={ signup(email, password1, password2, setMessage) }>
                         <input
                             id="email"
                             className="inputField"
