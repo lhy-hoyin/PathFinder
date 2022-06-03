@@ -1,7 +1,7 @@
 import Popup from 'reactjs-popup';
 
 import { supabase } from "../supabaseClient";
-import { Auth } from "./Auth";
+import { Auth } from "../hooks/Auth";
 import LoginPop from './LoginPop';
 
 import "../css/Header.css";

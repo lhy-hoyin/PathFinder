@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { Auth } from "../components/Auth";
+import { Auth } from "../hooks/Auth";
 import Header from "../components/Header";
 
 import "../css/SignUp.css";

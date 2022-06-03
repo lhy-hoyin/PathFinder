@@ -148,18 +148,22 @@ function useProvideAuth() {
         }
     };  
 
+    const test = () => {
+
+    };
+
     return {
         signup,
         login,
         logout,
         updateProfile,
 
+        profileReady,
+
         email,
         firstName,
         lastName,
         isReady,
         isLocked,
-
-        profileReady,
     };
 }

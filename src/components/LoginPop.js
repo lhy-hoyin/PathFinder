@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { supabase } from "../supabaseClient";
-import { Auth } from "../components/Auth";
+import { Auth } from "../hooks/Auth";
 
 import "../css/LoginPop.css";
 

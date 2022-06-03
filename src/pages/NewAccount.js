@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { supabase } from "../supabaseClient";
-import { Auth } from "../components/Auth";
+import { Auth } from "../hooks/Auth";
 
 export default function NewAccount() {
     const [profileFirstName, setProfileFirstName] = useState("");
@@ -21,7 +21,7 @@ export default function NewAccount() {
     const updateBasicInfo = async e => {
         e.preventDefault();
 
-        /*const user = supabase.auth.user();
+        const user = supabase.auth.user();
 
         var profileIsComplete = (profileFirstName.length != 0) && (profileLastName.length != 0)
 
@@ -35,7 +35,7 @@ export default function NewAccount() {
         }
 
         console.log("trigger1")
-        updateProfile(updates)*/
+        updateProfile(updates) //FIXME: cannot be called
 
         //alert("Profile Updated successfully")
     };
