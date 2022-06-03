@@ -14,6 +14,7 @@ export const Auth = () => {
 
 function useProvideAuth() {
     const [session, setSession] = useState(null);
+    const [profileReady, setProfileReady] = useState(false);
 
     // User-releated info
     const [email, setEmail] = useState(null);
@@ -28,10 +29,10 @@ function useProvideAuth() {
     }, []);
 
     useEffect(() => {
-        getUserProfile();
+        getProfile();
     }, [session]);
 
-    const getUserProfile = async () => {
+    const getProfile = async () => {
         try {
             const user = supabase.auth.user();
 
@@ -54,14 +55,17 @@ function useProvideAuth() {
                 setLastName(data.LastName);
                 setIsReady(data.isReady);
                 setIsLocked(data.isLocked);
+
+                setProfileReady(true);
             }
         } catch (error) {
             console.error(error.message);
         }
     };
 
-    const updateUserProfile = (f_name, l_name) => async () => {
+    const updateProfile = (updates) => async e => {
         e.preventDefault();
+        console.log("trigger2")
 
         try {
             const user = supabase.auth.user()
@@ -69,20 +73,14 @@ function useProvideAuth() {
             if (user == null)
                 return
 
-            const updates = {
-                id: user.id,
-                f_name,
-                l_name,
-                updated_at: new Date(),
-            }
-
-            //FIXME: 'updates' not same structure as in DB
             let { error } = await supabase.from('profiles').upsert(updates, {
                 returning: 'minimal', // Don't return the value after inserting
             })
 
             if (error)
                 throw error
+            else
+                console.log("Profile Updated successfully")
 
         } catch (error) {
             console.error(error.message);
@@ -154,11 +152,14 @@ function useProvideAuth() {
         signup,
         login,
         logout,
+        updateProfile,
 
         email,
         firstName,
         lastName,
         isReady,
         isLocked,
+
+        profileReady,
     };
 }
