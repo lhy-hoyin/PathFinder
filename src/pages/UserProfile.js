@@ -3,8 +3,6 @@ import Header from "../components/Header";
 
 export default function UserProfile() {
 
-
-
     return (
         <>
             <Header />
