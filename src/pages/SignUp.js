@@ -1,17 +1,27 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Auth } from "../hooks/Auth";
+import { supabase } from "../supabaseClient";
 import Header from "../components/Header";
 
 import "../css/SignUp.css";
 
 export default function SignUp() {
 
+    const navigate = useNavigate();
+    const user = supabase.auth.user();
+
     const { signup } = Auth();
     const [email, setEmail] = useState('');
     const [password1, setPassword1] = useState('');
     const [password2, setPassword2] = useState('');
     const [message, setMessage] = useState('');
+
+    useEffect(() => {
+        if (user != null)
+            return navigate("/");
+    }, [user]);
 
     return (
         <>
