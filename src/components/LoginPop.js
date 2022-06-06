@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { supabase } from "../supabaseClient";
-import { Auth } from "../components/Auth";
+import { Auth } from "../hooks/Auth";
 
 import "../css/LoginPop.css";
 
 export default function LoginPop() {
 
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState(""); // probably should hex the password first for security etc
+    const [password, setPassword] = useState("");
     const user = supabase.auth.user()
 
     const { login } = Auth();
 
     return (
-        <form className='login-popup' onSubmit={login(email, password)}>
+        <form className='login-popup' onSubmit={ login(email, password) }>
             <div className="inside-login-popup">
                 <label> Login Details</label>
                 <input
