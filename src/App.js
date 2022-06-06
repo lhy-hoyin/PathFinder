@@ -1,8 +1,8 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
-import NewAccount from "./pages/NewAccount";
+import NewUser from "./pages/NewUser";
 
 import "./css/styles.css";
 
@@ -11,9 +11,9 @@ export default function App() {
         <div className="App">
             <BrowserRouter>
                 <Routes>
-                    <Route path = "/" element = {<Home />} />
-                    <Route path = "/sign-up" element = {<SignUp />} />
-                    <Route path = "/new-profile" element = {<NewAccount />} />
+                    <Route path="/" element={<Home />} />
+                    <Route path="/sign-up" element={<SignUp />} />
+                    <Route path="/profile/new" element={<NewUser />} />
                 </Routes>
             </BrowserRouter>
         </div>

@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 
-import { supabase } from "../supabaseClient";
 import { Auth } from "../hooks/Auth";
 
-export default function NewAccount() {
+export default function UserBasicInfo() {
     const [profileFirstName, setProfileFirstName] = useState("");
     const [profileLastName, setProfileLastName] = useState("");
 
@@ -18,34 +17,10 @@ export default function NewAccount() {
 
     }, [profileReady]);
 
-    const updateBasicInfo = async e => {
-        e.preventDefault();
-
-        const user = supabase.auth.user();
-
-        var profileIsComplete = (profileFirstName.length != 0) && (profileLastName.length != 0)
-
-        // Pacakage data properly
-        const updates = {
-            id: user.id,
-            FirstName: profileFirstName,
-            LastName: profileLastName,
-            isReady: profileIsComplete,
-            updated_at: new Date(),
-        }
-
-        console.log("trigger1")
-        updateProfile(updates) //FIXME: cannot be called
-
-        //alert("Profile Updated successfully")
-    };
-
     return (
         <>
-            <h1>NewAccount Page</h1>
-
             <p>Email: {email}</p>
-            <form onSubmit={ updateBasicInfo }>
+            <form onSubmit={ updateProfile(profileFirstName, profileLastName) }>
 
                 <input
                     id="first-name"
@@ -53,7 +28,7 @@ export default function NewAccount() {
                     placeholder="First Name"
                     value={profileFirstName}
                     onChange={(e) => setProfileFirstName(e.target.value)}
-                    />
+                />
 
                 <input
                     id="last-name"
@@ -61,7 +36,7 @@ export default function NewAccount() {
                     placeholder="Last Name"
                     value={profileLastName}
                     onChange={(e) => setProfileLastName(e.target.value)}
-                    />
+                />
 
                 <button>Update Profile</button>
             </form>

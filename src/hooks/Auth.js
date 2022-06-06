@@ -63,15 +63,25 @@ function useProvideAuth() {
         }
     };
 
-    const updateProfile = (updates) => async e => {
+    const updateProfile = (fName, lName) => async e => {
         e.preventDefault();
-        console.log("trigger2")
 
         try {
             const user = supabase.auth.user()
 
             if (user == null)
                 return
+
+            var profileIsComplete = (fName.length != 0) && (lName.length != 0)
+
+            // Pacakage data properly
+            const updates = {
+                id: user.id,
+                FirstName: fName,
+                LastName: lName,
+                isReady: profileIsComplete,
+                updated_at: new Date(),
+            }
 
             let { error } = await supabase.from('profiles').upsert(updates, {
                 returning: 'minimal', // Don't return the value after inserting
