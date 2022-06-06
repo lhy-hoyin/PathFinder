@@ -6,16 +6,16 @@ export default function UserBasicInfo() {
     const [profileFirstName, setProfileFirstName] = useState("");
     const [profileLastName, setProfileLastName] = useState("");
 
-    const { profileReady, email, firstName, lastName, updateProfile } = Auth();
+    const { profileInfoReady, email, firstName, lastName, updateProfile } = Auth();
 
     useEffect(() => {
-        if (!profileReady)
+        if (!profileInfoReady)
             return
 
         setProfileFirstName(firstName);
         setProfileLastName(lastName);
 
-    }, [profileReady]);
+    }, [profileInfoReady]);
 
     return (
         <>

@@ -14,7 +14,7 @@ export const Auth = () => {
 
 function useProvideAuth() {
     const [session, setSession] = useState(null);
-    const [profileReady, setProfileReady] = useState(false);
+    const [profileInfoReady, setProfileInfoReady] = useState(false);
 
     // User-releated info
     const [email, setEmail] = useState(null);
@@ -56,7 +56,7 @@ function useProvideAuth() {
                 setIsReady(data.isReady);
                 setIsLocked(data.isLocked);
 
-                setProfileReady(true);
+                setProfileInfoReady(true);
             }
         } catch (error) {
             console.error(error.message);
@@ -168,7 +168,7 @@ function useProvideAuth() {
         logout,
         updateProfile,
 
-        profileReady,
+        profileInfoReady,
 
         email,
         firstName,
