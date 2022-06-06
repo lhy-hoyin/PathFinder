@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Popup from 'reactjs-popup';
 
 import { supabase } from "../supabaseClient";
@@ -8,8 +10,18 @@ import "../css/Header.css";
 
 export default function Header() {
 
+    const navigate = useNavigate();
     const user = supabase.auth.user();
-    const { email, firstName, lastName, logout } = Auth();
+    const { profileInfoReady, isReady, email, firstName, lastName, logout } = Auth();
+
+    useEffect(() => {
+        if (!profileInfoReady)
+            return
+
+        if (!isReady)
+            return navigate("/profile/new");
+
+    }, [profileInfoReady]);
 
     return (
         <section className="header">
