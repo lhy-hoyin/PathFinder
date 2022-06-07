@@ -40,7 +40,7 @@ export default function LoginPop() {
                     Log In
                 </button>
 
-                <a className='clickable' href="/reset_password">Forget Password?</a>
+                <a className='clickable' href="/forget_password">Forget Password?</a>
 
             </div>
         </form>

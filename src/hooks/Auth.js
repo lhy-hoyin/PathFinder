@@ -3,6 +3,7 @@ import { supabase } from "../supabaseClient";
 
 const authContext = createContext();
 
+
 export function ProvideAuth({ children }) {
     const auth = useProvideAuth();
     return <authContext.Provider value={auth}>{children}</authContext.Provider>;
@@ -162,10 +163,49 @@ function useProvideAuth() {
 
     };
 
+    const send_password_reset = (email, setMessage) => async e => {
+        e.preventDefault();
+        try {
+            setMessage("Sending recovery link....please wait")
+            const { data, error } = await supabase.auth.api.resetPasswordForEmail(email, {
+                redirectTo: `${window.location.origin}/reset-password`,
+              });
+            if (error) throw error;
+              alert("Recovery link has been sent to your email");
+              setMessage("Link has been sent!");
+          } catch (error) {
+              setMessage("Email does not exist");
+              console.error(error.error_description);
+          }
+    };
+
+    const resettingPassword = (password1, password2, setMessage) => async e => {
+        e.preventDefault();
+
+        if (password1 != password2) {
+            setMessage("Password does not match");
+            console.log("User input mis-matched password");
+            return;
+        }
+
+        var password = password1
+
+        try {
+            const {error } = await supabase.auth.update({password});
+            if (error) throw error;
+            alert("password changed ");
+        } catch (error) {
+            alert(error.error_description);
+            console.error(error.error_description);
+        }
+    };
+
     return {
         signup,
         login,
         logout,
+        send_password_reset,
+        resettingPassword ,
         updateProfile,
 
         profileInfoReady,
