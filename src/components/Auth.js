@@ -3,6 +3,7 @@ import { supabase } from "../supabaseClient";
 
 const authContext = createContext();
 
+
 export function ProvideAuth({ children }) {
     const auth = useProvideAuth();
     return <authContext.Provider value={auth}>{children}</authContext.Provider>;
@@ -118,13 +119,29 @@ function useProvideAuth() {
     const send_password_reset = (email, setMessage) => async e => {
         e.preventDefault();
         try {
-            const { data, error } = await supabase.auth.api.resetPasswordForEmail(email)
+            const { data, error } = await supabase.auth.api.resetPasswordForEmail(email, {
+                redirectTo: `${window.location.origin}/reset-password`,
+              });
+            setMessage("Loading....please wait")
             if (error) throw error;
               alert("Recovery link has been sent to your email");
+              setMessage("Link has been sent!");
           } catch (error) {
               setMessage("Email does not exist");
               console.error(error.error_description);
           }
+    };
+
+    const resettingPassword = (password) => async e => {
+        e.preventDefault();
+        try {
+            const { user, error } = await supabase.auth.update({password: password});
+            if (error) throw error;
+            alert("password changed ");
+        } catch (error) {
+            alert(error.error_description);
+            console.error(error.error_description);
+        }
     };
 
     return {
@@ -132,6 +149,7 @@ function useProvideAuth() {
         login,
         logout,
         send_password_reset,
+        resettingPassword ,
 
         username,
         //email,
