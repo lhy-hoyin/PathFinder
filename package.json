@@ -1,7 +1,7 @@
 {
   "name": "PathFinder",
-  "version": "0.0.0",
   "description": "PathFinder",
+  "version": "0.0.0",
   "main": "index.js",
   "private": true,
   "dependencies": {
@@ -14,6 +14,7 @@
   "devDependencies": {
     "react-scripts": "^5.0.1",
     "@babel/runtime": "7.13.8",
+    "react-scripts": "^5.0.1",
     "typescript": "4.1.3"
   },
   "scripts": {

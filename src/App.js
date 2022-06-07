@@ -6,6 +6,8 @@ import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import Forget_password from "./pages/Forget_password"
 import ResetPassword from "./pages/ResetPassword"
+import NewUser from "./pages/NewUser";
+import UserProfile from "./pages/UserProfile";
 
 import "./css/styles.css";
 
@@ -21,6 +23,8 @@ export default function App() {
                     //any route related to the user enter here eg. profile, reset password, etc
                     <Route path='/' element = {<ProtectedRoute/>}>
                         <Route path ="/reset-password"element = {<ResetPassword/>}/>
+                        <Route path="/profile" element={<UserProfile />} />
+                        <Route path="/profile/new" element={<NewUser />} />
                     </Route>
 
                 </Routes>

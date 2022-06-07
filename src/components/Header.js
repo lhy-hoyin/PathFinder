@@ -1,15 +1,27 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Popup from 'reactjs-popup';
 
 import { supabase } from "../supabaseClient";
-import { Auth } from "../components/Auth";
+import { Auth } from "../hooks/Auth";
 import LoginPop from './LoginPop';
 
 import "../css/Header.css";
 
 export default function Header() {
 
+    const navigate = useNavigate();
     const user = supabase.auth.user();
-    const { username, logout } = Auth();
+    const { profileInfoReady, isReady, email, firstName, lastName, logout } = Auth();
+
+    useEffect(() => {
+        if (!profileInfoReady)
+            return
+
+        if (!isReady)
+            return navigate("/profile/new");
+
+    }, [profileInfoReady]);
 
     return (
         <section className="header">
@@ -33,7 +45,7 @@ export default function Header() {
                     </ul>
                 ) : (
                     <ul>
-                            <li>Welcome, {username ?? "user"}!</li>
+                            <li>Welcome, {firstName ?? lastName ?? email ?? "user"}!</li>
                             <li className='clickable'><a onClick={logout}>Logout</a></li>
                     </ul>
                 )}

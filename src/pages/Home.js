@@ -7,11 +7,10 @@ export default function Home() {
         <>
             <Header />
             <div className="textbox">
-                <h1> Design YOUR path  today</h1>
+                <h1> Design YOUR path today</h1>
                 <p> lol idk only limited to SoC</p>
                 <p> Maybe put a getting started button here as a "tutorial"</p>
             </div>
-
         </>
   );
 }
