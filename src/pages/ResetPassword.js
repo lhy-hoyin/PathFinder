@@ -2,9 +2,10 @@ import { useState } from "react";
 
 import { Auth } from "../components/Auth";
 import Header from "../components/Header";
+import { useNavigate } from "react-router-dom";
 
 export default function reset_Password() {
-
+    const nav = useNavigate();
     const {resettingPassword} = Auth();
     const [password, setPassword] = useState("");;
     const [passwordRepeat, setPasswordRepeat] = useState("");
@@ -37,8 +38,8 @@ export default function reset_Password() {
 
                     <p>{message}</p>
                     <button> Reset Password </button>
-    
                 </div>
+                <button onClick={() => nav('/')}> Back TODO change to profile </button> 
             </form>
             
         </>
