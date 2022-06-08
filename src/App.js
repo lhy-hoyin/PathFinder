@@ -9,6 +9,8 @@ import ResetPassword from "./pages/ResetPassword"
 import NewUser from "./pages/NewUser";
 import UserProfile from "./pages/UserProfile";
 
+import API from "./pages/API"
+
 import "./css/styles.css";
 
 export default function App() {
@@ -16,6 +18,8 @@ export default function App() {
         <div className="App">
             <BrowserRouter>
                 <Routes>
+                    <Route path="/api" element={<API />} />
+
                     <Route path = "/" element = {<Home/>}/>
                     <Route path = "/sign-up" element = {<SignUp/>}/>
                     <Route path = "/forget_password" element = {<Forget_password/>}/>
