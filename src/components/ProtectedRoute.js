@@ -6,5 +6,5 @@ const user = supabase.auth.user();
 
 export default function protectedRoutes(props) {
 
-	return user?(<Outlet/>): <Navigate to ='/sign-up'/>
+	return user ? <Outlet/> : <Navigate to ='/sign-up'/>
 }
