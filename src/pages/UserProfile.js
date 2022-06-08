@@ -8,7 +8,7 @@ export default function UserProfile() {
             <Header />
             <h1>Profile</h1>
 
-            <h3>Basic Account Information</h3>
+            <h3>Personal Information</h3>
             <UserBasicInfo />
         </>    
     );
