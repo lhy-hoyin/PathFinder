@@ -163,7 +163,7 @@ function useProvideAuth() {
 
     };
 
-    const send_password_reset = (email, setMessage) => async e => {
+    const sendPasswordReset = (email, setMessage) => async e => {
         e.preventDefault();
         try {
             setMessage("Sending recovery link....please wait")
@@ -204,7 +204,7 @@ function useProvideAuth() {
         signup,
         login,
         logout,
-        send_password_reset,
+        sendPasswordReset,
         resettingPassword ,
         updateProfile,
 

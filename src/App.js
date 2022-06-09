@@ -4,7 +4,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
-import Forget_password from "./pages/Forget_password"
+import ForgetPassword from "./pages/ForgetPassword"
 import ResetPassword from "./pages/ResetPassword"
 import NewUser from "./pages/NewUser";
 import UserProfile from "./pages/UserProfile";
@@ -18,7 +18,7 @@ export default function App() {
                 <Routes>
                     <Route path = "/" element = {<Home/>}/>
                     <Route path = "/sign-up" element = {<SignUp/>}/>
-                    <Route path = "/forget_password" element = {<Forget_password/>}/>
+                    <Route path = "/forget-password" element = {<ForgetPassword/>}/>
 
                     //any route related to the user enter here eg. profile, reset password, etc
                     <Route path='/' element = {<ProtectedRoute/>}>
