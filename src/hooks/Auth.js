@@ -21,6 +21,7 @@ function useProvideAuth() {
     const [email, setEmail] = useState(null);
     const [firstName, setFirstName] = useState(null);
     const [lastName, setLastName] = useState(null);
+    const [enrollmentYear, setEnrollmentYear] = useState(null);
     const [isReady, setIsReady] = useState(null);
     const [isLocked, setIsLocked] = useState(null);
 
@@ -44,7 +45,7 @@ function useProvideAuth() {
 
             let { data, error, status } = await supabase
                 .from('profiles')
-                .select(`FirstName, LastName, isReady, isLocked`)
+                .select('*')
                 .eq('id', user.id)
                 .single()
 
@@ -54,6 +55,7 @@ function useProvideAuth() {
             if (data) {
                 setFirstName(data.FirstName);
                 setLastName(data.LastName);
+                setEnrollmentYear(data.EnrollmentYear);
                 setIsReady(data.isReady);
                 setIsLocked(data.isLocked);
 
@@ -64,7 +66,7 @@ function useProvideAuth() {
         }
     };
 
-    const updateProfile = (fName, lName) => async e => {
+    const updateProfile = (fName, lName, enrolYr) => async e => {
         e.preventDefault();
 
         try {
@@ -73,14 +75,13 @@ function useProvideAuth() {
             if (user == null)
                 return
 
-            var profileIsComplete = (fName.length != 0) && (lName.length != 0)
-
             // Pacakage data properly
             const updates = {
                 id: user.id,
                 FirstName: fName,
                 LastName: lName,
-                isReady: profileIsComplete,
+                EnrollmentYear: enrolYr,
+                isReady: true,
                 updated_at: new Date(),
             }
 
@@ -148,8 +149,6 @@ function useProvideAuth() {
     };
 
     const logout = async e => {
-        e.preventDefault();
-
         try {
             const { error } = await supabase.auth.signOut();
             if (error) throw error;
@@ -159,24 +158,22 @@ function useProvideAuth() {
         }
     };  
 
-    const test = () => {
-
-    };
-
     const send_password_reset = (email, setMessage) => async e => {
         e.preventDefault();
         try {
             setMessage("Sending recovery link....please wait")
+
             const { data, error } = await supabase.auth.api.resetPasswordForEmail(email, {
                 redirectTo: `${window.location.origin}/reset-password`,
               });
             if (error) throw error;
-              alert("Recovery link has been sent to your email");
-              setMessage("Link has been sent!");
-          } catch (error) {
-              setMessage("Email does not exist");
-              console.error(error.error_description);
-          }
+
+            alert("Recovery link has been sent to your email");
+            setMessage("Link has been sent!");
+        } catch (error) {
+            setMessage("Email does not exist");
+            console.error(error.error_description);
+        }
     };
 
     const resettingPassword = (password1, password2, setMessage) => async e => {
@@ -201,6 +198,7 @@ function useProvideAuth() {
     };
 
     return {
+        // Account-releated functions
         signup,
         login,
         logout,
@@ -208,11 +206,14 @@ function useProvideAuth() {
         resettingPassword ,
         updateProfile,
 
+        // Status of profile info
         profileInfoReady,
 
+        // User-releated info
         email,
         firstName,
         lastName,
+        enrollmentYear,
         isReady,
         isLocked,
     };
