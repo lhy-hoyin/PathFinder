@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext, createContext } from "react";
 import { supabase } from "../supabaseClient";
 
+
 const authContext = createContext();
 
 
@@ -149,11 +150,13 @@ function useProvideAuth() {
 
     const logout = async e => {
         e.preventDefault();
-
         try {
             const { error } = await supabase.auth.signOut();
             if (error) throw error;
             console.log("User logged out");
+            alert("User logged out");
+            
+            window.location = window.location.origin.toString();
         } catch (error) {
             console.error(error.error_description || error.message);
         }
