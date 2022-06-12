@@ -37,7 +37,7 @@ export default function Header() {
                         <Popup
                             className='login-popups'
                             trigger={
-                                <li className="clickable">Login</li>
+                                <li className="clickable"  style={{cursor:'pointer'}}>Login</li>
                             }>
                             <LoginPop />
                         </Popup>
@@ -46,7 +46,7 @@ export default function Header() {
                 ) : (
                     <ul>
                             <li>Welcome, {firstName ?? lastName ?? email ?? "user"}!</li>
-                            <li className='clickable'><a onClick={logout}>Logout</a></li>
+                            <li className='clickable'><a onClick={logout}  style={{cursor:'pointer'}}>Logout</a></li>
                     </ul>
                 )}
             </div>

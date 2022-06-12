@@ -4,10 +4,10 @@ import { Auth } from "../hooks/Auth";
 import Header from "../components/Header";
 
 
-export default function forget_Password() {
+export default function sendingResetLink() {
 
     
-    const {send_password_reset} = Auth();
+    const {sendPasswordReset} = Auth();
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
 
@@ -15,7 +15,7 @@ export default function forget_Password() {
         <>
             <Header />
             <h1> Send Recovery Link </h1>
-            <form onSubmit={send_password_reset(email, setMessage)}>
+            <form onSubmit={sendPasswordReset(email, setMessage)}>
                 <div className="forget_box">
                     <p>Email</p>
                     <input
