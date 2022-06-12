@@ -66,7 +66,7 @@ function useProvideAuth() {
         }
     };
 
-    const updateProfile = (fName, lName, cohort) => async e => {
+    const updateProfileBasic = (fName, lName) => async e => {
         e.preventDefault();
 
         try {
@@ -80,8 +80,37 @@ function useProvideAuth() {
                 id: user.id,
                 FirstName: fName,
                 LastName: lName,
-                Cohort: cohort,
                 isReady: true,
+                updated_at: new Date(),
+            }
+
+            let { error } = await supabase.from('profiles').upsert(updates, {
+                returning: 'minimal', // Don't return the value after inserting
+            })
+
+            if (error)
+                throw error
+            else
+                console.log("Profile Updated successfully")
+
+        } catch (error) {
+            console.error(error.message);
+        }
+    };
+
+    const updateProfileAcad = (cohort) => async e => {
+        e.preventDefault();
+
+        try {
+            const user = supabase.auth.user()
+
+            if (user == null)
+                return
+
+            // Pacakage data properly
+            const updates = {
+                id: user.id,
+                Cohort: cohort,
                 updated_at: new Date(),
             }
 
@@ -210,7 +239,8 @@ function useProvideAuth() {
         logout,
         sendPasswordReset,
         resettingPassword ,
-        updateProfile,
+        updateProfileBasic,
+        updateProfileAcad,
 
         // Status of profile info
         profileInfoReady,
