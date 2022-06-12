@@ -21,7 +21,7 @@ function useProvideAuth() {
     const [email, setEmail] = useState(null);
     const [firstName, setFirstName] = useState(null);
     const [lastName, setLastName] = useState(null);
-    const [enrollmentYear, setEnrollmentYear] = useState(null);
+    const [cohort, setCohort] = useState(null);
     const [isReady, setIsReady] = useState(null);
     const [isLocked, setIsLocked] = useState(null);
 
@@ -55,7 +55,7 @@ function useProvideAuth() {
             if (data) {
                 setFirstName(data.FirstName);
                 setLastName(data.LastName);
-                setEnrollmentYear(data.EnrollmentYear);
+                setCohort(data.Cohort);
                 setIsReady(data.isReady);
                 setIsLocked(data.isLocked);
 
@@ -66,7 +66,7 @@ function useProvideAuth() {
         }
     };
 
-    const updateProfile = (fName, lName, enrolYr) => async e => {
+    const updateProfile = (fName, lName, cohort) => async e => {
         e.preventDefault();
 
         try {
@@ -80,7 +80,7 @@ function useProvideAuth() {
                 id: user.id,
                 FirstName: fName,
                 LastName: lName,
-                EnrollmentYear: enrolYr,
+                Cohort: cohort,
                 isReady: true,
                 updated_at: new Date(),
             }
@@ -213,7 +213,7 @@ function useProvideAuth() {
         email,
         firstName,
         lastName,
-        enrollmentYear,
+        cohort,
         isReady,
         isLocked,
     };

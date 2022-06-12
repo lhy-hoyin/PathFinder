@@ -4,11 +4,11 @@ import { Auth } from "../hooks/Auth";
 
 export default function UserBasicInfo() {
 
-    const { profileInfoReady, email, firstName, lastName, enrollmentYear, updateProfile } = Auth();
+    const { profileInfoReady, email, firstName, lastName, cohort, updateProfile } = Auth();
 
     const [profileFirstName, setProfileFirstName] = useState("");
     const [profileLastName, setProfileLastName] = useState("");
-    const [profileEnrollYr, setProfileEnrollYr] = useState("");
+    const [profileCohort, setProfileCohort] = useState("");
 
     const currentYear = new Date().getFullYear()
 
@@ -18,13 +18,13 @@ export default function UserBasicInfo() {
 
         setProfileFirstName(firstName);
         setProfileLastName(lastName);
-        setProfileEnrollYr(enrollmentYear);
+        setProfileCohort(cohort);
 
     }, [profileInfoReady]);
 
     return (
         <>
-            <form onSubmit={ updateProfile(profileFirstName, profileLastName, profileEnrollYr) }>
+            <form onSubmit={updateProfile(profileFirstName, profileLastName, profileCohort) }>
                 <table>
                     <tbody>
                         <tr>
@@ -62,10 +62,9 @@ export default function UserBasicInfo() {
                             <td>
                                 <select
                                     required
-                                    defaultValue="hii"
-                                    onChange={(e) => setProfileEnrollYr(e.target.value)}
+                                    onChange={(e) => setProfileCohort(e.target.value)}
                                 >
-                                    <option>{ profileEnrollYr }</option>
+                                    <option>{profileCohort}</option>
                                     <option>{(currentYear - 9)}/{(currentYear - 8)}</option>
                                     <option>{(currentYear - 8)}/{(currentYear - 7)}</option>
                                     <option>{(currentYear - 7)}/{(currentYear - 6)}</option>
