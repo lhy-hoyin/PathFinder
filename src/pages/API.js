@@ -4,16 +4,25 @@ export default function API() {
 
     const API_BASE_URL = "https://api.nusmods.com/v2/";
 
+    const [queryUrl, setQueryUrl] = useState(API_BASE_URL.toString());
     const [error, setError] = useState(null);
-    const [isLoaded, setIsLoaded] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(true);
     const [data, setData] = useState([]);
 
-    var url = API_BASE_URL + "2021-2022/modules/CS2106.json"
+    const [acadYear, setAcadYear] = useState("2021/2022");
+    const [moduleCode, setModuleCode] = useState("CS2040S");
 
-    useEffect(() => {
+    const query = async e => {
+        e.preventDefault();
+
+        const aYr = acadYear.replace("/", "-")
+        const url = API_BASE_URL + aYr + "/modules/" + moduleCode + ".json"
+        setQueryUrl(url)
+
+        setIsLoaded(false)
         fetch(url)
             .then(res => res.json())
-            .then(res => { console.log(res); return res } )
+            .then(res => { console.log(res); return res })
             .then(
                 (result) => {
                     setIsLoaded(true);
@@ -24,7 +33,7 @@ export default function API() {
                     setError(error);
                 }
             )
-    }, [])
+    }
 
     function replacer(key, value) {
         switch (key) {
@@ -45,8 +54,27 @@ export default function API() {
         <>
             <h1>API</h1>
 
+            <h3>Parameters</h3>
+            <form onSubmit={query}>
+                <input
+                    type="text"
+                    required
+                    placeholder="Acad Year"
+                    value={acadYear}
+                    onChange={(e) => setAcadYear(e.target.value)}
+                />
+                <input
+                    type="text"
+                    required
+                    placeholder="Module Code"
+                    value={moduleCode}
+                    onChange={(e) => setModuleCode(e.target.value)}
+                />
+                <button>Query</button>
+            </form>
+
             <h3>Searching</h3>
-            { url }
+            { queryUrl }
             {error ? <div>Error: {error.message}</div> : <></>}
             {isLoaded ? <></> : <div>Loading...</div>}
 
