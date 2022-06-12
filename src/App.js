@@ -21,7 +21,7 @@ export default function App() {
                     <Route path="/" element={<Home/>}/>
 					<Route path="/api" element={<API />} />
                     <Route path="/sign-up" element={<SignUp/>}/>
-                    <Route path="/forget_password" element={<Forget_password/>}/>
+                    <Route path="/forget-password" element={<ForgetPassword/>}/>
 
                     //any route related to the user enter here eg. profile, reset password, etc
                     <Route path='/' element={<UserOnlyRoute/>}>
