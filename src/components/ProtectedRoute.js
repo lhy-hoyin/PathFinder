@@ -1,10 +1,13 @@
 import {Outlet, Navigate} from 'react-router-dom';
 import { supabase } from "../supabaseClient";
 
-const user = supabase.auth.user();
+export function UserOnlyRoute(props) {
+	const user = supabase.auth.user();
+	return user ? <Outlet/> : <Navigate to ='/sign-up'/>
+}
 
-
-export default function protectedRoutes(props) {
-
-	return user?(<Outlet/>): <Navigate to ='/sign-up'/>
+export function AdminOnlyRoute(props) {
+	const user = supabase.auth.user();
+	//TODO
+	return user ? <Outlet /> : <Navigate to='/' />
 }

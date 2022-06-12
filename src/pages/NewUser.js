@@ -6,7 +6,7 @@ import UserBasicInfo from "../components/UserBasicInfo";
 
 export default function NewUser() {
 
-    const { profileInfoReady, isReady } = Auth();
+    const { logout, profileInfoReady, isReady } = Auth();
 
     const navigate = useNavigate();
 
@@ -19,6 +19,10 @@ export default function NewUser() {
         <>
             <h1>Set Up Your New Profile</h1>
             <UserBasicInfo />
+
+            <form onSubmit={ logout }>
+                <button>Logout Now</button>
+            </form>
         </>
     );
 }
