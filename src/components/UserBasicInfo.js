@@ -10,9 +10,7 @@ export default function UserBasicInfo() {
     const [profileLastName, setProfileLastName] = useState("");
     const [profileEnrollYr, setProfileEnrollYr] = useState("");
 
-    useEffect(() => {
-        setProfileEnrollYr(new Date().getFullYear())
-    }, [])
+    const currentYear = new Date().getFullYear()
 
     useEffect(() => {
         if (!profileInfoReady)
@@ -62,15 +60,23 @@ export default function UserBasicInfo() {
                         <tr>
                             <td>Enrollment Year: AY</td>
                             <td>
-                                <input
-                                    id="enrollment"
-                                    type="number"
+                                <select
                                     required
-                                    placeholder="Year which you enroll into NUS"
-                                    min="0"
-                                    value={profileEnrollYr}
+                                    defaultValue="hii"
                                     onChange={(e) => setProfileEnrollYr(e.target.value)}
-                                />
+                                >
+                                    <option>{ profileEnrollYr }</option>
+                                    <option>{(currentYear - 9)}/{(currentYear - 8)}</option>
+                                    <option>{(currentYear - 8)}/{(currentYear - 7)}</option>
+                                    <option>{(currentYear - 7)}/{(currentYear - 6)}</option>
+                                    <option>{(currentYear - 6)}/{(currentYear - 5)}</option>
+                                    <option>{(currentYear - 5)}/{(currentYear - 4)}</option>
+                                    <option>{(currentYear - 4)}/{(currentYear - 3)}</option>
+                                    <option>{(currentYear - 3)}/{(currentYear - 2)}</option>
+                                    <option>{(currentYear - 2)}/{(currentYear - 1)}</option>
+                                    <option>{(currentYear - 1)}/{(currentYear + 0)}</option>
+                                    <option>{(currentYear + 0)}/{(currentYear + 1)}</option>
+                                </select>
                             </td>
                             </tr>
                     </tbody>
