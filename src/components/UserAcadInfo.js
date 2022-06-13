@@ -4,11 +4,24 @@ import { Auth } from "../hooks/Auth";
 
 export default function UserBasicInfo() {
 
+    const NUM_OF_COHORT_YEARS = 5
+
     const { profileInfoReady, cohort, updateProfileAcad } = Auth();
 
     const [profileCohort, setProfileCohort] = useState("");
+    const [cohortYears, setCohortYears] = useState([]);
+    
+    useEffect(() => {
+        const cohortYrs = []
+        const currentYear = new Date().getFullYear()
 
-    const currentYear = new Date().getFullYear()
+        for (var i = 0; i < NUM_OF_COHORT_YEARS; i++) {
+            const val = (currentYear - i).toString() + "/" + (currentYear - i + 1).toString()
+            cohortYrs.push(val)
+        }
+
+        setCohortYears(cohortYrs)
+    }, []);
 
     useEffect(() => {
         if (!profileInfoReady)
@@ -20,30 +33,21 @@ export default function UserBasicInfo() {
     return (
         <>
             <form onSubmit={updateProfileAcad(profileCohort) }>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>Cohort: AY</td>
-                            <td>
-                                <select
-                                    required
-                                    onChange={(e) => setProfileCohort(e.target.value)} >
-                                    <option>{profileCohort}</option>
-                                    <option>{(currentYear - 9)}/{(currentYear - 8)}</option>
-                                    <option>{(currentYear - 8)}/{(currentYear - 7)}</option>
-                                    <option>{(currentYear - 7)}/{(currentYear - 6)}</option>
-                                    <option>{(currentYear - 6)}/{(currentYear - 5)}</option>
-                                    <option>{(currentYear - 5)}/{(currentYear - 4)}</option>
-                                    <option>{(currentYear - 4)}/{(currentYear - 3)}</option>
-                                    <option>{(currentYear - 3)}/{(currentYear - 2)}</option>
-                                    <option>{(currentYear - 2)}/{(currentYear - 1)}</option>
-                                    <option>{(currentYear - 1)}/{(currentYear + 0)}</option>
-                                    <option>{(currentYear + 0)}/{(currentYear + 1)}</option>
-                                </select>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <table><tbody><tr>
+                    <td>Cohort: AY</td>
+                    <td>
+                        <select
+                            onChange={(e) => setProfileCohort(e.target.value)}
+                            required>
+                            <option hidden>{profileCohort}</option>
+                            {
+                                cohortYears.map(item => (
+                                    <option key={item}>{item}</option>
+                                ))
+                            }
+                        </select>
+                    </td>
+                </tr></tbody></table>
                 <button>Update Profile</button>
             </form>
 
