@@ -33,25 +33,25 @@ export default function UserBasicInfo() {
     return (
         <>
             <form onSubmit={updateProfileAcad(profileCohort) }>
-                <table><tbody><tr>
-                    <td>Cohort: AY</td>
-                    <td>
-                        <select
-                            onChange={(e) => setProfileCohort(e.target.value)}
-                            required>
-                            <option hidden>{profileCohort}</option>
-                            {
-                                cohortYears.map(item => (
-                                    <option key={item}>{item}</option>
-                                ))
-                            }
-                        </select>
-                    </td>
-                </tr></tbody></table>
+                <table><tbody>
+                    <tr>
+                        <td>Cohort: AY</td>
+                        <td>
+                            <select
+                                onChange={(e) => setProfileCohort(e.target.value)}
+                                required>
+                                <option key="default" hidden>{profileCohort}</option>
+                                {
+                                    cohortYears.map(item => (
+                                        <option key={item}>{item}</option>
+                                    ))
+                                }
+                            </select>
+                        </td>
+                    </tr>
+                </tbody></table>
                 <button>Update Profile</button>
             </form>
-
         </>
     );
-
 }

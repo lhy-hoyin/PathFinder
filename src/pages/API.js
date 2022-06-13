@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { supabase } from "../supabaseClient";
 
 export default function API() {
 
@@ -9,20 +10,20 @@ export default function API() {
     const [isLoaded, setIsLoaded] = useState(true);
     const [data, setData] = useState([]);
 
+    // Query Parameters
     const [acadYear, setAcadYear] = useState("2021/2022");
     const [moduleCode, setModuleCode] = useState("CS2040S");
 
     const query = async e => {
         e.preventDefault();
 
-        const aYr = acadYear.replace("/", "-")
-        const url = API_BASE_URL + aYr + "/modules/" + moduleCode + ".json"
+        const url = API_BASE_URL + acadYear.replace("/", "-") + "/modules/" + moduleCode + ".json"
         setQueryUrl(url)
 
         setIsLoaded(false)
         fetch(url)
             .then(res => res.json())
-            .then(res => { console.log(res); return res })
+            //.then(res => { console.log(res); return res })
             .then(
                 (result) => {
                     setIsLoaded(true);
@@ -33,6 +34,54 @@ export default function API() {
                     setError(error);
                 }
             )
+    }
+
+    const updateModuleInfo = async e => {
+        e.preventDefault();
+
+        try {
+            if (data.length == 0) {
+                console.warn("No data to update")
+                return
+            }
+
+            var prereq = []
+
+            if (data.prereqTree == null) {
+                // Do nothing
+            }
+            else if (data.prereqTree.or) {
+                // Only have OR pre-req
+                prereq[0] = data.prereqTree.or.toString()
+            }
+            else if (data.prereqTree.and) {
+                // Only AND pre-req, which may include OR pre-req
+                const d = data.prereqTree.and
+                for (var i = 0; i < d.length; i++) {
+                    prereq[i] = (d[i].or) ? d[i].or.toString() : d[i]
+                }
+            }
+
+            // Pacakage data properly
+            const updates = {
+                id: data.moduleCode,
+                acadYear: data.acadYear,
+                credit: data.moduleCredit,
+                preclusion: data.preclusion,
+                preReq: prereq,
+                updated_at: new Date(),
+            }
+
+            let { error } = await supabase.from('modules').upsert(updates, {
+                returning: 'minimal', // Don't return the value after inserting
+            })
+
+            if (error) throw error
+            else console.log("Database Updated")
+
+        } catch (error) {
+            console.error(error.message);
+        }
     }
 
     function replacer(key, value) {
@@ -80,6 +129,17 @@ export default function API() {
 
 
             <h3>Results</h3>
+            <p>acadYear: {data.acadYear}</p>
+            <p>moduleCode: {data.moduleCode}</p>
+            <p>moduleCredit: {data.moduleCredit}</p>
+            <p>preclusion: {data.preclusion}</p>
+            <p>prereqTree: {JSON.stringify(data.prereqTree, replacer)}</p>
+
+            <form onSubmit={updateModuleInfo}>
+                <button>Update Database</button>
+            </form>
+
+            <h3>Raw Return</h3>
             <textarea
                 disabled
                 style={{ width: "100%" }}
