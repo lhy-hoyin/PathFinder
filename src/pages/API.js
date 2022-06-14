@@ -70,6 +70,8 @@ export default function API() {
             // Pacakage data properly
             const updates = {
                 id: data.moduleCode,
+                name:data.title,
+                description: data.description,
                 acadYear: data.acadYear,
                 credit: data.moduleCredit,
                 preclusion: data.preclusion,
@@ -136,6 +138,8 @@ export default function API() {
             <h3>Results</h3>
             <p>acadYear: {data.acadYear}</p>
             <p>moduleCode: {data.moduleCode}</p>
+            <p>title: {data.title}</p>
+            <p>description: {data.description}</p>
             <p>moduleCredit: {data.moduleCredit}</p>
             <p>preclusion: {data.preclusion}</p>
             <p>prereqTree: {JSON.stringify(data.prereqTree, replacer)}</p>
@@ -144,7 +148,7 @@ export default function API() {
                 <button>Update Database</button>
             </form>
 
-            <h3>Raw Return</h3>
+            <h3>Filtered Return</h3>
             <textarea
                 disabled
                 style={{ width: "100%" }}
