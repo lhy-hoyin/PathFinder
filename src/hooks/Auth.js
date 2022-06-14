@@ -25,10 +25,6 @@ function useProvideAuth() {
     const [cohort, setCohort] = useState(null);
     const [status, setStatus] = useState(null);
 
-    // User profile info (local)
-    const [isReady, setIsReady] = useState(false);
-    const [isLocked, setIsLocked] = useState(false);
-
     useEffect(() => {
         setSession(supabase.auth.session());
         supabase.auth.onAuthStateChange((_event, session) => {setSession();})
@@ -76,7 +72,6 @@ function useProvideAuth() {
                 setLastName(data.LastName);
                 setCohort(data.Cohort);
                 setStatus(data.Status);
-                setProfileStatus(data.Status); //hack
                 setProfileInfoReady(true);
             }
         } catch (error) {
@@ -254,15 +249,14 @@ function useProvideAuth() {
         sendPasswordReset,
         resettingPassword ,
         updateProfile,
+        
+        profileInfoReady, // Status of profile info
 
-        // Status of profile info
-        profileInfoReady,
 
         // User-releated info
+        status, // status of profile
         email,
         firstName,
         lastName,
-        isReady,
-        isLocked,
     };
 }
