@@ -17,7 +17,7 @@ export default function API() {
     const query = async e => {
         e.preventDefault();
 
-        const url = API_BASE_URL + acadYear.replace("/", "-") + "/modules/" + moduleCode + ".json"
+        const url = API_BASE_URL + acadYear.replace("/", "-") + "/modules/" + moduleCode.toUpperCase() + ".json"
         setQueryUrl(url)
 
         setIsLoaded(false)
@@ -48,7 +48,9 @@ export default function API() {
             var prereq = []
 
             if (data.prereqTree == null) {
-                // Do nothing
+                // Do nothing else
+                // This is here to avoid undefined behaviour when attempting
+                // to read data.prereqTree.or or data.prereqTree.and
             }
             else if (data.prereqTree.or) {
                 // Only have OR pre-req
@@ -60,6 +62,9 @@ export default function API() {
                 for (var i = 0; i < d.length; i++) {
                     prereq[i] = (d[i].or) ? d[i].or.toString() : d[i]
                 }
+            }
+            else if (data.prereqTree) {
+                prereq[0] = data.prereqTree.toString()
             }
 
             // Pacakage data properly
