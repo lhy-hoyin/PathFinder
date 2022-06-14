@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext, createContext } from "react";
-import { supabase } from "../supabaseClient";
 
+import { PROFILE_STATUS } from "../constants/ProfileStatus";
+import { supabase } from "../supabaseClient"
 
 const authContext = createContext();
-
 
 export function ProvideAuth({ children }) {
     const auth = useProvideAuth();
@@ -18,12 +18,16 @@ function useProvideAuth() {
     const [session, setSession] = useState(null);
     const [profileInfoReady, setProfileInfoReady] = useState(false);
 
-    // User-releated info
+    // User profile info (linked to database)
     const [email, setEmail] = useState(null);
     const [firstName, setFirstName] = useState(null);
     const [lastName, setLastName] = useState(null);
-    const [isReady, setIsReady] = useState(null);
-    const [isLocked, setIsLocked] = useState(null);
+    const [cohort, setCohort] = useState(null);
+    const [status, setStatus] = useState(null);
+
+    // User profile info (local)
+    const [isReady, setIsReady] = useState(false);
+    const [isLocked, setIsLocked] = useState(false);
 
     useEffect(() => {
         setSession(supabase.auth.session());
@@ -33,6 +37,21 @@ function useProvideAuth() {
     useEffect(() => {
         getProfile();
     }, [session]);
+
+    const setProfileStatus = (s) => {
+        switch (s) {
+            case PROFILE_STATUS.NEW:
+                break;
+            case PROFILE_STATUS.NORMAL:
+                setIsReady(true);
+                break;
+            case PROFILE_STATUS.LOCKED:
+                setIsLocked(true);
+                break;
+            default:
+                console.error("Invalid Profile Status")
+        }
+    }
 
     const getProfile = async () => {
         try {
@@ -45,7 +64,7 @@ function useProvideAuth() {
 
             let { data, error, status } = await supabase
                 .from('profiles')
-                .select(`FirstName, LastName, isReady, isLocked`)
+                .select('*')
                 .eq('id', user.id)
                 .single()
 
@@ -55,9 +74,9 @@ function useProvideAuth() {
             if (data) {
                 setFirstName(data.FirstName);
                 setLastName(data.LastName);
-                setIsReady(data.isReady);
-                setIsLocked(data.isLocked);
-
+                setCohort(data.Cohort);
+                setStatus(data.Status);
+                setProfileStatus(data.Status); //hack
                 setProfileInfoReady(true);
             }
         } catch (error) {
@@ -74,14 +93,42 @@ function useProvideAuth() {
             if (user == null)
                 return
 
-            var profileIsComplete = (fName.length != 0) && (lName.length != 0)
-
             // Pacakage data properly
             const updates = {
                 id: user.id,
                 FirstName: fName,
                 LastName: lName,
-                isReady: profileIsComplete,
+                Status: (status == PROFILE_STATUS.NEW ? PROFILE_STATUS.NORMAL : status),
+                updated_at: new Date(),
+            }
+
+            let { error } = await supabase.from('profiles').upsert(updates, {
+                returning: 'minimal', // Don't return the value after inserting
+            })
+
+            if (error)
+                throw error
+            else
+                console.log("Profile Updated successfully")
+
+        } catch (error) {
+            console.error(error.message);
+        }
+    };
+
+    const updateProfileAcad = (cohort) => async e => {
+        e.preventDefault();
+
+        try {
+            const user = supabase.auth.user()
+
+            if (user == null)
+                return
+
+            // Pacakage data properly
+            const updates = {
+                id: user.id,
+                Cohort: cohort,
                 updated_at: new Date(),
             }
 
@@ -162,10 +209,6 @@ function useProvideAuth() {
         }
     };  
 
-    const test = () => {
-
-    };
-
     const sendPasswordReset = (email, setMessage) => async e => {
         e.preventDefault();
         try {
@@ -204,6 +247,7 @@ function useProvideAuth() {
     };
 
     return {
+        // Account-releated functions
         signup,
         login,
         logout,
@@ -211,8 +255,10 @@ function useProvideAuth() {
         resettingPassword ,
         updateProfile,
 
+        // Status of profile info
         profileInfoReady,
 
+        // User-releated info
         email,
         firstName,
         lastName,
