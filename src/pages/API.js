@@ -23,7 +23,6 @@ export default function API() {
         setIsLoaded(false)
         fetch(url)
             .then(res => res.json())
-            //.then(res => { console.log(res); return res })
             .then(
                 (result) => {
                     setIsLoaded(true);
@@ -45,39 +44,22 @@ export default function API() {
                 return
             }
 
-            var prereq = []
-
-            if (data.prereqTree == null) {
-                // Do nothing else
-                // This is here to avoid undefined behaviour when attempting
-                // to read data.prereqTree.or or data.prereqTree.and
-            }
-            else if (data.prereqTree.or) {
-                // Only have OR pre-req
-                prereq[0] = data.prereqTree.or.toString()
-            }
-            else if (data.prereqTree.and) {
-                // Only AND pre-req, which may include OR pre-req
-                const d = data.prereqTree.and
-                for (var i = 0; i < d.length; i++) {
-                    prereq[i] = (d[i].or) ? d[i].or.toString() : d[i]
-                }
-            }
-            else if (data.prereqTree) {
-                prereq[0] = data.prereqTree.toString()
-            }
-
-            // Pacakage data properly
+            // Package data properly
             const updates = {
-                id: data.moduleCode,
+                code: data.moduleCode,
                 name:data.title,
                 description: data.description,
                 acadYear: data.acadYear,
                 credit: data.moduleCredit,
                 preclusion: data.preclusion,
-                preReq: prereq,
+                preReq: formatPreReq(data.prereqTree),
                 updated_at: new Date(),
             }
+
+            // if table has existing entry, add the id to update the correct entry
+            const rowId = await existingRowId(acadYear, moduleCode)
+            if (rowId) 
+                updates.id = rowId
 
             let { error } = await supabase.from('modules').upsert(updates, {
                 returning: 'minimal', // Don't return the value after inserting
@@ -88,6 +70,52 @@ export default function API() {
 
         } catch (error) {
             console.error(error.message);
+        }
+    }
+
+    function formatPreReq(input) {
+        var prereq = []
+
+        if (input == null) {
+            // Do nothing else
+            // This is here to avoid undefined behaviour when attempting
+            // to read data.prereqTree.or or data.prereqTree.and
+        }
+        else if (input.or) {
+            // Only have OR pre-req
+            prereq[0] = input.or.toString()
+        }
+        else if (data.prereqTree.and) {
+            // Only AND pre-req, which may include OR pre-req
+            const d = input.and
+            for (var i = 0; i < d.length; i++) {
+                prereq[i] = (d[i].or) ? d[i].or.toString() : d[i]
+            }
+        }
+        else if (input) {
+            prereq[0] = data.prereqTree.toString()
+        }
+
+        return prereq
+    }
+
+    async function existingRowId(aYear, mCode) {
+        try {
+            let { data, error, status } = await supabase
+                .from('modules')
+                .select("id")
+                .eq('acadYear', aYear)
+                .eq('code', mCode.toUpperCase())
+                .single()
+
+            if (error && status != 406)
+                throw error
+
+            return data?.id
+        }
+        catch (error) {
+            console.error(error.message);
+            return null
         }
     }
 
@@ -134,23 +162,20 @@ export default function API() {
             {error ? <div>Error: {error.message}</div> : <></>}
             {isLoaded ? <></> : <div>Loading...</div>}
 
-
             <h3>Results</h3>
-            <p>acadYear: {data.acadYear}</p>
-            <p>moduleCode: {data.moduleCode}</p>
-            <p>title: {data.title}</p>
-            <p>description: {data.description}</p>
-            <p>moduleCredit: {data.moduleCredit}</p>
-            <p>preclusion: {data.preclusion}</p>
-            <p>prereqTree: {JSON.stringify(data.prereqTree, replacer)}</p>
-
             <form onSubmit={updateModuleInfo}>
+                <p>acadYear: {data.acadYear}</p>
+                <p>moduleCode: {data.moduleCode}</p>
+                <p>title: {data.title}</p>
+                <p>description: {data.description}</p>
+                <p>moduleCredit: {data.moduleCredit}</p>
+                <p>preclusion: {data.preclusion}</p>
+                <p>prereqTree: {JSON.stringify(data.prereqTree, replacer)}</p>
                 <button>Update Database</button>
             </form>
 
             <h3>Filtered Return</h3>
-            <textarea
-                disabled
+            <textarea disabled
                 style={{ width: "100%" }}
                 value={JSON.stringify(data, replacer, '    ')} />
         </>
