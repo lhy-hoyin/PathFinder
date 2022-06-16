@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext, createContext } from "react";
 
-import { PROFILE_STATUS } from "../constants/ProfileStatus";
+import { PROFILE_STATUS } from "../constants";
 import { supabase } from "../supabaseClient"
 
 const authContext = createContext();
@@ -64,8 +64,8 @@ function useProvideAuth() {
         } catch (error) {
             console.error(error.message);
         } finally {
-            
             setProfileInfoReady(true);
+            console.log("Profile info retrieved");
         }
     };
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { supabase } from "../supabaseClient";
-import { PROFILE_STATUS } from "../constants/ProfileStatus";
+import { PROFILE_STATUS } from "../constants";
 import { Auth } from "../hooks/Auth"
 
 import Header from "../components/Header";
@@ -27,6 +27,7 @@ export default function API() {
         if (!profileInfoReady)
             return
 
+        //FIXME
         if (status != PROFILE_STATUS.ADMIN)
             return navigate("/");
 

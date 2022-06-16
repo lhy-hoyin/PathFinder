@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Auth } from "../hooks/Auth";
 import UserBasicInfo from "../components/UserBasicInfo";
-import { PROFILE_STATUS } from "../constants/ProfileStatus";
+import { PROFILE_STATUS } from "../constants";
 
 export default function NewUser() {
 

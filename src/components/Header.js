@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Popup from 'reactjs-popup';
 
 import { supabase } from "../supabaseClient";
-import { PROFILE_STATUS } from "../constants/ProfileStatus";
+import { PROFILE_STATUS } from "../constants";
 import { Auth } from "../hooks/Auth";
 import LoginPop from './LoginPop';
 
