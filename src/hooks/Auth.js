@@ -69,7 +69,7 @@ function useProvideAuth() {
         }
     };
 
-    const updateProfile = (fName, lName) => async e => {
+    const updateProfileBasic = (fName, lName) => async e => {
         e.preventDefault();
 
         try {
@@ -180,6 +180,7 @@ function useProvideAuth() {
 
     const logout = async e => {
         e.preventDefault();
+
         try {
             const { error } = await supabase.auth.signOut();
             if (error) throw error;
@@ -193,19 +194,22 @@ function useProvideAuth() {
     };  
 
     const sendPasswordReset = (email, setMessage) => async e => {
+
         e.preventDefault();
         try {
             setMessage("Sending recovery link....please wait")
+
             const { data, error } = await supabase.auth.api.resetPasswordForEmail(email, {
                 redirectTo: `${window.location.origin}/reset-password`,
               });
             if (error) throw error;
-              alert("Recovery link has been sent to your email");
-              setMessage("Link has been sent!");
-          } catch (error) {
-              setMessage("Email does not exist");
-              console.error(error.error_description);
-          }
+
+            alert("Recovery link has been sent to your email");
+            setMessage("Link has been sent!");
+        } catch (error) {
+            setMessage("Email does not exist");
+            console.error(error.error_description);
+        }
     };
 
     const resettingPassword = (password1, password2, setMessage) => async e => {
@@ -235,15 +239,18 @@ function useProvideAuth() {
         login,
         logout,
         sendPasswordReset,
-        resettingPassword ,
-        updateProfile,
-        
-        profileInfoReady, // Status of profile info
+        resettingPassword,
+        updateProfileBasic,
+        updateProfileAcad,
+
+        // Status of profile info
+        profileInfoReady,
 
         // User-releated info
         status, // status of profile
         email,
         firstName,
         lastName,
+        cohort,
     };
 }

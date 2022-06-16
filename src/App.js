@@ -25,7 +25,7 @@ export default function App() {
 
                     //any route related to the user enter here eg. profile, reset password, etc
                     <Route path='/' element={<UserOnlyRoute/>}>
-                        <Route path="/reset-password"element={<ResetPassword/>}/>
+                        <Route path="/reset-password" element={<ResetPassword/>}/>
                         <Route path="/profile" element={<UserProfile />} />
                         <Route path="/profile/new" element={<NewUser />} />
                     </Route>
