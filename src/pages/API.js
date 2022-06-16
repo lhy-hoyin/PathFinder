@@ -57,9 +57,9 @@ export default function API() {
             }
 
             // if table has existing entry, add the id to update the correct entry
-            const rowId = await existingRowId(acadYear, moduleCode)
-            if (rowId) 
-                updates.id = rowId
+            const existingRow = await getExistingRow(acadYear, moduleCode)
+            if (existingRow) 
+                updates.id = existingRow.id
 
             let { error } = await supabase.from('modules').upsert(updates, {
                 returning: 'minimal', // Don't return the value after inserting
@@ -99,7 +99,7 @@ export default function API() {
         return prereq
     }
 
-    async function existingRowId(aYear, mCode) {
+    async function getExistingRow(aYear, mCode) {
         try {
             let { data, error, status } = await supabase
                 .from('modules')
@@ -111,7 +111,7 @@ export default function API() {
             if (error && status != 406)
                 throw error
 
-            return data?.id
+            return data
         }
         catch (error) {
             console.error(error.message);
