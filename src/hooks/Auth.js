@@ -1,8 +1,9 @@
 import { useState, useEffect, useContext, createContext } from "react";
-import { supabase } from "../supabaseClient";
+
+import { PROFILE_STATUS } from "../constants/ProfileStatus";
+import { supabase } from "../supabaseClient"
 
 const authContext = createContext();
-
 
 export function ProvideAuth({ children }) {
     const auth = useProvideAuth();
@@ -17,13 +18,12 @@ function useProvideAuth() {
     const [session, setSession] = useState(null);
     const [profileInfoReady, setProfileInfoReady] = useState(false);
 
-    // User-releated info
+    // User profile info (linked to database)
     const [email, setEmail] = useState(null);
     const [firstName, setFirstName] = useState(null);
     const [lastName, setLastName] = useState(null);
     const [cohort, setCohort] = useState(null);
-    const [isReady, setIsReady] = useState(null);
-    const [isLocked, setIsLocked] = useState(null);
+    const [status, setStatus] = useState(null);
 
     useEffect(() => {
         setSession(supabase.auth.session());
@@ -49,20 +49,23 @@ function useProvideAuth() {
                 .eq('id', user.id)
                 .single()
 
-            if (error && status !== 406)
+            if (status == 406) {
+                setStatus(PROFILE_STATUS.NEW)
+            }
+            else if (error && status !== 406) {
                 throw error
-
-            if (data) {
+            }
+            else if (data) {
                 setFirstName(data.FirstName);
                 setLastName(data.LastName);
                 setCohort(data.Cohort);
-                setIsReady(data.isReady);
-                setIsLocked(data.isLocked);
-
-                setProfileInfoReady(true);
+                setStatus(data.Status);
             }
         } catch (error) {
             console.error(error.message);
+        } finally {
+            
+            setProfileInfoReady(true);
         }
     };
 
@@ -80,7 +83,7 @@ function useProvideAuth() {
                 id: user.id,
                 FirstName: fName,
                 LastName: lName,
-                isReady: true,
+                Status: (status == PROFILE_STATUS.NEW ? PROFILE_STATUS.NORMAL : status),
                 updated_at: new Date(),
             }
 
@@ -88,10 +91,8 @@ function useProvideAuth() {
                 returning: 'minimal', // Don't return the value after inserting
             })
 
-            if (error)
-                throw error
-            else
-                console.log("Profile Updated successfully")
+            if (error) throw error
+            else console.log("Profile Updated successfully")
 
         } catch (error) {
             console.error(error.message);
@@ -238,7 +239,7 @@ function useProvideAuth() {
         login,
         logout,
         sendPasswordReset,
-        resettingPassword ,
+        resettingPassword,
         updateProfileBasic,
         updateProfileAcad,
 
@@ -246,11 +247,10 @@ function useProvideAuth() {
         profileInfoReady,
 
         // User-releated info
+        status, // status of profile
         email,
         firstName,
         lastName,
         cohort,
-        isReady,
-        isLocked,
     };
 }

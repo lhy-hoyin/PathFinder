@@ -1,7 +1,16 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { supabase } from "../supabaseClient";
+import { PROFILE_STATUS } from "../constants/ProfileStatus";
+import { Auth } from "../hooks/Auth"
+
+import Header from "../components/Header";
 
 export default function API() {
+
+    const navigate = useNavigate();
+    const { profileInfoReady, status } = Auth();
 
     const API_BASE_URL = "https://api.nusmods.com/v2/";
 
@@ -14,6 +23,15 @@ export default function API() {
     const [acadYear, setAcadYear] = useState("2021/2022");
     const [moduleCode, setModuleCode] = useState("CS2040S");
 
+    useEffect(() => {
+        if (!profileInfoReady)
+            return
+
+        if (status != PROFILE_STATUS.ADMIN)
+            return navigate("/");
+
+    }, [profileInfoReady])
+  
     const query = async e => {
         e.preventDefault();
 
@@ -136,6 +154,7 @@ export default function API() {
 
     return (
         <>
+            <Header />
             <h1>API</h1>
 
             <h3>Parameters</h3>
