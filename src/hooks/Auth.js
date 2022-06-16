@@ -34,21 +34,6 @@ function useProvideAuth() {
         getProfile();
     }, [session]);
 
-    const setProfileStatus = (s) => {
-        switch (s) {
-            case PROFILE_STATUS.NEW:
-                break;
-            case PROFILE_STATUS.NORMAL:
-                setIsReady(true);
-                break;
-            case PROFILE_STATUS.LOCKED:
-                setIsLocked(true);
-                break;
-            default:
-                console.error("Invalid Profile Status")
-        }
-    }
-
     const getProfile = async () => {
         try {
             const user = supabase.auth.user();
@@ -64,18 +49,23 @@ function useProvideAuth() {
                 .eq('id', user.id)
                 .single()
 
-            if (error && status !== 406)
+            if (status == 406) {
+                setStatus(PROFILE_STATUS.NEW)
+            }
+            else if (error && status !== 406) {
                 throw error
-
-            if (data) {
+            }
+            else if (data) {
                 setFirstName(data.FirstName);
                 setLastName(data.LastName);
                 setCohort(data.Cohort);
                 setStatus(data.Status);
-                setProfileInfoReady(true);
             }
         } catch (error) {
             console.error(error.message);
+        } finally {
+            
+            setProfileInfoReady(true);
         }
     };
 
@@ -101,10 +91,8 @@ function useProvideAuth() {
                 returning: 'minimal', // Don't return the value after inserting
             })
 
-            if (error)
-                throw error
-            else
-                console.log("Profile Updated successfully")
+            if (error) throw error
+            else console.log("Profile Updated successfully")
 
         } catch (error) {
             console.error(error.message);
@@ -251,7 +239,6 @@ function useProvideAuth() {
         updateProfile,
         
         profileInfoReady, // Status of profile info
-
 
         // User-releated info
         status, // status of profile
