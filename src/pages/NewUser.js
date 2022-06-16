@@ -15,7 +15,8 @@ export default function NewUser() {
         if (!profileInfoReady)
             return
 
-        if (status == PROFILE_STATUS.NORMAL)
+        //FIXME
+        if (status == PROFILE_STATUS.NORMAL || status == PROFILE_STATUS.ADMIN)
             return navigate("/profile");
 
     }, [profileInfoReady]);

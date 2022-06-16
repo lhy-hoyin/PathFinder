@@ -1,6 +1,15 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+import { PROFILE_STATUS } from "../constants/ProfileStatus";
+import { Auth } from "../hooks/Auth"
+
+import Header from "../components/Header";
 
 export default function API() {
+
+    const navigate = useNavigate();
+    const { profileInfoReady, status } = Auth();
 
     const API_BASE_URL = "https://api.nusmods.com/v2/";
 
@@ -9,6 +18,15 @@ export default function API() {
     const [data, setData] = useState([]);
 
     var url = API_BASE_URL + "2021-2022/modules/CS2030S.json"
+
+    useEffect(() => {
+        if (!profileInfoReady)
+            return
+
+        if (status != PROFILE_STATUS.ADMIN)
+            return navigate("/");
+
+    }, [profileInfoReady])
 
     useEffect(() => {
         fetch(url)
@@ -28,6 +46,7 @@ export default function API() {
 
     return (
         <>
+            <Header />
             <h1>API</h1>
 
             <h3>Search</h3>
