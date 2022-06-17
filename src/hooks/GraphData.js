@@ -58,8 +58,8 @@ function useProvideGraphData() {
                             background: Color(colors[node]).darken(0.2).hex()
                         },
                         hover: {
-                            border: Color(colors[x]).darken(0.3).hex(),
-                            background: Color(colors[x]).darken(0.2).hex()
+                            border: Color(colors[node]).darken(0.3).hex(),
+                            background: Color(colors[node]).darken(0.2).hex()
                         }
                     }
                 };
