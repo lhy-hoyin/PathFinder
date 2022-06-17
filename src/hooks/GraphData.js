@@ -38,7 +38,7 @@ function useProvideGraphData() {
             if (data == null)
                 throw ("no data from database")
 
-            //console.debug("Data", data);
+           //console.debug("Data", data);
 
             let temp = data.slice(0);
             let edges = [];
@@ -74,10 +74,10 @@ function useProvideGraphData() {
 
             }
 
-            console.debug("Edges", edges);
+            //console.debug("Edges", edges);
 
+            setPreq(edges); // need to set edges first
             setModules(mod);
-            setPreq(edges);
 
         } catch (error) {
             alert(error.message);
