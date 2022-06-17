@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Popup from 'reactjs-popup';
 
 import { supabase } from "../supabaseClient";
+import { ProfileRoles } from "../constants";
 import { Auth } from "../hooks/Auth";
 import LoginPop from './LoginPop';
 
@@ -12,13 +13,13 @@ export default function Header() {
 
     const navigate = useNavigate();
     const user = supabase.auth.user();
-    const { profileInfoReady, isReady, email, firstName, lastName, logout } = Auth();
+    const { profileInfoReady, role, email, firstName, lastName, logout } = Auth();
 
     useEffect(() => {
         if (!profileInfoReady)
             return
 
-        if (!isReady)
+        if (role == ProfileRoles.New)
             return navigate("/profile/new");
 
     }, [profileInfoReady]);

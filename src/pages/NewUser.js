@@ -3,16 +3,21 @@ import { useNavigate } from "react-router-dom";
 
 import { Auth } from "../hooks/Auth";
 import UserBasicInfo from "../components/UserBasicInfo";
+import { ProfileRoles } from "../constants";
 
 export default function NewUser() {
 
-    const { logout, profileInfoReady, isReady } = Auth();
+    const { logout, profileInfoReady, role } = Auth();
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (isReady)
+        if (!profileInfoReady)
+            return
+
+        if (role >= ProfileRoles.Normal)
             return navigate("/profile");
+
     }, [profileInfoReady]);
 
     return (

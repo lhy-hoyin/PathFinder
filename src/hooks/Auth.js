@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext, createContext } from "react";
-import { supabase } from "../supabaseClient";
 
+import { ProfileRoles } from "../constants";
+import { supabase } from "../supabaseClient"
 
 const authContext = createContext();
-
 
 export function ProvideAuth({ children }) {
     const auth = useProvideAuth();
@@ -18,12 +18,12 @@ function useProvideAuth() {
     const [session, setSession] = useState(null);
     const [profileInfoReady, setProfileInfoReady] = useState(false);
 
-    // User-releated info
+    // User profile info (linked to database)
     const [email, setEmail] = useState(null);
     const [firstName, setFirstName] = useState(null);
     const [lastName, setLastName] = useState(null);
-    const [isReady, setIsReady] = useState(null);
-    const [isLocked, setIsLocked] = useState(null);
+    const [cohort, setCohort] = useState(null);
+    const [role, setRole] = useState(null);
 
     useEffect(() => {
         setSession(supabase.auth.session());
@@ -31,7 +31,8 @@ function useProvideAuth() {
     }, []);
 
     useEffect(() => {
-        getProfile();
+        if (session)
+            getProfile();
     }, [session]);
 
     const getProfile = async () => {
@@ -45,27 +46,30 @@ function useProvideAuth() {
 
             let { data, error, status } = await supabase
                 .from('profiles')
-                .select(`FirstName, LastName, isReady, isLocked`)
+                .select('*')
                 .eq('id', user.id)
                 .single()
 
-            if (error && status !== 406)
+            if (status == 406) {
+                setRole(ProfileRoles.New)
+            }
+            else if (error && status !== 406) {
                 throw error
-
-            if (data) {
+            }
+            else if (data) {
                 setFirstName(data.FirstName);
                 setLastName(data.LastName);
-                setIsReady(data.isReady);
-                setIsLocked(data.isLocked);
-
+                setCohort(data.Cohort);
+                setRole(data.Role);
                 setProfileInfoReady(true);
+                console.log("Profile info retrieved");
             }
         } catch (error) {
             console.error(error.message);
         }
     };
 
-    const updateProfile = (fName, lName) => async e => {
+    const updateProfileBasic = (fName, lName) => async e => {
         e.preventDefault();
 
         try {
@@ -74,14 +78,40 @@ function useProvideAuth() {
             if (user == null)
                 return
 
-            var profileIsComplete = (fName.length != 0) && (lName.length != 0)
-
             // Pacakage data properly
             const updates = {
                 id: user.id,
                 FirstName: fName,
                 LastName: lName,
-                isReady: profileIsComplete,
+                Status: (status == PROFILE_STATUS.NEW ? PROFILE_STATUS.NORMAL : status),
+                updated_at: new Date(),
+            }
+
+            let { error } = await supabase.from('profiles').upsert(updates, {
+                returning: 'minimal', // Don't return the value after inserting
+            })
+
+            if (error) throw error
+            else console.log("Profile Updated successfully")
+
+        } catch (error) {
+            console.error(error.message);
+        }
+    };
+
+    const updateProfileAcad = (cohort) => async e => {
+        e.preventDefault();
+
+        try {
+            const user = supabase.auth.user()
+
+            if (user == null)
+                return
+
+            // Pacakage data properly
+            const updates = {
+                id: user.id,
+                Cohort: cohort,
                 updated_at: new Date(),
             }
 
@@ -150,11 +180,13 @@ function useProvideAuth() {
 
     const logout = async e => {
         e.preventDefault();
+
         try {
             const { error } = await supabase.auth.signOut();
             if (error) throw error;
+
+            resetLocalState()
             console.log("User logged out");
-            alert("User logged out");
             
             window.location = window.location.origin.toString();
         } catch (error) {
@@ -162,24 +194,23 @@ function useProvideAuth() {
         }
     };  
 
-    const test = () => {
-
-    };
-
     const sendPasswordReset = (email, setMessage) => async e => {
         e.preventDefault();
+
         try {
             setMessage("Sending recovery link....please wait")
+
             const { data, error } = await supabase.auth.api.resetPasswordForEmail(email, {
                 redirectTo: `${window.location.origin}/reset-password`,
               });
             if (error) throw error;
-              alert("Recovery link has been sent to your email");
-              setMessage("Link has been sent!");
-          } catch (error) {
-              setMessage("Email does not exist");
-              console.error(error.error_description);
-          }
+
+            alert("Recovery link has been sent to your email");
+            setMessage("Link has been sent!");
+        } catch (error) {
+            setMessage("Email does not exist");
+            console.error(error.error_description);
+        }
     };
 
     const resettingPassword = (password1, password2, setMessage) => async e => {
@@ -203,20 +234,34 @@ function useProvideAuth() {
         }
     };
 
+    function resetLocalState() {
+        setProfileInfoReady(false)
+
+        setEmail(null)
+        setFirstName(null)
+        setLastName(null)
+        setCohort(null)
+        setRole(null)
+    }
+
     return {
+        // Account-releated functions
         signup,
         login,
         logout,
         sendPasswordReset,
-        resettingPassword ,
-        updateProfile,
+        resettingPassword,
+        updateProfileBasic,
+        updateProfileAcad,
 
+        // Status of profile info
         profileInfoReady,
 
+        // User-releated info
         email,
         firstName,
         lastName,
-        isReady,
-        isLocked,
+        cohort,
+        role, 
     };
 }

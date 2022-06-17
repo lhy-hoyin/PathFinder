@@ -1,4 +1,5 @@
 import UserBasicInfo from "../components/UserBasicInfo";
+import UserAcadInfo from "../components/UserAcadInfo";
 import Header from "../components/Header";
 
 export default function UserProfile() {
@@ -10,6 +11,9 @@ export default function UserProfile() {
 
             <h3>Personal Information</h3>
             <UserBasicInfo />
+
+            <h3>Academic Information</h3>
+            <UserAcadInfo />
         </>    
     );
 
