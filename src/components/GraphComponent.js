@@ -1,5 +1,5 @@
 
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import Color from "color";
 import Graph from "react-vis-graph-wrapper";
 import {graphData} from "../hooks/GraphData"
@@ -16,62 +16,33 @@ const colors = [
   
   const edges = [
     {
-      from: "2010CS1231S",
-      to: "2010MA1301"
+      from: "CS1231S",
+      to: "MA1301"
     },
   
     {
-      from: "2010CS2040S",
-      to: "2010CS1231S"
+      from: "CS2040",
+      to: "CS1231S"
     },
     {
-      from: "2010ES1103",
-      to: "2010ES2660"
+      from: "ES1103",
+      to: "ES2660"
     }
   ];
   
-  const nodes = [
-    {
-      id: "2010MA1301",
-      label: "MA1301"
-    },
-    {
-      id: "2010CS1231S",
-      label: "CS1231S"
-    },
-    {
-      id: "2010CS2040S",
-      label: "CS2040S"
-    },
-    {
-      id: "2010ES1103",
-      label: "ES1103"
-    },
-    {
-      id: "1010ES2660",
-      label: "ES2660"
-    }
-  ].map((c, i) => ({
-    ...c,
-    color: {
-      border: Color(colors[i]).darken(0.2).hex(),
-      background: colors[i],
-      highlight: {
-        border: Color(colors[i]).darken(0.3).hex(),
-        background: Color(colors[i]).darken(0.2).hex()
-      },
-      hover: {
-        border: Color(colors[i]).darken(0.3).hex(),
-        background: Color(colors[i]).darken(0.2).hex()
-      }
-    }
-  }));
-  
-  const graph = {nodes, edges};
+
   
   
   export default function GradGraph(){
-    
+    const {getNodes, modules} = graphData()
+    const [nodes, setNodes] = useState([])
+
+    useEffect(() => {
+      setNodes(modules)
+      
+    }, [modules]);
+  
+    const graph = {nodes, edges}
   
     const options = {
       layout: {
