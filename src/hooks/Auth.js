@@ -184,7 +184,6 @@ function useProvideAuth() {
             const { error } = await supabase.auth.signOut();
             if (error) throw error;
             console.log("User logged out");
-            alert("User logged out");
             
             window.location = window.location.origin.toString();
         } catch (error) {
