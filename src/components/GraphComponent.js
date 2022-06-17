@@ -11,8 +11,7 @@ export default function GradGraph(){
 
     useEffect(() => {
         setNodes(modules)
-        setEdges(preq)
-          
+        setEdges(preq)   
     }, [modules]);
 
     const graph = { nodes, edges }

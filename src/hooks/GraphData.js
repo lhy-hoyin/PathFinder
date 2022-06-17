@@ -38,7 +38,7 @@ function useProvideGraphData() {
             if (data == null)
                 throw ("no data from database")
 
-            //console.log(data);
+            //console.debug("Data", data);
 
             let temp = data.slice(0);
             let edges = [];
@@ -65,22 +65,19 @@ function useProvideGraphData() {
                 };
 
                 if (temp[node].Prequites) {
-                    //console.log(temp[node].Prequites.length);
+                    //console.debug(temp[node].Prequites.length);
                     for (var req = 0; req < temp[node].Prequites.length; req++) {
-                        edges[x] = {
-                            from: temp[node].module,
-                            to: temp[node].Prequites[req]
-                        };
+                        edges[x] = { from: temp[node].module, to: temp[node].Prequites[req] };
                         x++;
                     }
                 }
 
             }
 
-            console.log(edges);
+            console.debug("Edges", edges);
 
-            setPreq(edges);
             setModules(mod);
+            setPreq(edges);
 
         } catch (error) {
             alert(error.message);
