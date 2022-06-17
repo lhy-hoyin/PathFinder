@@ -5,40 +5,15 @@ import Graph from "react-vis-graph-wrapper";
 import {graphData} from "../hooks/GraphData"
 
 
-const colors = [
-    "rgb(243, 166, 131)",
-    "rgb(247, 215, 148)",
-    "rgb(119, 139, 235)",
-    "rgb(231, 127, 103)",
-    "rgb(207, 106, 135)",
-    "rgb(75, 101, 132)"
-  ];
-  
-  const edges = [
-    {
-      from: "CS1231S",
-      to: "MA1301"
-    },
-  
-    {
-      from: "CS2040",
-      to: "CS1231S"
-    },
-    {
-      from: "ES1103",
-      to: "ES2660"
-    }
-  ];
-  
 
-  
-  
   export default function GradGraph(){
-    const {getNodes, modules} = graphData()
+    const {modules, preq} = graphData()
     const [nodes, setNodes] = useState([])
+    const [edges, setEdges] = useState([])
 
     useEffect(() => {
       setNodes(modules)
+      setEdges(preq)
       
     }, [modules]);
   

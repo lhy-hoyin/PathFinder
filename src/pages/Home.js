@@ -13,11 +13,10 @@ import "../css/Home.css";
 
 export default function Home() {
     const [course, setCourse] = useState("");
-    const [nodes, setNodes] = useState([]); //To be changed
     const [message, setMessage] = useState("")
 
-    const { getNodes, test, modules } = graphData();
-    
+    const { getData } = graphData();
+
     return (
         <>
             <Header />
@@ -31,20 +30,17 @@ export default function Home() {
                 <select required onChange={(e) => setCourse(e.target.value)}>
                     <option>Computer Science</option>
                     <option>Option2</option>
-                </select> 
-            </div> 
+                </select>
+            </div>
 
-            <form onSubmit={getNodes(setNodes)}>
-          
+            <form onSubmit={getData()}>
+
                 <button className="Button block"> Generate notes</button>
-        
+
             </form>
-            
-            
 
+            <GraphComponent />
 
-            <GraphComponent/>
-            
         </>
-  );
+    );
 }
