@@ -24,6 +24,8 @@ const colors = [
 
 function useProvideGraphData() {
 
+    const [modules, setModules] = useState([]);
+
   const getNodes = (setNodes) => async e => {
     e.preventDefault();
     let nodes = []
@@ -62,6 +64,7 @@ function useProvideGraphData() {
         }
         console.log(nodes)
         setNodes(nodes);  
+        setModules(nodes)
         nodes = []
       }
     } catch (error) {
@@ -77,5 +80,6 @@ function useProvideGraphData() {
   return {
       getNodes,
       test,
+      modules,
   };
 }
