@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext, createContext } from "react";
 
-import { PROFILE_STATUS } from "../constants";
+import { ProfileRoles } from "../constants";
 import { supabase } from "../supabaseClient"
 
 const authContext = createContext();
@@ -23,7 +23,7 @@ function useProvideAuth() {
     const [firstName, setFirstName] = useState(null);
     const [lastName, setLastName] = useState(null);
     const [cohort, setCohort] = useState(null);
-    const [status, setStatus] = useState(null);
+    const [role, setRole] = useState(null);
 
     useEffect(() => {
         setSession(supabase.auth.session());
@@ -50,7 +50,7 @@ function useProvideAuth() {
                 .single()
 
             if (status == 406) {
-                setStatus(PROFILE_STATUS.NEW)
+                setRole(ProfileRoles.New)
             }
             else if (error && status !== 406) {
                 throw error
@@ -59,13 +59,12 @@ function useProvideAuth() {
                 setFirstName(data.FirstName);
                 setLastName(data.LastName);
                 setCohort(data.Cohort);
-                setStatus(data.Status);
+                setRole(data.Role);
+                setProfileInfoReady(true);
+                console.log("Profile info retrieved");
             }
         } catch (error) {
             console.error(error.message);
-        } finally {
-            setProfileInfoReady(true);
-            console.log("Profile info retrieved");
         }
     };
 
@@ -194,8 +193,8 @@ function useProvideAuth() {
     };  
 
     const sendPasswordReset = (email, setMessage) => async e => {
-
         e.preventDefault();
+
         try {
             setMessage("Sending recovery link....please wait")
 
@@ -247,10 +246,10 @@ function useProvideAuth() {
         profileInfoReady,
 
         // User-releated info
-        status, // status of profile
         email,
         firstName,
         lastName,
         cohort,
+        role, 
     };
 }

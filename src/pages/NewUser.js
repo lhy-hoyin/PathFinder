@@ -3,11 +3,11 @@ import { useNavigate } from "react-router-dom";
 
 import { Auth } from "../hooks/Auth";
 import UserBasicInfo from "../components/UserBasicInfo";
-import { PROFILE_STATUS } from "../constants";
+import { ProfileRoles } from "../constants";
 
 export default function NewUser() {
 
-    const { logout, profileInfoReady, status } = Auth();
+    const { logout, profileInfoReady, role } = Auth();
 
     const navigate = useNavigate();
 
@@ -15,8 +15,7 @@ export default function NewUser() {
         if (!profileInfoReady)
             return
 
-        //FIXME
-        if (status == PROFILE_STATUS.NORMAL || status == PROFILE_STATUS.ADMIN)
+        if (role >= ProfileRoles.Normal)
             return navigate("/profile");
 
     }, [profileInfoReady]);

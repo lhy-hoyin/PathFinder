@@ -1,6 +1,6 @@
-export const PROFILE_STATUS = {
-    NEW: "NEW_ACCOUNT", // new account, yet to set up
-    NORMAL: "NORMAL", // account is in normal status
-    LOCKED: "LOCKED",
-    ADMIN: "ADMIN",
+export const ProfileRoles = {
+    New: 0,
+    Locked: 1,  //xxx1
+    Normal: 2,  //xx1x
+    Admin:  4,  //x1xx
 }

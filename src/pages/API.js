@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { supabase } from "../supabaseClient";
-import { PROFILE_STATUS } from "../constants";
+import { ProfileRoles } from "../constants";
 import { Auth } from "../hooks/Auth"
 
 import Header from "../components/Header";
@@ -10,7 +10,7 @@ import Header from "../components/Header";
 export default function API() {
 
     const navigate = useNavigate();
-    const { profileInfoReady, status } = Auth();
+    const { profileInfoReady, role } = Auth();
 
     const API_BASE_URL = "https://api.nusmods.com/v2/";
 
@@ -27,8 +27,7 @@ export default function API() {
         if (!profileInfoReady)
             return
 
-        //FIXME
-        if (status != PROFILE_STATUS.ADMIN)
+        if (!(role & ProfileRoles.Admin))
             return navigate("/");
 
     }, [profileInfoReady])
