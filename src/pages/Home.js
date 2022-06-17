@@ -1,11 +1,8 @@
 import { useState } from "react";
+import { graphData } from "../hooks/GraphData";
 
 import Header from "../components/Header";
 import GraphComponent from "../components/GraphComponent"
-
-import { graphData } from "../hooks/GraphData";
-
-
 
 import "../css/Home.css";
 
@@ -25,21 +22,16 @@ export default function Home() {
                 <p> lol idk only limited to SoC</p>
                 <p> Maybe put a getting started button here as a "tutorial"</p>
             </div>
-            <div>
+
+            <form onSubmit={getData()}>
                 <p>Select Course: </p>
                 <select required onChange={(e) => setCourse(e.target.value)}>
                     <option>Computer Science</option>
                     <option>Option2</option>
                 </select>
-            </div>
-
-            <form onSubmit={getData()}>
-
-                <button className="Button block"> Generate notes</button>
-
+                <button className="Button block">Generate Dependency Graph</button>
+                <GraphComponent />
             </form>
-
-            <GraphComponent />
 
         </>
     );
