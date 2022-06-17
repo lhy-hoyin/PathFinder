@@ -31,7 +31,8 @@ function useProvideAuth() {
     }, []);
 
     useEffect(() => {
-        getProfile();
+        if (session)
+            getProfile();
     }, [session]);
 
     const getProfile = async () => {
@@ -183,6 +184,8 @@ function useProvideAuth() {
         try {
             const { error } = await supabase.auth.signOut();
             if (error) throw error;
+
+            resetLocalState()
             console.log("User logged out");
             
             window.location = window.location.origin.toString();
@@ -230,6 +233,16 @@ function useProvideAuth() {
             console.error(error.error_description);
         }
     };
+
+    function resetLocalState() {
+        setProfileInfoReady(false)
+
+        setEmail(null)
+        setFirstName(null)
+        setLastName(null)
+        setCohort(null)
+        setRole(null)
+    }
 
     return {
         // Account-releated functions
