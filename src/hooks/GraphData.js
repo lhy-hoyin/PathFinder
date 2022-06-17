@@ -20,66 +20,74 @@ const colors = [
     "rgb(231, 127, 103)",
     "rgb(207, 106, 135)",
     "rgb(75, 101, 132)"
-  ];
+];
 
 function useProvideGraphData() {
 
     const [modules, setModules] = useState([]);
+    const [preq, setPreq] = useState([]);
 
-  const getNodes = (setNodes) => async e => {
-    e.preventDefault();
-    let nodes = []
-    try {
-      let { data, error, status, count } = await supabase
-        .from("testing")
-        .select("module", { count: "exact" });
-      if (error && status !== 406) {
-        throw error;
-      }
-  
-      if (data) {
-        console.log(data);
-        let temp = data.slice(0);
-        //console.log(Object.values(temp[1]).toString());
-        //console.log(count);
-        let x = 0;
-  
-        while (x !== count) {
-          nodes[x] = {id: Object.values(temp[x]).toString(),
-                    label: Object.values(temp[x]).toString(),
-                    color: {
-                        border: Color(colors[x]).darken(0.2).hex(),
-                        background: colors[x],
-                        highlight: {
-                          border: Color(colors[x]).darken(0.3).hex(),
-                          background: Color(colors[x]).darken(0.2).hex()
-                        },
-                        hover: {
-                          border: Color(colors[x]).darken(0.3).hex(),
-                          background: Color(colors[x]).darken(0.2).hex()
+    const getData = () => async e => {
+        e.preventDefault();
+        try {
+            let { data, error, status, count } = await supabase
+                .from("testing")
+                .select("*", { count: "exact" });
+            if (data) {
+                console.log(data);
+                let temp = data.slice(0);
+                let edges = [];
+                let x = 0;
+                let mod = [];
+
+                console.log(temp[2].Prequites.length);
+                for (var node = 0; node < count; node++) {
+                    mod[node] = {
+                        id: temp[node].module,
+                        label: temp[node].module,
+                        color: {
+                            border: Color(colors[node]).darken(0.2).hex(),
+                            background: colors[node],
+                            highlight: {
+                                border: Color(colors[node]).darken(0.3).hex(),
+                                background: Color(colors[node]).darken(0.2).hex()
+                            },
+                            hover: {
+                                border: Color(colors[x]).darken(0.3).hex(),
+                                background: Color(colors[x]).darken(0.2).hex()
+                            }
                         }
-                      }
                     };
-          x = x + 1;
+                    if (temp[node].Prequites !== null) {
+                        for (var req = 0; req < temp[node].Prequites.length; req++) {
+                            edges[x] = {
+                                from: temp[node].module,
+                                to: temp[node].Prequites[req]
+                            };
+                            x++;
+                        }
+                    }
+                }
+
+                console.log(edges);
+                setPreq(edges);
+                setModules(mod);
+            }
+        } catch (error) {
+            alert(error.message);
         }
-        console.log(nodes)
-        setNodes(nodes);  
-        setModules(nodes)
-        nodes = []
-      }
-    } catch (error) {
-      alert(error.message);
+    };
+
+    const test = (setMessage) => async e => {
+        e.preventDefault();
+        setMessage("Hellow world")
     }
-  };
 
-  const test = (setMessage) => async e =>{
-    e.preventDefault();
-    setMessage("Hellow world")
-  }
+    return {
+        getData,
+        test,
 
-  return {
-      getNodes,
-      test,
-      modules,
-  };
+        modules,
+        preq
+    };
 }
