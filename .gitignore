@@ -1,0 +1,12 @@
+/node_modules
+
+# Visual Studio
+.vs/
+.vscode/
+
+# misc
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
