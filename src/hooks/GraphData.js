@@ -28,6 +28,31 @@ function useProvideGraphData() {
         "rgb(75, 101, 132)"
     ];
 
+    const colouring = (selectedColor) => {
+        const color ={
+           border: Color(selectedColor).darken(0.2).hex(),
+           background : selectedColor,
+           highlight: {
+             border: Color(selectedColor).darken(0.3).hex(),
+             background: Color(selectedColor).darken(0.2).hex()
+            },
+            hover: {
+                border: Color(selectedColor).darken(0.3).hex(),
+                background: Color(selectedColor).darken(0.2).hex()
+            }
+        }
+         
+         return color;
+    }
+
+    const orNodesLabel = (orArray) => {
+        let label = orArray[0].toString();
+        for (var x = 1; x < orArray.length; x++) {
+          label = label + " or " + orArray[x]
+        }
+        return label
+    }
+       
     const getData = () => async e => {
         e.preventDefault();
         try {
@@ -41,40 +66,55 @@ function useProvideGraphData() {
            //console.debug("Data", data);
 
             let temp = data.slice(0);
-            let edges = [];
+
             let mod = [];
-            let x = 0;
+            let orNodes = [];
+            let orCount = 0;
+
+            let edges = [];
+            let edgeCount = 0;
 
             for (var node = 0; node < count; node++) {
 
                 mod[node] = {
                     id: temp[node].module,
                     label: temp[node].module,
-                    color: {
-                        border: Color(colors[node]).darken(0.2).hex(),
-                        background: colors[node],
-                        highlight: {
-                            border: Color(colors[node]).darken(0.3).hex(),
-                            background: Color(colors[node]).darken(0.2).hex()
-                        },
-                        hover: {
-                            border: Color(colors[node]).darken(0.3).hex(),
-                            background: Color(colors[node]).darken(0.2).hex()
-                        }
-                    }
+                    color: colouring(colors[node])
                 };
 
                 if (temp[node].Prequites) {
                     //console.debug(temp[node].Prequites.length);
                     for (var req = 0; req < temp[node].Prequites.length; req++) {
-                        edges[x] = { from: temp[node].module, to: temp[node].Prequites[req] };
-                        x++;
+
+                        const modWithOr = temp[node].Prequites[req].toString().split(',');
+
+                        if(modWithOr.length > 1) {
+
+                            orNodes[orCount] = {
+                                id: "or" +  modWithOr.toString(),
+                                label: orNodesLabel(modWithOr),
+                                shape: "ellipse",
+                                colors: colouring(colors[node])
+                            }
+                            orCount++;
+
+                            edges[edgeCount] = { from: temp[node].module, to: "or" +  modWithOr.toString() }
+                            edgeCount++;
+
+                            for(var orReq = 0; orReq < modWithOr.length; orReq++) {
+                                edges[edgeCount] = { from:  "or" +  modWithOr.toString() , to: modWithOr[orReq] }
+                                edgeCount++;
+                            }
+
+                        } else{
+                            edges[edgeCount] = { from: temp[node].module, to: temp[node].Prequites[req] };
+                            edgeCount++;
+                        }                       
                     }
                 }
-
             }
 
-            //console.debug("Edges", edges);
+            mod = mod.concat(orNodes)
 
             setPreq(edges); // need to set edges first
             setModules(mod);
