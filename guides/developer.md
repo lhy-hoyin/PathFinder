@@ -1,5 +1,7 @@
 # Developer Guide
 
+Hello there fellow developer. We are glad that you feel interested to continue developing on our project. This guide is here to help you get started on things.
+
 ## What you need
 1. Your preferred IDE or text editor
 1. [Node.js](https://nodejs.org/en/download/) installed
@@ -8,12 +10,12 @@
 
 ## What to do
 1. Create a new project in Supabase
-3. Create the database tables according to the schema [provided](#supabase)
-4. Clone this repository
+3. Create the database tables according to the schema [provided](#supabase-database)
+4. Clone this [repository](https://github.com/lhy-hoyin/PathFinder)
 5. Go to the directory of the repository
 6. Create and add [environment variables](#environment-variables) to  a `.env` file
 7. `npm install` to automatically install required dependencies 
-8. `npm start` to start running application
+8. `npm start` to start running the web application
 
 ## Additional Information
 
