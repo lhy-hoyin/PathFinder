@@ -8,5 +8,5 @@ You can find the gudes below:
 
 Please continue to look out at this section which we will update in the near future.
 
-## [Developer Guide](/guides/developer)
+## [Developer Guide](/developer)
 
