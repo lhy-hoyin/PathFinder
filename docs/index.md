@@ -8,13 +8,27 @@ Please continue to look out at this section which we will update in the near fut
 
 ### Developer Guide
 
-1. Ensure you have [Node.js](https://nodejs.org/en/download/) installed
-2. Have an supabase project to set up the database. Create an account if needed
-3. Clone this repository
-4. Within the directory of the repository:
-    1. Add the `.env` file containing the supabase API key
-    1. `npm install` to automatically install required dependencies (as indicated in project.json)  
-    1. `npm start` to start running application
+#### What you need
+1. [Node.js](https://nodejs.org/en/download/) installed
+1. [Supabase](https://supabase.com/) account
+1. A hosting service, if you wish to host your own PathFinder (for example, [Vercel](https://vercel.com/) account)
+
+#### What to do
+1. Create a new project in Supabase
+3. Create the database tables according to the schema [provided](#supabase)
+4. Clone this repository
+5. Go to the directory of the repository
+6. Create and add [environment variables](#environment-variables) to  a `.env` file
+7. `npm install` to automatically install required dependencies (as indicated in project.json)  
+8. `npm start` to start running application
+
+#### Environment Variables
+This file (`.env` or `.env.development.local`) is used to hold the API key to the Supabase database  
+```
+REACT_APP_SUPABASE_URL=https://PROJECT_URL.supabase.co
+REACT_APP_SUPABASE_ANON_KEY=YOUR_PROJECT_PUBLIC_API_KEYS
+```
+You can retrieve your project URL and API keys by logging into Supabase project > `Settings` > `API`
 
 #### Supabase
 This section will show the structure of our database tables.
