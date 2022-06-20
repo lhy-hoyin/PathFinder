@@ -169,9 +169,11 @@ function useProvideAuth() {
         //note: singup also need to hex, when this is implemented
 
         try {
-          const { error } = await supabase.auth.signIn({ email, password });
-          if (error) throw error;
+            const { error } = await supabase.auth.signIn({ email, password });
+            if (error) throw error;
+
             console.log("User logged in");
+            getProfile();
         } catch (error) {
             alert(error.error_description || error.message);
             console.error(error.error_description || error.message);
