@@ -67,10 +67,10 @@ export default function API() {
                 code: data.moduleCode,
                 name:data.title,
                 description: data.description,
-                acadYear: data.acadYear,
+                acad_year: data.acadYear,
                 credit: data.moduleCredit,
                 preclusion: data.preclusion,
-                preReq: formatPreReq(data.prereqTree),
+                pre_req: formatPreReq(data.prereqTree),
                 updated_at: new Date(),
             }
 
@@ -122,7 +122,7 @@ export default function API() {
             let { data, error, status } = await supabase
                 .from('modules')
                 .select("id")
-                .eq('acadYear', aYear)
+                .eq('acad_year', aYear)
                 .eq('code', mCode.toUpperCase())
                 .single()
 

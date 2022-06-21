@@ -47,7 +47,7 @@ function useProvideAuth() {
             let { data, error, status } = await supabase
                 .from('profiles')
                 .select('*')
-                .eq('id', user.id)
+                .eq('user_id', user.id)
                 .single()
 
             if (status == 406) {
@@ -57,10 +57,10 @@ function useProvideAuth() {
                 throw error
             }
             else if (data) {
-                setFirstName(data.FirstName);
-                setLastName(data.LastName);
-                setCohort(data.Cohort);
-                setRole(data.Role);
+                setFirstName(data.first_name);
+                setLastName(data.last_name);
+                setCohort(data.cohort);
+                setRole(data.role);
                 setProfileInfoReady(true);
                 console.log("Profile info retrieved");
             }
@@ -80,10 +80,10 @@ function useProvideAuth() {
 
             // Pacakage data properly
             const updates = {
-                id: user.id,
-                FirstName: fName,
-                LastName: lName,
-                Status: (status == PROFILE_STATUS.NEW ? PROFILE_STATUS.NORMAL : status),
+                user_id: user.id,
+                first_name: fName,
+                last_name: lName,
+                role: (role == ProfileRoles.New ? ProfileRoles.Normal : role),
                 updated_at: new Date(),
             }
 
@@ -99,7 +99,7 @@ function useProvideAuth() {
         }
     };
 
-    const updateProfileAcad = (cohort) => async e => {
+    const updateProfileAcad = (userCohort) => async e => {
         e.preventDefault();
 
         try {
@@ -110,8 +110,8 @@ function useProvideAuth() {
 
             // Pacakage data properly
             const updates = {
-                id: user.id,
-                Cohort: cohort,
+                user_id: user.id,
+                cohort: userCohort,
                 updated_at: new Date(),
             }
 
@@ -169,9 +169,11 @@ function useProvideAuth() {
         //note: singup also need to hex, when this is implemented
 
         try {
-          const { error } = await supabase.auth.signIn({ email, password });
-          if (error) throw error;
+            const { error } = await supabase.auth.signIn({ email, password });
+            if (error) throw error;
+
             console.log("User logged in");
+            getProfile();
         } catch (error) {
             alert(error.error_description || error.message);
             console.error(error.error_description || error.message);
@@ -225,7 +227,7 @@ function useProvideAuth() {
         var password = password1
 
         try {
-            const {error } = await supabase.auth.update({password});
+            const { error } = await supabase.auth.update({ password });
             if (error) throw error;
             alert("password changed ");
         } catch (error) {

@@ -47,6 +47,7 @@ export default function Header() {
                 ) : (
                     <ul>
                             <li>Welcome, {firstName ?? lastName ?? email ?? "user"}!</li>
+                            <li className='clickable'><a href="/profile">Profile</a></li>
                             <li className='clickable'><a onClick={logout}  style={{cursor:'pointer'}}>Logout</a></li>
                     </ul>
                 )}
