@@ -17,18 +17,18 @@ Hello there fellow developer. We are glad that you feel interested to continue d
 7. `npm install` to automatically install required dependencies 
 8. `npm start` to start running the web application
 
-## What you need to know
+* * *
 
 ### Supabase Database
 
-This section will show the structure of our database tables.  
-Please continue to look out over here as we update this section when we have finalised our database table structure.
+> This section shows the structure of our database tables.  
+> Please continue to look out over here as we update this section when we have finalised our database table structure.
 
 #### Table Structures
 
 Table Name: `profiles`
 |Column Name|Data Type|
-|---|---|
+|:---|:---|
 |id|`uuid`|
 |FirstName|`text`|
 |LastName|`text`|
@@ -38,7 +38,7 @@ Table Name: `profiles`
 
 Table Name: `modules`
 |Column Name|Data Type|
-|---|---|
+|:---|:---|
 |id|`uuid`|
 |code|`text`|
 |acadYear|`text`|
@@ -71,7 +71,7 @@ This file is used to hold the Supabase information specific to your project.
 REACT_APP_SUPABASE_URL=https://PROJECT_URL.supabase.co
 REACT_APP_SUPABASE_ANON_KEY=YOUR_PROJECT_PUBLIC_API_KEYS
 ```
-You can retrieve your project URL and API keys by logging into Supabase project > `Settings` > `API`.  
+> You can retrieve your project URL and API keys by logging into Supabase project > `Settings` > `API`.  
 
 If you are hosting PathFinder, you will also need to include these environment variables to the web hosting platform.  
 
