@@ -12,6 +12,9 @@ export default function Home() {
     const [course, setCourse] = useState("");
     const [message, setMessage] = useState("")
 
+    //TODO: insert relevant modules
+    const modsArr = ["CS1101S","CS2100","CS2030S","CS2040S"]
+
     const { getData } = graphData();
 
     return (
@@ -23,7 +26,7 @@ export default function Home() {
                 <p> Maybe put a getting started button here as a "tutorial"</p>
             </div>
 
-            <form onSubmit={getData()}>
+            <form onSubmit={getData(modsArr)}>
                 <p>Select Course: </p>
                 <select required onChange={(e) => setCourse(e.target.value)}>
                     <option>Computer Science</option>

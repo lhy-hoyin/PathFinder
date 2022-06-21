@@ -53,12 +53,13 @@ function useProvideGraphData() {
         return label
     }
        
-    const getData = () => async e => {
+    const getData = (modsArr) => async e => {
         e.preventDefault();
         try {
-            let { data, error, status, count } = await supabase
-                .from("testing")
-                .select("*", { count: "exact" });
+            let { data, error } = await supabase
+                .from("modules")
+                .select("code, preReq, name, acadYear, credit, description")
+                .filter('code', 'in', `(${modsArr})`)
 
             if (data == null)
                 throw ("no data from database")
@@ -66,6 +67,7 @@ function useProvideGraphData() {
            //console.debug("Data", data);
 
             let temp = data.slice(0);
+            const count = temp.length
 
             let mod = [];
             let orNodes = [];
@@ -77,16 +79,17 @@ function useProvideGraphData() {
             for (var node = 0; node < count; node++) {
 
                 mod[node] = {
-                    id: temp[node].module,
-                    label: temp[node].module,
-                    color: colouring(colors[node])
+                    id: temp[node].code,
+                    label: temp[node].code,
+                    color: colouring(colors[node]),
+                    info: temp[node].description
                 };
 
-                if (temp[node].Prequites) {
+                if (temp[node].preReq) {
                     //console.debug(temp[node].Prequites.length);
-                    for (var req = 0; req < temp[node].Prequites.length; req++) {
+                    for (var req = 0; req < temp[node].preReq.length; req++) {
 
-                        const modWithOr = temp[node].Prequites[req].toString().split(',');
+                        const modWithOr = temp[node].preReq[req].toString().split(',');
 
                         if(modWithOr.length > 1) {
 
@@ -98,7 +101,7 @@ function useProvideGraphData() {
                             }
                             orCount++;
 
-                            edges[edgeCount] = { from: temp[node].module, to: "or" +  modWithOr.toString() }
+                            edges[edgeCount] = { from: temp[node].code, to: "or" +  modWithOr.toString() }
                             edgeCount++;
 
                             for(var orReq = 0; orReq < modWithOr.length; orReq++) {
@@ -107,7 +110,7 @@ function useProvideGraphData() {
                             }
 
                         } else{
-                            edges[edgeCount] = { from: temp[node].module, to: temp[node].Prequites[req] };
+                            edges[edgeCount] = { from: temp[node].code, to: temp[node].preReq[req] };
                             edgeCount++;
                         }                       
                     }
