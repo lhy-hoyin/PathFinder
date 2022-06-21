@@ -26,29 +26,29 @@ Hello there fellow developer! We are glad that you feel interested to continue d
 #### Table Structures
 
 > Table Name: `profiles`  
-> |Column Name|Data Type|
-> |:---|:---|
-> |id|`uuid`|
-> |FirstName|`text`|
-> |LastName|`text`|
-> |Cohort|`text`|
-> |Role|`int2`|
-> |updated_at|`timestampz`|
+> | Column Name | Data Type |
+> | --- | ---|
+> | id | `uuid` |
+> | FirstName | `text` |
+> | LastName | `text` |
+> | Cohort | `text` |
+> | Role | `int2` |
+> | updated_at | `timestampz` |
 
-Table Name: `modules`
-
-| Column Name | Data Type |
-|:------------|:----------|
-| id          | `uuid`    |
-| code        | `text`    |
-| acadYear | `text` |
-| name | `text` |
-| description | `text` |
-| credit | `int2` |
-| preReq | `_text` (Array) |
-| preclusion | `text` |
-| updated_at | `timestampz` |
-
+> Table Name: `modules`
+> 
+> | Column Name | Data Type       |
+> |:------------|:----------------|
+> | id          | `uuid`          |
+> | code        | `text`          |
+> | acadYear    | `text`          |
+> | name        | `text`          |
+> | description | `text`          |
+> | credit      | `int2`          |
+> | preReq      | `_text` (Array) |
+> | preclusion  | `text`          |
+> | updated_at  | `timestampz`    |
+> 
 ### Cloning PathFinder
 
 Checkout with SVN
