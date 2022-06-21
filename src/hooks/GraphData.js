@@ -2,6 +2,7 @@ import { useState, useContext, createContext } from "react";
 import Color from "color";
 
 import { supabase } from "../supabaseClient";
+import { ModuleStateColor } from "../constants"
 
 const graphContext = createContext();
 
@@ -18,15 +19,6 @@ function useProvideGraphData() {
 
     const [modules, setModules] = useState([]);
     const [preq, setPreq] = useState([]);
-
-    const colors = [
-        "rgb(243, 166, 131)",
-        "rgb(247, 215, 148)",
-        "rgb(119, 139, 235)",
-        "rgb(231, 127, 103)",
-        "rgb(207, 106, 135)",
-        "rgb(75, 101, 132)"
-    ];
 
     const colouring = (selectedColor) => {
         const color ={
@@ -69,13 +61,11 @@ function useProvideGraphData() {
         try {
             let { data, error } = await supabase
                 .from("modules")
-                .select("code, pre_req, name, acad_year, credit, description")
+                .select("*")
                 .filter('code', 'in', `(${modsArr})`)
 
             if (data == null)
                 throw ("no data from database")
-
-           //console.debug("Data", data);
 
             let temp = data.slice(0);
             const count = temp.length
@@ -92,12 +82,12 @@ function useProvideGraphData() {
                 mod[node] = {
                     id: temp[node].code,
                     label: temp[node].code,
-                    color: colouring(colors[node]),
-                    info: temp[node].description
+                    color: colouring(ModuleStateColor.Completed),
+                    info: [temp[node].name, temp[node].acad_year, temp[node].credit, temp[node].description]
                 };
 
                 if (temp[node].pre_req) {
-                    //console.debug(temp[node].Prequites.length);
+
                     for (var req = 0; req < temp[node].pre_req.length; req++) {
 
                         const modWithOr = temp[node].pre_req[req].toString().split(',');

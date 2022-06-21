@@ -9,6 +9,12 @@ export default function GradGraph(){
     const [nodes, setNodes] = useState([])
     const [edges, setEdges] = useState([])
 
+    const [code, setCode] = useState("");
+    const [name, setName] = useState("");
+    const [year, setYear] = useState("");
+    const [credit, setCredit] = useState("");
+    const [descibe, setDescribe] = useState("");
+
     useEffect(() => {
         setNodes(modules)
         setEdges(preq)   
@@ -87,11 +93,49 @@ export default function GradGraph(){
             zoomView: false
         }
     };
+
+    const findMod = (mod) => {
+        try {
+          for (var index = 0; index <= graph.nodes.length; index++) {
+            if (graph.nodes[index].id === mod) { 
+                return index; }
+          }
+        } catch { return -1; }
+    };
+
+    const events = {
+        select: ({ nodes, edges }) => {
+            const index = findMod(nodes.toString());
+            if (index !== -1) {
+                setCode(graph.nodes[index].id);
+                setName(graph.nodes[index].info[0]);
+                setYear(graph.nodes[index].info[1]);
+                setCredit(graph.nodes[index].info[2]);
+                setDescribe(graph.nodes[index].info[3]);
+            } else {
+                setCode("");
+                setName("");
+                setYear("");
+                setCredit("");
+                setDescribe("");
+            }
+        }
+    };
     
     return (
-        <div id="graph" style={{ height: "600px" }}>
-            <Graph graph={graph} options={options} />
-        </div>
+        <>
+            <div id="graph" style={{ height: "600px" }}>
+                <Graph graph={graph} options={options} events = {events} />
+            </div>
+            <div className = "disModuleText">
+                <p>Selected module: {code} </p>
+                <p>Name: {name} </p>
+                <p>Academic Year: {year} </p>
+                <p>Credits: {credit} </p>
+                <p>Description: {descibe}</p>
+          </div>
+        </>
+        
     );
 }
   
