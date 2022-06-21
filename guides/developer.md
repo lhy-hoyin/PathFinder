@@ -25,7 +25,8 @@ Hello there fellow developer! We are glad that you feel interested to continue d
 
 #### Table Structures
 
-> Table Name: `profiles`  
+> Table Name: `profiles`
+> 
 > | Column Name | Data Type |
 > | --- | --- |
 > | id | `uuid` |
@@ -36,6 +37,7 @@ Hello there fellow developer! We are glad that you feel interested to continue d
 > | updated_at | `timestampz` |
 
 > Table Name: `modules`
+> 
 > | Column Name | Data Type       |
 > |:------------|:----------------|
 > | id          | `uuid`          |
