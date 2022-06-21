@@ -13,7 +13,8 @@ export default function Home() {
     const [message, setMessage] = useState("")
 
     //TODO: insert relevant modules
-    const modsArr = ["CS1101S","CS2100","CS2030S","CS2040S"]
+    const modsArr = ["CS1231S","CS1101S","MA1521","MA2001","IS1103","ES2660","CS2100","CS2030S","CS2040S","CS2109S","ST2334","CS2106","CS3230","CS2101","CS2103T"]
+
 
     const { getData } = graphData();
 

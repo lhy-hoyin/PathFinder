@@ -46,15 +46,17 @@ function useProvideGraphData() {
     }
 
     const nodeExist = (checkMod, arr) => {
+        let modExist = [];
+        let count = 0;
+    
         for (var x = 0; x < checkMod.length; x++) {
-          if ( arr.includes(checkMod[x]) ) {
-            //do nothing check next mod
-          } else {
-            return false
+          if (arr.includes(checkMod[x])) {
+            modExist[count] = checkMod[x];
+            count++;
           }
         }
-        return true;
-    };
+        return modExist;
+      };
 
     const getData = (modsArr) => async e => {
         e.preventDefault();
@@ -89,16 +91,17 @@ function useProvideGraphData() {
                 if (temp[node].pre_req) {
 
                     for (var req = 0; req < temp[node].pre_req.length; req++) {
+                        
+                        let modWithOr = temp[node].pre_req[req].toString().split(",");
+                        modWithOr = nodeExist(modWithOr, modsArr)
 
-                        const modWithOr = temp[node].pre_req[req].toString().split(',');
-
-                        if(modWithOr.length > 1 && nodeExist(modWithOr, modsArr)) {
+                        if (modWithOr.length > 1) {
 
                             orNodes[orCount] = {
                                 id: "or" +  modWithOr.toString(),
                                 label: orNodesLabel(modWithOr),
                                 shape: "ellipse",
-                                colors: colouring(colors[node])
+                                colors: colouring(ModuleStateColor.Completed)
                             }
                             orCount++;
 
@@ -111,7 +114,7 @@ function useProvideGraphData() {
                             }
 
                         } else{
-                            edges[edgeCount] = { from: temp[node].code, to: temp[node].pre_req[req] };
+                            edges[edgeCount] = { from: temp[node].code, to: modWithOr.toString() };
                             edgeCount++;
                         }                       
                     }

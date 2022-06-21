@@ -88,9 +88,9 @@ export default function GradGraph(){
         interaction: {
             hover: true,
             hoverConnectedEdges: true,
-            multiselect: true,
-            dragView: false,
-            zoomView: false
+            multiselect: false,
+            dragView: true,
+            zoomView: true
         }
     };
 
