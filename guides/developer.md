@@ -10,7 +10,7 @@ Hello there fellow developer. We are glad that you feel interested to continue d
 
 ## What to do (Overview)
 1. Create a new project in Supabase
-3. Create the database tables according to the [table schema](#supabase-database) provided
+3. Create the database tables according to the [table schema](#table-structures) provided
 4. [Clone](#cloning-pathfinder) the PathFinder project
 5. Go to the directory of the repository
 6. Create and add [environment variables](#environment-variables) to  a `.env` file
@@ -23,6 +23,31 @@ Hello there fellow developer. We are glad that you feel interested to continue d
 
 This section will show the structure of our database tables.  
 Please continue to look out over here as we update this section when we have finalised our database table structure.
+
+#### Table Structures
+
+Table Name: `profiles`
+|Column Name|Data Type|
+|---|---|
+|id|`uuid`|
+|FirstName|`text`|
+|LastName|`text`|
+|Cohort|`text`|
+|Role|`int2`|
+|updated_at|`timestampz`|
+
+Table Name: `modules`
+|Column Name|Data Type|
+|---|---|
+|id|`uuid`|
+|code|`text`|
+|acadYear|`text`|
+|name|`text`|
+|description|`text`|
+|credit|`int2`|
+|preReq|`_text` (Array)|
+|preclusion|`text`|
+|updated_at|`timestampz`|
 
 ### Cloning PathFinder
 
