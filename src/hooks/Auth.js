@@ -83,7 +83,7 @@ function useProvideAuth() {
                 user_id: user.id,
                 first_name: fName,
                 last_name: lName,
-                //Status: (status == PROFILE_STATUS.NEW ? PROFILE_STATUS.NORMAL : status), //FIXME
+                role: (role == ProfileRoles.New ? ProfileRoles.Normal : role),
                 updated_at: new Date(),
             }
 
