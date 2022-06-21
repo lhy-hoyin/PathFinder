@@ -6,9 +6,8 @@ You can find the gudes below:
 
 ## Guides
 
-### User Guide
+* User Guide
+> Please continue to look out at this section which we will update in the near future.
 
-Please continue to look out at this section which we will update in the near future.
-
-### [Developer Guide](./guides/developer)
+* [Developer Guide](./guides/developer)
 
