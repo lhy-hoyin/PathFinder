@@ -1,6 +1,6 @@
 # Developer Guide
 
-Hello there fellow developer. We are glad that you feel interested to continue developing on our project. This guide is here to help you get started on things.
+Hello there fellow developer! We are glad that you feel interested to continue developing on our project. This guide is here to help you get started on things.
 
 ## What you need
 1. Your preferred IDE or text editor
@@ -27,6 +27,7 @@ Hello there fellow developer. We are glad that you feel interested to continue d
 
 > Table Name: `profiles`  
 > |Column Name|Data Type|
+> |:---|:---|
 > |id|`uuid`|
 > |FirstName|`text`|
 > |LastName|`text`|
@@ -34,20 +35,19 @@ Hello there fellow developer. We are glad that you feel interested to continue d
 > |Role|`int2`|
 > |updated_at|`timestampz`|
 
-Table Name: `modules`  
+Table Name: `modules`
 
 | Column Name | Data Type |
 |:------------|:----------|
 | id          | `uuid`    |
-
-|code|`text`|
-|acadYear|`text`|
-|name|`text`|
-|description|`text`|
-|credit|`int2`|
-|preReq|`_text` (Array)|
-|preclusion|`text`|
-|updated_at|`timestampz`|
+| code        | `text`    |
+| acadYear | `text` |
+| name | `text` |
+| description | `text` |
+| credit | `int2` |
+| preReq | `_text` (Array) |
+| preclusion | `text` |
+| updated_at | `timestampz` |
 
 ### Cloning PathFinder
 
