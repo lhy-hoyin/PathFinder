@@ -227,7 +227,7 @@ function useProvideAuth() {
         var password = password1
 
         try {
-            const {error } = await supabase.auth.update({password});
+            const { error } = await supabase.auth.update({ password });
             if (error) throw error;
             alert("password changed ");
         } catch (error) {

@@ -24,9 +24,9 @@ export default function App() {
 
                     // Accessible only when logged in
                     <Route path='/' element={<UserOnlyRoute />}>
-                        <Route path="/reset-password" element={<ResetPassword/>}/>
                         <Route path="/profile" element={<UserProfile />} />
                         <Route path="/profile/new" element={<NewUser />} />
+                        <Route path="/reset-password" element={<ResetPassword />} />
 
                         // Admin only
                         <Route path="/api" element={<API />} />
