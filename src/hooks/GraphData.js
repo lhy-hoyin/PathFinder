@@ -1,8 +1,8 @@
 import { useState, useContext, createContext } from "react";
 import Color from "color";
-import { ModuleStateColor } from "../constants"
 
 import { supabase } from "../supabaseClient";
+import { ModuleStateColor } from "../constants"
 
 const graphContext = createContext();
 
