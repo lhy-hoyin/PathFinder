@@ -62,7 +62,6 @@ Using GitHub CLI
 gh repo clone lhy-hoyin/PathFinder
 ```
 
-
 ### Environment Variables
 
 At the root directroy of the repository, create a `.env` or `.env.development.local` file.  
@@ -72,7 +71,7 @@ This file is used to hold the Supabase information specific to your project.
 REACT_APP_SUPABASE_URL=https://YOUR_PROJECT_URL.supabase.co
 REACT_APP_SUPABASE_ANON_KEY=YOUR_PROJECT_PUBLIC_API_KEYS
 ```
-> You can retrieve your project URL and API keys by logging into Supabase project > `Settings` > `API`.  
+> You can retrieve your project URL and API keys by logging into Supabase project > `Settings` > `API`  
 
 If you are hosting PathFinder, you will also need to include these environment variables to the web hosting platform.  
 
