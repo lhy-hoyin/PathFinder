@@ -5,9 +5,6 @@ This is PathFinder's GitHub Pages. We are still updating the pages as we continu
 You can find the gudes below:
 
 ## Guides
-
-* User Guide
-> Please continue to look out at this section which we will update in the near future.
-
+* [User Guide](./guides/user)
 * [Developer Guide](./guides/developer)
 
