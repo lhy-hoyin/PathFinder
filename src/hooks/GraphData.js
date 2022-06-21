@@ -69,7 +69,7 @@ function useProvideGraphData() {
         try {
             let { data, error } = await supabase
                 .from("modules")
-                .select("code, preReq, name, acadYear, credit, description")
+                .select("code, pre_req, name, acad_year, credit, description")
                 .filter('code', 'in', `(${modsArr})`)
 
             if (data == null)
@@ -96,11 +96,11 @@ function useProvideGraphData() {
                     info: temp[node].description
                 };
 
-                if (temp[node].preReq) {
+                if (temp[node].pre_req) {
                     //console.debug(temp[node].Prequites.length);
-                    for (var req = 0; req < temp[node].preReq.length; req++) {
+                    for (var req = 0; req < temp[node].pre_req.length; req++) {
 
-                        const modWithOr = temp[node].preReq[req].toString().split(',');
+                        const modWithOr = temp[node].pre_req[req].toString().split(',');
 
                         if(modWithOr.length > 1 && nodeExist(modWithOr, modsArr)) {
 
@@ -121,7 +121,7 @@ function useProvideGraphData() {
                             }
 
                         } else{
-                            edges[edgeCount] = { from: temp[node].code, to: temp[node].preReq[req] };
+                            edges[edgeCount] = { from: temp[node].code, to: temp[node].pre_req[req] };
                             edgeCount++;
                         }                       
                     }
