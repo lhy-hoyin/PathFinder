@@ -52,7 +52,18 @@ function useProvideGraphData() {
         }
         return label
     }
-       
+
+    const nodeExist = (checkMod, arr) => {
+        for (var x = 0; x < checkMod.length; x++) {
+          if ( arr.includes(checkMod[x]) ) {
+            //do nothing check next mod
+          } else {
+            return false
+          }
+        }
+        return true;
+    };
+
     const getData = (modsArr) => async e => {
         e.preventDefault();
         try {
@@ -91,7 +102,7 @@ function useProvideGraphData() {
 
                         const modWithOr = temp[node].preReq[req].toString().split(',');
 
-                        if(modWithOr.length > 1) {
+                        if(modWithOr.length > 1 && nodeExist(modWithOr, modsArr)) {
 
                             orNodes[orCount] = {
                                 id: "or" +  modWithOr.toString(),
