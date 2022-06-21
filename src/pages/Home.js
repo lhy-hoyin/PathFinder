@@ -2,7 +2,8 @@ import { useState } from "react";
 import { graphData } from "../hooks/GraphData";
 
 import Header from "../components/Header";
-import GraphComponent from "../components/GraphComponent"
+import AdminAccess from "../components/AdminAccess";
+import GraphComponent from "../components/GraphComponent";
 
 import "../css/Home.css";
 
@@ -20,6 +21,7 @@ export default function Home() {
     return (
         <>
             <Header />
+            <AdminAccess />
             <div className="textbox">
                 <h1> Design YOUR path today</h1>
                 <p> lol idk only limited to SoC</p>
