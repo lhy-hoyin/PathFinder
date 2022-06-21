@@ -10,7 +10,7 @@ Hello there fellow developer! We are glad that you feel interested to continue d
 
 ## What to do (Overview)
 1. Create a new project in Supabase
-3. Create the database tables according to the [table schema](#table-structures) provided
+3. Create the [database tables](#supabase-database) accordingly
 4. [Clone](#cloning-pathfinder) the PathFinder project
 5. Go to the directory of the repository
 6. Create and add [environment variables](#environment-variables) to  a `.env` file
@@ -20,10 +20,9 @@ Hello there fellow developer! We are glad that you feel interested to continue d
 * * *
 
 ### Supabase Database
-> This section shows the structure of our database tables.  
-> Please continue to look out over here as we update this section when we have finalised our database table structure.
+Look at our [SQL database schema](./database-schema) to quickly generate the tables.  
 
-#### Table Structures
+You can also better understand the structure of our tables
 
 > Table Name: `profiles`
 > 
