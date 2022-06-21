@@ -69,13 +69,11 @@ function useProvideGraphData() {
         try {
             let { data, error } = await supabase
                 .from("modules")
-                .select("code, pre_req, name, acad_year, credit, description")
+                .select("*")
                 .filter('code', 'in', `(${modsArr})`)
 
             if (data == null)
                 throw ("no data from database")
-
-           //console.debug("Data", data);
 
             let temp = data.slice(0);
             const count = temp.length
@@ -93,11 +91,11 @@ function useProvideGraphData() {
                     id: temp[node].code,
                     label: temp[node].code,
                     color: colouring(colors[node]),
-                    info: temp[node].description
+                    info: [temp[node].name, temp[node].acad_year, temp[node].credit, temp[node].description]
                 };
 
                 if (temp[node].pre_req) {
-                    //console.debug(temp[node].Prequites.length);
+
                     for (var req = 0; req < temp[node].pre_req.length; req++) {
 
                         const modWithOr = temp[node].pre_req[req].toString().split(',');
