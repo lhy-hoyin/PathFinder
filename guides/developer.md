@@ -20,26 +20,25 @@ Hello there fellow developer. We are glad that you feel interested to continue d
 * * *
 
 ### Supabase Database
-
 > This section shows the structure of our database tables.  
 > Please continue to look out over here as we update this section when we have finalised our database table structure.
 
 #### Table Structures
 
-Table Name: `profiles`  
-|Column Name|Data Type|
-|:---|:---|
-|id|`uuid`|
-|FirstName|`text`|
-|LastName|`text`|
-|Cohort|`text`|
-|Role|`int2`|
-|updated_at|`timestampz`|
+> Table Name: `profiles`  
+> |Column Name|Data Type|
+> |id|`uuid`|
+> |FirstName|`text`|
+> |LastName|`text`|
+> |Cohort|`text`|
+> |Role|`int2`|
+> |updated_at|`timestampz`|
 
 Table Name: `modules`  
-|Column Name|Data Type|
-|:----------|:--------|
-|id         |`uuid`   |
+
+| Column Name | Data Type |
+|:------------|:----------|
+| id          | `uuid`    |
 
 |code|`text`|
 |acadYear|`text`|
@@ -69,7 +68,7 @@ At the root directroy of the repository, create a `.env` or `.env.development.lo
 This file is used to hold the Supabase information specific to your project.  
 *Note: This file should **not** be committed to GitHub.*  
 ```
-REACT_APP_SUPABASE_URL=https://PROJECT_URL.supabase.co
+REACT_APP_SUPABASE_URL=https://YOUR_PROJECT_URL.supabase.co
 REACT_APP_SUPABASE_ANON_KEY=YOUR_PROJECT_PUBLIC_API_KEYS
 ```
 > You can retrieve your project URL and API keys by logging into Supabase project > `Settings` > `API`.  
