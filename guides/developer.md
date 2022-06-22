@@ -57,14 +57,14 @@ You can also better understand the structure of our tables
 ### Cloning PathFinder
 
 Checkout with SVN
-```
-https://github.com/lhy-hoyin/PathFinder.git
-```
+> ```
+> https://github.com/lhy-hoyin/PathFinder.git
+> ```
 
 Using GitHub CLI
-```
-gh repo clone lhy-hoyin/PathFinder
-```
+> ```
+> gh repo clone lhy-hoyin/PathFinder
+> ```
 
 ### Environment Variables
 
