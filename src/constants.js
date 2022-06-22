@@ -6,7 +6,7 @@ export const ProfileRoles = {
 }
 
 export const ModuleStateColor = {
-    Completed: "rgb(192 , 192, 192)",
-    Available: "rgb(153 , 255, 153)",
-    Locked: "rgb(255 , 0, 0)",
+    Completed:  "rgb(192 , 192, 192)",
+    Available:  "rgb(153 , 255, 153)",
+    Locked:     "rgb(255 , 0, 0)",
 }

@@ -7,8 +7,6 @@ import GraphComponent from "../components/GraphComponent";
 
 import "../css/Home.css";
 
-
-
 export default function Home() {
     const [course, setCourse] = useState("");
     const [message, setMessage] = useState("")
@@ -33,7 +31,6 @@ export default function Home() {
                 <p>Select Course: </p>
                 <select required onChange={(e) => setCourse(e.target.value)}>
                     <option>Computer Science</option>
-                    <option>Option2</option>
                 </select>
                 <button className="Button block">Generate Dependency Graph</button>
                 <GraphComponent />
