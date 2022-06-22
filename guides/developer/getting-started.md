@@ -8,12 +8,13 @@
 
 ## What to do (Overview)
 1. Create a new project in Supabase
-3. Create the required database tables using the [schema](./database-schema)
-4. [Clone](#cloning-pathfinder) the PathFinder project
-5. Go to the directory of the repository
-6. Create and add [environment variables](#environment-variables) to  a `.env` file
-7. `npm install` to automatically install required dependencies 
-8. `npm start` to start running the web application
+2. Create the required database tables using the [schema](./database-schema)
+3. [Clone](#cloning-pathfinder) the PathFinder project
+4. Go to the directory of the repository
+5. Create and add [environment variables](#environment-variables) to  a `.env` file
+6. `npm install` to automatically install required dependencies 
+7. `npm start` to start running the web application
+8. Wait for it to load, it will automatically open the web application in your broswer.
 
 * * *
 
