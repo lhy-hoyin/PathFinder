@@ -1,5 +1,5 @@
 Copy this database sechma to quickly generate the required database tables.
-> HINT  
+> *HINT*  
 > If you are using Supabase, you can quickly generate the tables by pasting this into the Supabase SQL Editor.  
 > Log into Supabase > Project > `SQL Editor` > `+ New query` > paste schema > `Run`
 
