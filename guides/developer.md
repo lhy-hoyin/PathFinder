@@ -2,7 +2,7 @@
 
 Hello there fellow developer! We are glad that you feel interested to continue developing on our project. This guide is here to help you get started on things.
 
-## Preferred Skillset & Knowledge
+## Suggested Skillset & Knowledge
 * HTML, CSS
 * Javascript (React JS)
 * Basic database knowledge (SQL)
@@ -21,6 +21,7 @@ Hello there fellow developer! We are glad that you feel interested to continue d
 6. Create and add [environment variables](#environment-variables) to  a `.env` file
 7. `npm install` to automatically install required dependencies 
 8. `npm start` to start running the web application
+9. Wait for it to load, it will automatically open the web application in your broswer.
 
 * * *
 
