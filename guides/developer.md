@@ -2,6 +2,11 @@
 
 Hello there fellow developer! We are glad that you feel interested to continue developing on our project. This guide is here to help you get started on things.
 
+## Preferred Skillset & Knowledge
+* HTML, CSS
+* Javascript (React JS)
+* Basic database knowledge (SQL)
+
 ## What you need
 1. Your preferred IDE or text editor
 1. [Node.js](https://nodejs.org/en/download/) installed
