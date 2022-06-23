@@ -59,7 +59,7 @@ function useProvideGraphData() {
         return modExist;
       };
 
-      const updateStatus = (allMods, selectedModule) => {
+    const updateStatus = (allMods, selectedModule) => {
         let index = allMods.findIndex((x) => x.id === selectedModule);
     
         if (allMods[index].status === true) {
@@ -106,6 +106,7 @@ function useProvideGraphData() {
 
     const getData = (modsArr) => async e => {
         e.preventDefault();
+
         try {
             let { data, error } = await supabase
                 .from("modules")
@@ -191,6 +192,22 @@ function useProvideGraphData() {
         }
     };
 
+    const getCourses = async () => {
+        try {
+            let { data, error } = await supabase
+                .from("courses")
+                .select("course_name")
+
+            if (data == null)
+                throw error 
+
+            return data.map(row => row.course_name)
+
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
     const updateGraph = (nodes) => {
         let index = modules.findIndex((x) => x.id === nodes.toString());
         if (modules[index].color.background === ModuleStateColor.Locked) {
@@ -208,6 +225,7 @@ function useProvideGraphData() {
 
     return {
         getData,
+        getCourses,
         updateGraph,
 
         modules,
