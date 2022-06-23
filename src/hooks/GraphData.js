@@ -1,4 +1,5 @@
 import { useState, useContext, createContext } from "react";
+import cloneDeep from 'lodash/cloneDeep';
 import Color from "color";
 
 import { supabase } from "../supabaseClient";
@@ -58,6 +59,51 @@ function useProvideGraphData() {
         return modExist;
       };
 
+      const updateStatus = (allMods, selectedModule) => {
+        let index = allMods.findIndex((x) => x.id === selectedModule);
+    
+        if (allMods[index].status === true) {
+          allMods[index].color = colouring(ModuleStateColor.Completed);
+          return allMods;
+        }
+        //Starting modules that have no prequities
+        if (allMods[index].pre.length === 0) {
+          if (allMods[index].status === false) {
+            allMods[index].color = colouring(ModuleStateColor.Available);
+          } else {
+            allMods[index].color = colouring(ModuleStateColor.Completed);
+          }
+        } else {
+          //Modules with preq
+          for (var count = 0; count < allMods[index].pre.length; count++) {
+            
+            //For or nodes
+            if (allMods[index].pre[count][0].length > 1) {
+              for ( var count1 = 0; count1 < allMods[index].pre[count].length; count1++) {
+                let temp = allMods.findIndex( (x) => x.id === allMods[index].pre[count][count1]);
+                if (allMods[temp].status === true) {
+                  allMods[index].color = colouring(ModuleStateColor.Available);
+                  return allMods;
+                }
+              }
+              allMods[index].color = colouring(ModuleStateColor.Locked);
+              return allMods;
+            } else {
+              let temp = allMods.findIndex((x) => x.id === allMods[index].pre[count]);
+
+              if (allMods[temp].status === false) {
+                allMods[index].color = colouring(ModuleStateColor.Locked);
+                return allMods;
+              }
+            }
+          }
+    
+          allMods[index].color = colouring(ModuleStateColor.Available);
+        }
+    
+        return allMods;
+      };
+
     const getData = (modsArr) => async e => {
         e.preventDefault();
         try {
@@ -85,7 +131,9 @@ function useProvideGraphData() {
                     id: temp[node].code,
                     label: temp[node].code,
                     color: colouring(ModuleStateColor.Completed),
-                    info: [temp[node].name, temp[node].acad_year, temp[node].credit, temp[node].description]
+                    info: [temp[node].name, temp[node].acad_year, temp[node].credit, temp[node].description],
+                    status: false,
+                    pre: []
                 };
 
                 if (temp[node].pre_req) {
@@ -98,30 +146,42 @@ function useProvideGraphData() {
                         if (modWithOr.length > 1) {
 
                             orNodes[orCount] = {
-                                id: "or" +  modWithOr.toString(),
+                                id:  orNodesLabel(modWithOr),
                                 label: orNodesLabel(modWithOr),
                                 shape: "ellipse",
-                                colors: colouring(ModuleStateColor.Completed)
+                                color: colouring(ModuleStateColor.Completed),
+                                info: ["", "", "", ""],
+                                status: false,
+                                pre: [modWithOr]
                             }
                             orCount++;
 
-                            edges[edgeCount] = { from: temp[node].code, to: "or" +  modWithOr.toString() }
+                            mod[node].pre.push(orNodesLabel(modWithOr));
+                            edges[edgeCount] = { from: temp[node].code, to: orNodesLabel(modWithOr) }
                             edgeCount++;
 
                             for(var orReq = 0; orReq < modWithOr.length; orReq++) {
-                                edges[edgeCount] = { from:  "or" +  modWithOr.toString() , to: modWithOr[orReq] }
+                                edges[edgeCount] = { from: orNodesLabel(modWithOr) , to: modWithOr[orReq] }
                                 edgeCount++;
                             }
 
                         } else{
-                            edges[edgeCount] = { from: temp[node].code, to: modWithOr.toString() };
-                            edgeCount++;
+                            if (modWithOr.toString() !== "") {
+                                mod[node].pre.push(modWithOr.toString());
+                                edges[edgeCount] = { from: temp[node].code, to: modWithOr.toString() };
+                                edgeCount++;
+                            }
+                            
                         }                       
                     }
                 }
             }
 
             mod = mod.concat(orNodes)
+
+            for (var x = 0; x < mod.length; x++) {
+                updateStatus(mod, mod[x].id);
+            }
 
             setPreq(edges); // need to set edges first
             setModules(mod);
@@ -131,8 +191,24 @@ function useProvideGraphData() {
         }
     };
 
+    const updateGraph = (nodes) => {
+        let index = modules.findIndex((x) => x.id === nodes.toString());
+        if (modules[index].color.background === ModuleStateColor.Locked) {
+          alert("Module is locked. Please clear the prequities first.");
+        } else {
+            const modulesCopy = cloneDeep(modules);
+            modulesCopy[index].status = !modulesCopy[index].status;
+            for (var x = 0; x < modulesCopy.length; x++) {
+                updateStatus(modulesCopy, modulesCopy[x].id);
+            }
+            setModules(modulesCopy);
+          //  isUpdating(!updating)
+        }
+      };
+
     return {
         getData,
+        updateGraph,
 
         modules,
         preq

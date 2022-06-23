@@ -3,8 +3,10 @@ import Graph from "react-vis-graph-wrapper";
 
 import { graphData } from "../hooks/GraphData";
 
+import "../css/GraphComponent.css";
+
 export default function GradGraph(){
-    const { modules, preq } = graphData()
+    const { modules, preq, updateGraph } = graphData()
 
     const [nodes, setNodes] = useState([])
     const [edges, setEdges] = useState([])
@@ -119,12 +121,16 @@ export default function GradGraph(){
                 setCredit("");
                 setDescribe("");
             }
+        },
+
+        doubleClick: ({ nodes, edges }) => {
+            updateGraph(nodes);
         }
     };
     
     return (
         <>
-            <div id="graph" style={{ height: "600px" }}>
+            <div className="graphBox" id="graph" style={{ height: "700px" }}>
                 <Graph graph={graph} options={options} events = {events} />
             </div>
             <div className = "disModuleText">
