@@ -40,16 +40,23 @@ export default function Home() {
                 <p> Maybe put a getting started button here as a "tutorial"</p>
             </div>
 
-            <form onSubmit={getData(modsArr)}>
+            <form onSubmit={getData( course )}>
                 <p>Select Course: </p>
-                <select required onChange={(e) => setCourse(e.target.value)}>
-                    {
-                        courseSelection.map(item => (
-                            <option key={item}>{item}</option>
-                        ))
-                    }
-                </select>
-                <button className="Button block">Generate Dependency Graph</button>
+                <div className="selectingGrad">
+                    <select required onChange={(e) => setCourse(e.target.value)}>
+                        {
+                            courseSelection.map(item => (
+                                <option key={item}>{item}</option>
+                            ))
+                        }
+                    </select>
+                    <button className="buttonBlock">Generate Dependency Graph</button>
+                </div>
+                <div className="selectingGrad2">
+                    <p>Gray = Module Completed</p>
+                    <p>Green = Module availble</p>
+                    <p>Red = Module Lock</p>
+                </div>
                 <GraphComponent />
             </form>
 
