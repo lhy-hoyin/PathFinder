@@ -1,0 +1,8 @@
+.graphBox {
+    border: 2px solid rgb(184, 181, 182);
+    width: 100%;
+    left: 100px;
+    text-align: center;
+    box-shadow: 1px 3px 1px slategrey;
+  }
+  
