@@ -56,6 +56,11 @@ export default function GradGraph(){
                 color: "#fff",
                 size: 15
             },
+            fixed: {
+                x: false,
+                y: false
+              },
+            physics: false,
             color: {
                 border: "red"
             },
