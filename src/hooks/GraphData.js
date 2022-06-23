@@ -18,6 +18,7 @@ export const graphData = () => {
 
 function useProvideGraphData() {
 
+    const [gradReq, setGradReq] = useState([]);
     const [modules, setModules] = useState([]);
     const [preq, setPreq] = useState([]);
 
@@ -104,8 +105,11 @@ function useProvideGraphData() {
         return allMods;
       };
 
-    const getData = (modsArr) => async e => {
+    const getData = (selectedCourse) => async e => {
         e.preventDefault();
+        const selectedCourseIndex = gradReq.findIndex((x) => x.id === selectedCourse)
+        const modsArr = gradReq[selectedCourseIndex].modReq
+        const pos = gradReq[selectedCourseIndex].pos
 
         try {
             let { data, error } = await supabase
@@ -133,6 +137,8 @@ function useProvideGraphData() {
                     label: temp[node].code,
                     color: colouring(ModuleStateColor.Completed),
                     info: [temp[node].name, temp[node].acad_year, temp[node].credit, temp[node].description],
+                    x: pos.find((a)=>a.id === temp[node].code).x,
+                    y: pos.find((a)=>a.id === temp[node].code).y,
                     status: false,
                     pre: []
                 };
@@ -152,6 +158,8 @@ function useProvideGraphData() {
                                 shape: "ellipse",
                                 color: colouring(ModuleStateColor.Completed),
                                 info: ["", "", "", ""],
+                                x: pos.find((a)=>a.id === temp[node].code).x,
+                                y: pos.find((a)=>a.id === temp[node].code).y,
                                 status: false,
                                 pre: [modWithOr]
                             }
@@ -193,13 +201,33 @@ function useProvideGraphData() {
     };
 
     const getCourses = async () => {
+        const posSetUp = (posArr) => {
+            if(posArr === null){
+                return null
+            } else {
+                let pos = []
+                for(var count = 0; count<posArr.length; count++){
+                    pos[count] = {id: posArr[count][0], x: posArr[count][1], y: posArr[count][2]};
+                }
+                return pos
+            }  
+        };
+
         try {
             let { data, error } = await supabase
                 .from("courses")
-                .select("course_name")
+                .select("*")
 
-            if (data == null)
-                throw error 
+            if (data == null) throw error 
+
+            let temp = data.slice(0);
+            let allCourses = [];
+
+            for(var index = 0; index < temp.length; index++) {
+                allCourses[index] = {id: temp[index].course_name, modReq: temp[index].grad_requirement, pos:posSetUp(temp[index].position)}
+            }
+
+            setGradReq(allCourses)
 
             return data.map(row => row.course_name)
 
