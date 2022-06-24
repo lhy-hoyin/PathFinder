@@ -5,4 +5,8 @@
     text-align: center;
     box-shadow: 1px 3px 1px slategrey;
   }
+
+  .disModuleText {
+    min-height: 200px;
+  }
   
