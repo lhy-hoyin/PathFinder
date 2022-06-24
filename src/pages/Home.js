@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+
 import { graphData } from "../hooks/GraphData";
+import { getCourseNames } from "../hooks/Database";
 
 import Header from "../components/Header";
 import AdminAccess from "../components/AdminAccess";
@@ -20,12 +22,10 @@ export default function Home() {
     useEffect(() => {
 
         const fetchCourses = async () => {
-            const allCourseNames = await getCourses()
-            setCourseSelection(allCourseNames)
+            const courseNames = await getCourseNames()
+            setCourseSelection(courseNames)
         }
-
-        fetchCourses()
-            .catch(console.error)
+        fetchCourses().catch(console.error)
         
     }, [])
 
