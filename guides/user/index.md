@@ -1,10 +1,15 @@
 # User Guide
-Not sure how our website works? Here is something to get you started!
+Not sure how our website works? Here is something to get you started!  
+
+* I'm new to *PathFinder*. I don't have an account. [Click here](#guest-user)
+* I have a *PathFinder* account but I'm not sure what I can do. [Click here](#account-user)
 
 > *PRO TIP!*  
 > ![image](https://user-images.githubusercontent.com/88828097/175523916-dfd724e6-a3d0-4937-8bf6-0aa8be87579d.png)  
 > You can use the *PathFinder* logo at the top left of our website to quickly to back to the main page
 
+# Guest User
+* * *
 
 ## Create an account
 1. At the main page, click on `Sign Up` found at the top right corner  
@@ -28,6 +33,9 @@ If you face any issues, [check this out](./common-issues#create-an-account).
 2. Fill in your first and last name
 3. Click `Update Profile` to finish setting up your account
 
+
+# Account User
+* * *
 
 ## Log In
 1. At the main page, click on `Login` found at the top right corner
