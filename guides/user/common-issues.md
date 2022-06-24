@@ -34,3 +34,11 @@ It looks like you have typed in the wrong email or password.
 Check that you have spelled your email address correctly. 
 Or you could had used a different email when creating your account. Can you think of other email address?
 If you think you made a typo, try typing your password again. 
+
+## Update Profile
+
+#### I don't see `Profile` at the top right of the website
+Are you logged into your account?
+
+#### I can't update my email address
+Unfortunately, you can't change your email address as it's the core of your account.
