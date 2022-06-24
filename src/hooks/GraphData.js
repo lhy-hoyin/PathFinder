@@ -21,6 +21,7 @@ function useProvideGraphData() {
     const [gradReq, setGradReq] = useState([]);
     const [modules, setModules] = useState([]);
     const [preq, setPreq] = useState([]);
+    const [timeTableMods, setTimeTableMods] = useState([]);
 
     const colouring = (selectedColor) => {
         const color ={
@@ -131,6 +132,8 @@ function useProvideGraphData() {
             let edges = [];
             let edgeCount = 0;
 
+            let tableMods = [];
+
             for (var node = 0; node < count; node++) {
 
                 mod[node] = {
@@ -141,6 +144,12 @@ function useProvideGraphData() {
                     x: pos.find((a)=>a.id === temp[node].code).x,
                     y: pos.find((a)=>a.id === temp[node].code).y,
                     status: false,
+                    pre: []
+                };
+
+                tableMods[node] = {
+                    id: temp[node].code,
+                    content: temp[node].code,
                     pre: []
                 };
 
@@ -165,8 +174,10 @@ function useProvideGraphData() {
                                 pre: [modWithOr]
                             }
                             orCount++;
-
+                            
+                            tableMods[node].pre.push(modWithOr);
                             mod[node].pre.push(orNodesLabel(modWithOr));
+
                             edges[edgeCount] = { from: temp[node].code, to: orNodesLabel(modWithOr) }
                             edgeCount++;
 
@@ -177,6 +188,8 @@ function useProvideGraphData() {
 
                         } else{
                             if (modWithOr.toString() !== "") {
+
+                                tableMods[node].pre.push(modWithOr.toString());
                                 mod[node].pre.push(modWithOr.toString());
                                 edges[edgeCount] = { from: temp[node].code, to: modWithOr.toString() };
                                 edgeCount++;
@@ -187,9 +200,10 @@ function useProvideGraphData() {
                 }
             }
 
-            mod = mod.concat(orNodes)
+            setTimeTableMods(tableMods);
 
-            for (var x = 0; x < mod.length; x++) {
+            mod = mod.concat(orNodes)
+            for (var x = 0; x < mod.length; x++) { //Colour correcting the modules
                 updateStatus(mod, mod[x].id);
             }
 
@@ -260,6 +274,7 @@ function useProvideGraphData() {
         updateGraph,
 
         modules,
-        preq
+        preq,
+        timeTableMods,
     };
 }
