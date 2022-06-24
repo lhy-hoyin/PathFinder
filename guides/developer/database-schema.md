@@ -9,6 +9,7 @@ create table profiles (
       user_id uuid references auth.users primary key,
       first_name text,
       last_name text,
+      course text,
       cohort text,
       role smallint not null default 0,
       updated_at timestamp with time zone not null default now()
