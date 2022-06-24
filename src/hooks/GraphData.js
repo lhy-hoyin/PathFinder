@@ -201,7 +201,7 @@ function useProvideGraphData() {
         }
     };
 
-    const getCourses = async () => {
+    const getCoursesRequirement = async () => {
         const posSetUp = (posArr) => {
             if(posArr === null){
                 return null
@@ -234,9 +234,6 @@ function useProvideGraphData() {
 
             setGradReq(allCourses)
 
-            return 
-            data.map(row => row.course_name)
-
         } catch (error) {
             console.error(error.message);
         }
@@ -259,7 +256,7 @@ function useProvideGraphData() {
 
     return {
         getData,
-        getCourses,
+        getCoursesRequirement,
         updateGraph,
 
         modules,
