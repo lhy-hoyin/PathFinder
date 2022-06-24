@@ -48,8 +48,7 @@ export default function Home() {
 
             <div className="textbox">
                 <h1> Design YOUR path today</h1>
-                <p> lol idk only limited to SoC</p>
-                <p> Maybe put a getting started button here as a "tutorial"</p>
+                <p> Only limited to Computer Science for now</p>
             </div>
 
             <form onSubmit={getData(selectedCourse) }>
