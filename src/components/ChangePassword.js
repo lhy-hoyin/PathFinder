@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { Auth } from "../hooks/Auth";
 
@@ -18,7 +17,7 @@ export default function ChangePassword() {
                     id="password"
                     className="inputField"
                     type="password"
-                    placeholder="Enter your password"
+                    placeholder="Enter new password"
                     autoComplete="off"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)} />
@@ -27,7 +26,7 @@ export default function ChangePassword() {
                     id="confirm-password"
                     className="inputField"
                     type="password"
-                    placeholder="Re-enter your password again"
+                    placeholder="Re-enter new password again"
                     autoComplete="off"
                     value={passwordRepeat}
                     onChange={(e) => setPasswordRepeat(e.target.value)} />
