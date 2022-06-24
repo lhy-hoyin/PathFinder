@@ -7,6 +7,7 @@ import { getCourseNames } from "../hooks/Database";
 import Header from "../components/Header";
 import AdminAccess from "../components/AdminAccess";
 import GraphComponent from "../components/GraphComponent";
+import SemesterSchedule from "../components/SemesterSchedule"
 
 import "../css/Home.css";
 
@@ -74,6 +75,7 @@ export default function Home() {
                 </div>
 
                 <GraphComponent />
+                <SemesterSchedule/>
 
             </form>
 
