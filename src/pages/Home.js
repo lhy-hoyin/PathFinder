@@ -13,8 +13,7 @@ export default function Home() {
     const [message, setMessage] = useState("");
     const [courseSelection, setCourseSelection] = useState([]);
 
-    //TODO: insert relevant modules
-    const modsArr = ["CS1231S","CS1101S","MA1521","MA2001","IS1103","ES2660","CS2100","CS2030S","CS2040S","CS2109S","ST2334","CS2106","CS3230","CS2101","CS2103T"]
+    //const modsArr = ["CS1231S","CS1101S","MA1521","MA2001","IS1103","ES2660","CS2100","CS2030S","CS2040S","CS2109S","ST2334","CS2106","CS3230","CS2101","CS2103T"]
 
     const { getData, getCourses } = graphData();
 
@@ -40,7 +39,7 @@ export default function Home() {
                 <p> Maybe put a getting started button here as a "tutorial"</p>
             </div>
 
-            <form onSubmit={getData( course )}>
+            <form onSubmit={ getData(course) }>
                 <p>Select Course: </p>
                 <div className="selectingGrad">
                     <select required onChange={(e) => setCourse(e.target.value)}>

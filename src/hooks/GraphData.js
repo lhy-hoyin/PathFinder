@@ -107,6 +107,7 @@ function useProvideGraphData() {
 
     const getData = (selectedCourse) => async e => {
         e.preventDefault();
+
         const selectedCourseIndex = gradReq.findIndex((x) => x.id === selectedCourse)
         const modsArr = gradReq[selectedCourseIndex].modReq
         const pos = gradReq[selectedCourseIndex].pos
@@ -224,12 +225,17 @@ function useProvideGraphData() {
             let allCourses = [];
 
             for(var index = 0; index < temp.length; index++) {
-                allCourses[index] = {id: temp[index].course_name, modReq: temp[index].grad_requirement, pos:posSetUp(temp[index].position)}
+                allCourses[index] = {
+                    id: temp[index].course_name,
+                    modReq: temp[index].grad_requirement,
+                    pos: posSetUp(temp[index].position)
+                }
             }
 
             setGradReq(allCourses)
 
-            return data.map(row => row.course_name)
+            return 
+            data.map(row => row.course_name)
 
         } catch (error) {
             console.error(error.message);
