@@ -44,5 +44,10 @@ create table courses (
       cohort text not null,
       grad_requirement text array not null,
       position text array
-)
+);
+
+-- set RLS for 'courses' table
+alter table courses enable row level security;
+create policy "Enable read access for all users" on courses for
+    select using (true);
 ```
