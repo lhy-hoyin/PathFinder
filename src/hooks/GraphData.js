@@ -159,8 +159,8 @@ function useProvideGraphData() {
                                 shape: "ellipse",
                                 color: colouring(ModuleStateColor.Completed),
                                 info: ["", "", "", ""],
-                                x: pos.find((a)=>a.id === temp[node].code).x,
-                                y: pos.find((a)=>a.id === temp[node].code).y,
+                                x: pos.find((a)=>a.id === orNodesLabel(modWithOr)).x,
+                                y: pos.find((a)=>a.id === orNodesLabel(modWithOr)).y,
                                 status: false,
                                 pre: [modWithOr]
                             }
