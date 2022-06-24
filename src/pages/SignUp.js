@@ -36,6 +36,7 @@ export default function SignUp() {
                             type="email"
                             placeholder="Simply register for an account using your email"
                             autoComplete="email"
+                            required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)} />
                         <input
@@ -44,6 +45,7 @@ export default function SignUp() {
                             type="password"
                             placeholder="Password (Minimum 6 characters)"
                             autoComplete="new-password"
+                            required
                             value={password1}
                             onChange={(e) => setPassword1(e.target.value)} />
                         <input
@@ -52,6 +54,7 @@ export default function SignUp() {
                             type="password"
                             placeholder="Re-enter your password again"
                             autoComplete="off"
+                            required
                             value={password2}
                             onChange={(e) => setPassword2(e.target.value)} />
                         <button className="button block" aria-live="polite">

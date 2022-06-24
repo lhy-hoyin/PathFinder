@@ -53,6 +53,7 @@ function useProvideAuth() {
 
             if (status == 406) {
                 setRole(ProfileRoles.New)
+                setProfileInfoReady(true);
             }
             else if (error && status !== 406) {
                 throw error
@@ -145,7 +146,7 @@ function useProvideAuth() {
         var password = password1;
 
         if (password.length < 6) {
-            setMessage("Password too short (min 6 sharacters)");
+            setMessage("Password too short (min 6 characters)");
             console.log("User password too short");
             return;
         }
