@@ -12,7 +12,7 @@ import "../css/Home.css";
 
 export default function Home() {
 
-    const { getData } = graphData();
+    const { getData, getCourses } = graphData();
     const { profileInfoReady,  course } = Auth();
 
     const [selectedCourse, setSelectedCourse] = useState("");
@@ -24,6 +24,7 @@ export default function Home() {
     useEffect(() => {
 
         const fetchCourses = async () => {
+            getCourses() //FIXME: this should not longer called, but code will break if not call
             const courseNames = await getCourseNames()
             setCourseSelection(courseNames)
         }
