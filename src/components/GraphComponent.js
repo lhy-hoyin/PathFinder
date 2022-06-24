@@ -129,7 +129,9 @@ export default function GradGraph(){
         },
 
         doubleClick: ({ nodes, edges }) => {
-            updateGraph(nodes);
+            if (nodes.length !== 0) {
+                updateGraph(nodes);
+            }
         }
     };
     
