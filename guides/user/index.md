@@ -35,6 +35,7 @@ If you face any issues, [check this out](./common-issues#create-an-account).
 
 
 # Account User
+You can also do everything a guest user can do!
 * * *
 
 ## Log In
