@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd";
+import withScrolling from "react-dnd-scrolling";
 
 import { graphData } from "../hooks/GraphData";
+
+import "../css/SemesterSchedule.css";
 
 export default function semesterTable() {
   const [columns, setColumns] = useState([]);
@@ -102,8 +107,8 @@ export default function semesterTable() {
         setMessage("Prequities unmet!");
         return;
       }
-      //console.log(checkPre(modId, columns, parseInt(index)));
-      // console.log(columns[0].items.some((a)=> a.id === "eight task"));
+      
+      setMessage("")
 
       const sourceColumn = columns[source.droppableId];
       const destColumn = columns[destination.droppableId];
@@ -139,9 +144,11 @@ export default function semesterTable() {
     console.log(columns);
   };
 
+  const ScrollingComponent = withScrolling("div");
+
   return (
     <>
-      <p>Notice: {message}</p>
+    <h2 className="notice">Note: {message}</h2>
       <div
         style={{ display: "flex", justifyContent: "center", height: "100%" }}
       >
@@ -160,6 +167,8 @@ export default function semesterTable() {
               >
                 <h2>{column.name}</h2>
                 <div style={{ margin: 8 }}>
+                <DndProvider backend={HTML5Backend}>
+                    <ScrollingComponent className="columnStyle">
                   <Droppable droppableId={columnId} key={columnId}>
                     {(provided, snapshot) => {
                       return (
@@ -172,7 +181,8 @@ export default function semesterTable() {
                               : "lightgrey",
                             padding: 4,
                             width: 250,
-                            minHeight: 500
+                            minHeight: 350,
+                            maxHeight: 350
                           }}
                         >
                           {column.items.map((item, index) => {
@@ -192,7 +202,7 @@ export default function semesterTable() {
                                         userSelect: "none",
                                         padding: 16,
                                         margin: "0 0 8px 0",
-                                        minHeight: "50px",
+                                        minHeight: "25px",
                                         backgroundColor: snapshot.isDragging
                                           ? "#263B4A"
                                           : "#456C86",
@@ -212,6 +222,8 @@ export default function semesterTable() {
                       );
                     }}
                   </Droppable>
+                  </ScrollingComponent>
+                  </DndProvider>
                 </div>
               </div>
             );
