@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, createContext } from "react";
 
 import { ProfileRoles } from "../constants";
-import { supabase } from "../supabaseClient"
+import { supabase } from "../supabaseClient";
 
 const authContext = createContext();
 
@@ -23,6 +23,7 @@ function useProvideAuth() {
     const [firstName, setFirstName] = useState(null);
     const [lastName, setLastName] = useState(null);
     const [cohort, setCohort] = useState(null);
+    const [course, setCourse] = useState(null);
     const [role, setRole] = useState(null);
 
     useEffect(() => {
@@ -60,6 +61,7 @@ function useProvideAuth() {
                 setFirstName(data.first_name);
                 setLastName(data.last_name);
                 setCohort(data.cohort);
+                setCourse(data.course);
                 setRole(data.role);
                 setProfileInfoReady(true);
                 console.log("Profile info retrieved");
@@ -99,7 +101,7 @@ function useProvideAuth() {
         }
     };
 
-    const updateProfileAcad = (userCohort) => async e => {
+    const updateProfileAcad = (userCohort, userCourse) => async e => {
         e.preventDefault();
 
         try {
@@ -112,6 +114,7 @@ function useProvideAuth() {
             const updates = {
                 user_id: user.id,
                 cohort: userCohort,
+                course: userCourse,
                 updated_at: new Date(),
             }
 
@@ -264,6 +267,7 @@ function useProvideAuth() {
         firstName,
         lastName,
         cohort,
+        course,
         role, 
     };
 }
