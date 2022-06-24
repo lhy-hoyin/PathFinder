@@ -1,3 +1,11 @@
+# User Guide
+Not sure how our website works? Here is something to get you started!
+
+> *PRO TIP!*  
+> ![image](https://user-images.githubusercontent.com/88828097/175523916-dfd724e6-a3d0-4937-8bf6-0aa8be87579d.png)  
+> You can use the *PathFinder* logo at the top left of our website to quickly to back to the main page
+
+
 ## Create an account
 1. At the main page, click on `Sign Up` found at the top right corner  
 ![image](https://user-images.githubusercontent.com/88828097/175512949-038e6f24-6cd4-4cf9-9f73-16d249cf6d9b.png)
@@ -20,7 +28,7 @@ If you face any issues, [check this out](./common-issues#create-an-account).
 1. At the main page, click on `Login` found at the top right corner
 2. A small popup will appear  
 ![login-popup](https://user-images.githubusercontent.com/88828097/175517616-b9bde7d3-8f61-466f-95af-e04e3ef2a95a.png)
-3. Enter the email address and password you used when creating your PathFinder account
+3. Enter the email address and password you used when creating your *PathFinder* account
 4. Click `Log In` to log into your account
 
 If you face any issues, [check this out](./common-issues#log-in).
@@ -36,11 +44,38 @@ Fret not! We got your back!
 6. Enter your new password, and re-enter it again to verify
 7. Click on `Reset Password` to reset your password
 
-## Change Password
 
 ## Log Out
+At the main page, click on `Logout` found at the top right corner
 
-## Profile
+
+## Update personal information
+1. Log into your account (duh)
+2. At the main page, click on `Profile` found at the top right corner
+3. Look under the **Personal Information** section
+4. Click on the textbox and change whatever you wish to update
+5. Click on `Update Profile` to update your personal infomation
+
+If you face any issues, [check this out](./common-issues#update-profile).
+
+
+## Update academic information
+1. Log into your account (duh)
+2. At the main page, click on `Profile` found at the top right corner
+3. Look under the **Academic Information** section
+4. Click on the dropdown box and select the correct option
+5. Click on `Update Profile` to update your academic infomation
+
+If you face any issues, [check this out](./common-issues#update-profile).
+
+
+## Change Password
+1. Log into your account (duh)
+2. At the main page, click on `Profile` found at the top right corner
+3. Look under the **Change password** section
+4. Enter your new password, and re-enter it again to verify
+5. Click on `Reset Password` to change your password
+
 
 ## Dashboard
 
