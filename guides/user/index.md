@@ -23,6 +23,11 @@ If you face any issues, [check this out](./common-issues#create-an-account).
 
 
 ## Setting up new account
+1. Once you click the link in your verification email, you will see this  
+![image](https://user-images.githubusercontent.com/88828097/175558722-0c39540a-6996-4009-84c9-211380829694.png)
+2. Fill in your first and last name
+3. Click `Update Profile` to finish setting up your account
+
 
 ## Log In
 1. At the main page, click on `Login` found at the top right corner
@@ -66,8 +71,6 @@ If you face any issues, [check this out](./common-issues#update-profile).
 4. Click on the dropdown box and select the correct option
 5. Click on `Update Profile` to update your academic infomation
 
-If you face any issues, [check this out](./common-issues#update-profile).
-
 
 ## Change Password
 1. Log into your account (duh)
@@ -77,11 +80,15 @@ If you face any issues, [check this out](./common-issues#update-profile).
 5. Click on `Reset Password` to change your password
 
 
+Hang on! We manged to add some information, but we are still working on this. Please continue to look out at this section in the near future :D
+
 ## Dashboard
 
 ## Module Dependency Graph
 
 ## Module Information
 
-Hang on! We manged to add some information, but we are still working on this. Please continue to look out at this section in the near future :D
+* * *
+
+Still got more questions? Check out [our solutions](./common-issues) to some common issues.
 
