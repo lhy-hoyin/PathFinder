@@ -8,6 +8,31 @@
   transform: translate(-50%, -50%);
 }
 
+.selectingGrad {
+  display: flex;
+  width: 49%;
+}
+
+.selectingGrad2 {
+  display: flex;
+  width: 49%;
+  justify-content: space-between;
+}
+
+.buttonBlock {
+  color: var(--btn-color-text);
+  border: var(--custom-border);
+  background-color: var(--btn-color-bg-default);
+  display: inline-block;
+  text-align: center;
+  border-radius: var(--custom-border-radius);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  text-align: center;
+  font-size: 0.9rem;
+  font-family: var(--custom-font-family);
+}
+
 @media(max-width: 700px){
   .textbox{  
     font-size: 20px;
