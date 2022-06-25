@@ -9,23 +9,33 @@
 > 
 > | Column Name | Data Type |
 > | --- | --- |
-> | id | `uuid` |
-> | FirstName | `text` |
-> | LastName | `text` |
-> | Cohort | `text` |
-> | Role | `int2` |
+> | user_id | `uuid` |
+> | first_name | `text` |
+> | last_name | `text` |
+> | cohort | `text` |
+> | role | `int2` |
 > | updated_at | `timestampz` |
 
 > Table Name: `modules`
 > 
-> | Column Name | Data Type       |
-> |:------------|:----------------|
-> | id          | `uuid`          |
-> | code        | `text`          |
-> | acadYear    | `text`          |
-> | name        | `text`          |
-> | description | `text`          |
-> | credit      | `int2`          |
-> | preReq      | `_text` (Array) |
-> | preclusion  | `text`          |
-> | updated_at  | `timestampz`    |
+> | Column Name | Data Type |
+> | --- | --- |
+> | id | `uuid` |
+> | acad_year | `text` |
+> | code | `text` |
+> | name | `text` |
+> | description | `text` |
+> | credit | `int2` |
+> | pre_req | `_text` (Array) |
+> | preclusion | `text` |
+> | updated_at | `timestampz` |
+
+> Table Name: `courses `
+> 
+> | Column Name | Data Type |
+> | --- | --- |
+> | id | `int8` |
+> | course_name | `text` |
+> | cohort | `text` |
+> | grad_requirement | `text` (Array) |
+> | position | `text` (Array) |
