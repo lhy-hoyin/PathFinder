@@ -8,7 +8,6 @@ import { ProfileRoles } from "../constants";
 export default function NewUser() {
 
     const { logout, profileInfoReady, role } = Auth();
-
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -18,7 +17,7 @@ export default function NewUser() {
         if (role >= ProfileRoles.Normal)
             return navigate("/profile");
 
-    }, [profileInfoReady]);
+    }, [profileInfoReady, role]);
 
     return (
         <>

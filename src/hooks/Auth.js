@@ -95,7 +95,14 @@ function useProvideAuth() {
             })
 
             if (error) throw error
-            else console.log("Profile Updated successfully")
+            else {
+                // update local values
+                setFirstName(updates.first_name);
+                setLastName(updates.first_name);
+                setRole(updates.role);
+
+                console.log("Profile Updated successfully")
+            }
 
         } catch (error) {
             console.error(error.message);
