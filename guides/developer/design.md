@@ -16,19 +16,6 @@
 > | role | `int2` |
 > | updated_at | `timestampz` |
 
-> Table Name: `modules`
-> 
-> | Column Name | Data Type |
-> | --- | --- |
-> | id | `uuid` |
-> | acad_year | `text` |
-> | code | `text` |
-> | name | `text` |
-> | description | `text` |
-> | credit | `int2` |
-> | pre_req | `_text` (Array) |
-> | preclusion | `text` |
-> | updated_at | `timestampz` |
 
 > Table Name: `courses `
 > 
