@@ -228,14 +228,12 @@ function useProvideGraphData() {
                                 edgeCount++;
                             }
 
-                        } else{
-                            if (modWithOr.toString() !== "") {
+                        } else if (modWithOr.toString() !== "") {
 
-                                tableMods[node].pre.push(modWithOr.toString());
-                                mod[node].pre.push(modWithOr.toString());
-                                edges[edgeCount] = { from: temp[node].code, to: modWithOr.toString() };
-                                edgeCount++;
-                            }
+                            tableMods[node].pre.push(modWithOr.toString());
+                            mod[node].pre.push(modWithOr.toString());
+                            edges[edgeCount] = { from: temp[node].code, to: modWithOr.toString() };
+                            edgeCount++;
                             
                         }                       
                     }
