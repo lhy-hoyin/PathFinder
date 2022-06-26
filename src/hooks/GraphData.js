@@ -210,11 +210,11 @@ function useProvideGraphData() {
 
                             const position = pos.find((a) => a.id === orNodesLabel(modWithOr))
                             if (typeof (position) === 'undefined')
-                                console.warn("no position for:", orNodesLabel(modWithOr))
+                                console.warn("no position for:", orNodesLabel(modWithOr), "'or' node")
 
                             orNodes[orCount] = {
                                 id:  orNodesLabel(modWithOr),
-                                label: orNodesLabel(modWithOr),
+                                label: "or",
                                 shape: "ellipse",
                                 color: colouring(ModuleStateColor.Completed),
                                 info: ["", "", "", ""],
