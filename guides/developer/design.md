@@ -6,7 +6,7 @@
 ## Program Flow
 <img src="https://docs.google.com/drawings/d/e/2PACX-1vQamgQyQ7oZyEviaxv7FyfYWDPkXb1y1xG97Mu0VX3bFAPHFyPpA9eYhw9D_LpexOsuIqnteNDkxnor/pub?w=960&amp;h=720">
 
-## Database tables
+## Database Tables Structure
 
 > Table Name: `profiles`
 > 
