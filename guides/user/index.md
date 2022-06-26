@@ -8,8 +8,10 @@ Not sure how our website works? Here is something to get you started!
 > ![image](https://user-images.githubusercontent.com/88828097/175523916-dfd724e6-a3d0-4937-8bf6-0aa8be87579d.png)  
 > You can use the *PathFinder* logo at the top left of our website to quickly to back to the main page
 
+
 # Guest User
 * * *
+
 
 ## Create an account
 1. At the main page, click on `Sign Up` found at the top right corner  
@@ -34,9 +36,46 @@ If you face any issues, [check this out](./common-issues#create-an-account).
 3. Click `Update Profile` to finish setting up your account
 
 
+## Module Dependency Graph
+![image](https://user-images.githubusercontent.com/88828097/175800557-bb0a928f-8867-47aa-90cf-26979249186e.png)
+1. From the dropdown, select which course you wish to see the dependency graph
+    > *TIP!* If you indicated your couse in your profile page, it will automatically be displayed here  
+    > You can skip this step!
+2. Click `Generate Module Dependency Graph` to generate graph
+
+### Underatanding the graph
+The modules you need to take to graduate is displayed:  
+* Arrows indicate which module you need to take before the others
+* Colour of module indicate the status of the module
+    > Grey: Module completed  
+    > Green Module available to take  
+    > Red: Module is locked behind some pre-requisite 
+
+### Interacting the graph
+* Single Click (on module): display the [module information](#module-information) below the graph
+* Double Click (on module): mark module as completed, thus unlocking modules that required the module you completed
+* Left Click & Drag (on module): move the module around; arrows will follow
+* Left Click & Drag (on empty part of graph): move the graph around
+* Scrolling (on graph): zoom in/out of the grpah
+
+
+## Module Information
+![image](https://user-images.githubusercontent.com/88828097/175800862-49ebaf33-94d3-40af-a522-d00c4b1e2a62.png)  
+When you click on the module, its information is displayed here. Its the same information you can find on NUSMods (save you the trouble to switching over to another tab.  
+
+
+## Semester Planning
+![image](https://user-images.githubusercontent.com/88828097/175801191-35503e34-cf20-4f87-bde1-ccd37c10a934.png)
+1. Required modules are listed on the left
+2. Drag and drop which module you want to take to which semester
+3. Module will be returned if pre-requities are not met  
+![image](https://user-images.githubusercontent.com/88828097/175801249-fccf837d-6ff6-46f3-87a2-2c3450a7d28d.png)
+
+
 # Account User
-You can also do everything a guest user can do!
+You can do everything a guest user can do (plus extras below)!
 * * *
+
 
 ## Log In
 1. At the main page, click on `Login` found at the top right corner
@@ -88,14 +127,6 @@ If you face any issues, [check this out](./common-issues#update-profile).
 4. Enter your new password, and re-enter it again to verify
 5. Click on `Reset Password` to change your password
 
-
-Hang on! We manged to add some information, but we are still working on this. Please continue to look out at this section in the near future :D
-
-## Dashboard
-
-## Module Dependency Graph
-
-## Module Information
 
 * * *
 
