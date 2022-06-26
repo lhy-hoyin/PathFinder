@@ -1,0 +1,10 @@
+.notice {
+    text-align: center;
+    min-height: 20px;
+}
+
+.columnStyle {
+    height: 360px;
+    overflow: auto;
+  }
+  

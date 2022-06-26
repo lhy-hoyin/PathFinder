@@ -1,15 +1,28 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Popup from 'reactjs-popup';
 
 import { supabase } from "../supabaseClient";
-import { Auth } from "../components/Auth";
+import { ProfileRoles } from "../constants";
+import { Auth } from "../hooks/Auth";
 import LoginPop from './LoginPop';
 
 import "../css/Header.css";
 
 export default function Header() {
 
+    const navigate = useNavigate();
     const user = supabase.auth.user();
-    const { username, logout } = Auth();
+    const { profileInfoReady, role, email, firstName, lastName, logout } = Auth();
+
+    useEffect(() => {
+        if (!profileInfoReady)
+            return
+
+        if (role == ProfileRoles.New)
+            return navigate("/profile/new");
+
+    }, [profileInfoReady]);
 
     return (
         <section className="header">
@@ -25,7 +38,7 @@ export default function Header() {
                         <Popup
                             className='login-popups'
                             trigger={
-                                <li className="clickable">Login</li>
+                                <li className="clickable"  style={{cursor:'pointer'}}>Login</li>
                             }>
                             <LoginPop />
                         </Popup>
@@ -33,8 +46,9 @@ export default function Header() {
                     </ul>
                 ) : (
                     <ul>
-                            <li>Welcome, {username ?? "user"}!</li>
-                            <li className='clickable'><a onClick={logout}>Logout</a></li>
+                            <li>Welcome, {firstName ?? lastName ?? email ?? "user"}!</li>
+                            <li className='clickable'><a href="/profile">Profile</a></li>
+                            <li className='clickable'><a onClick={logout}  style={{cursor:'pointer'}}>Logout</a></li>
                     </ul>
                 )}
             </div>
