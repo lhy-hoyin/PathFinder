@@ -106,6 +106,49 @@ function useProvideGraphData() {
         return allMods;
       };
 
+    const getCoursesRequirement = async () => {
+
+        const posSetUp = (posArr) => {
+            if (posArr === null)
+                return null
+            
+            let pos = []
+            for (var count = 0; count < posArr.length; count++) {
+                pos[count] = {
+                    id: posArr[count][0],
+                    x: posArr[count][1],
+                    y: posArr[count][2]
+                };
+            }
+
+            return pos
+        };
+
+        try {
+            let { data, error } = await supabase
+                .from("courses")
+                .select("*")
+
+            if (data == null) throw error
+
+            let temp = data.slice(0);
+            let allCourses = [];
+
+            for (var index = 0; index < temp.length; index++) {
+                allCourses[index] = {
+                    id: temp[index].course_name,
+                    modReq: temp[index].grad_requirement,
+                    pos: posSetUp(temp[index].position)
+                }
+            }
+
+            setGradReq(allCourses)
+
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
     const getData = (selectedCourse) => async e => {
         e.preventDefault();
 
@@ -123,7 +166,6 @@ function useProvideGraphData() {
                 throw ("no data from database")
 
             let temp = data.slice(0);
-            const count = temp.length
 
             let mod = [];
             let orNodes = [];
@@ -134,7 +176,7 @@ function useProvideGraphData() {
 
             let tableMods = [];
 
-            for (var node = 0; node < count; node++) {
+            for (var node = 0; node < temp.length; node++) {
 
                 mod[node] = {
                     id: temp[node].code,
@@ -211,47 +253,9 @@ function useProvideGraphData() {
             setModules(mod);
 
         } catch (error) {
-            alert(error.message);
-        }
-    };
-
-    const getCoursesRequirement = async () => {
-        const posSetUp = (posArr) => {
-            if(posArr === null){
-                return null
-            } else {
-                let pos = []
-                for(var count = 0; count<posArr.length; count++){
-                    pos[count] = {id: posArr[count][0], x: posArr[count][1], y: posArr[count][2]};
-                }
-                return pos
-            }  
-        };
-
-        try {
-            let { data, error } = await supabase
-                .from("courses")
-                .select("*")
-
-            if (data == null) throw error 
-
-            let temp = data.slice(0);
-            let allCourses = [];
-
-            for(var index = 0; index < temp.length; index++) {
-                allCourses[index] = {
-                    id: temp[index].course_name,
-                    modReq: temp[index].grad_requirement,
-                    pos: posSetUp(temp[index].position)
-                }
-            }
-
-            setGradReq(allCourses)
-
-        } catch (error) {
             console.error(error.message);
         }
-    }
+    };
 
     const updateGraph = (nodes) => {
         let index = modules.findIndex((x) => x.id === nodes.toString());
