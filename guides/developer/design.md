@@ -1,5 +1,8 @@
 # Project Design
 
+## Naviation Mapping
+<img src="https://docs.google.com/drawings/d/e/2PACX-1vRqMuimWRM7PElwnFa20kwO0GdYav1tAnEsU0ifIxrU6CvEeAt_zLzsEDkorTk5j9nw9Xly2un4wrNS/pub?w=611&amp;h=361">
+
 ## Program Flow
 <img src="https://docs.google.com/drawings/d/e/2PACX-1vQamgQyQ7oZyEviaxv7FyfYWDPkXb1y1xG97Mu0VX3bFAPHFyPpA9eYhw9D_LpexOsuIqnteNDkxnor/pub?w=960&amp;h=720">
 
