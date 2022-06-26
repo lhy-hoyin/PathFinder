@@ -183,8 +183,8 @@ function useProvideGraphData() {
                     label: temp[node].code,
                     color: colouring(ModuleStateColor.Completed),
                     info: [temp[node].name, temp[node].acad_year, temp[node].credit, temp[node].description],
-                    x: pos.find((a)=>a.id === temp[node].code).x,
-                    y: pos.find((a)=>a.id === temp[node].code).y,
+                    x: pos.find((a)=>a.id === temp[node].code)?.x || null,
+                    y: pos.find((a)=>a.id === temp[node].code)?.y || null,
                     status: false,
                     pre: []
                 };
@@ -210,8 +210,8 @@ function useProvideGraphData() {
                                 shape: "ellipse",
                                 color: colouring(ModuleStateColor.Completed),
                                 info: ["", "", "", ""],
-                                x: pos.find((a)=>a.id === orNodesLabel(modWithOr)).x,
-                                y: pos.find((a)=>a.id === orNodesLabel(modWithOr)).y,
+                                x: pos.find((a)=>a.id === orNodesLabel(modWithOr))?.x || null,
+                                y: pos.find((a)=>a.id === orNodesLabel(modWithOr))?.y || null,
                                 status: false,
                                 pre: [modWithOr]
                             }
