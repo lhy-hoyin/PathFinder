@@ -66,7 +66,7 @@ When you click on the module, its information is displayed here. Its the same in
 
 ## Semester Planning
 ![image](https://user-images.githubusercontent.com/88828097/175801191-35503e34-cf20-4f87-bde1-ccd37c10a934.png)
-1. Required modules are listed on the left
+1. Required modules (for selected course) are listed on the left
 2. Drag and drop which module you want to take to which semester
 3. Module will be returned if pre-requities are not met  
 ![image](https://user-images.githubusercontent.com/88828097/175801249-fccf837d-6ff6-46f3-87a2-2c3450a7d28d.png)
