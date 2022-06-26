@@ -18,9 +18,6 @@ export default function Home() {
 
     const [selectedCourse, setSelectedCourse] = useState("");
     const [courseSelection, setCourseSelection] = useState([]);
-    
-
-    //const modsArr = ["CS1231S","CS1101S","MA1521","MA2001","IS1103","ES2660","CS2100","CS2030S","CS2040S","CS2109S","ST2334","CS2106","CS3230","CS2101","CS2103T"]
 
     useEffect(() => {
 

@@ -178,13 +178,17 @@ function useProvideGraphData() {
 
             for (var node = 0; node < temp.length; node++) {
 
+                const position = pos.find((a) => a.id === temp[node].code)
+                if (typeof (position) === 'undefined')
+                    console.warn("no position for:", temp[node].code)
+
                 mod[node] = {
                     id: temp[node].code,
                     label: temp[node].code,
                     color: colouring(ModuleStateColor.Completed),
                     info: [temp[node].name, temp[node].acad_year, temp[node].credit, temp[node].description],
-                    x: pos.find((a)=>a.id === temp[node].code).x,
-                    y: pos.find((a)=>a.id === temp[node].code).y,
+                    x: position.x || null,
+                    y: position.y || null,
                     status: false,
                     pre: []
                 };
@@ -204,14 +208,18 @@ function useProvideGraphData() {
 
                         if (modWithOr.length > 1) {
 
+                            const position = pos.find((a) => a.id === orNodesLabel(modWithOr))
+                            if (typeof (position) === 'undefined')
+                                console.warn("no position for:", orNodesLabel(modWithOr), "'or' node")
+
                             orNodes[orCount] = {
                                 id:  orNodesLabel(modWithOr),
-                                label: orNodesLabel(modWithOr),
+                                label: "or",
                                 shape: "ellipse",
                                 color: colouring(ModuleStateColor.Completed),
                                 info: ["", "", "", ""],
-                                x: pos.find((a)=>a.id === orNodesLabel(modWithOr)).x,
-                                y: pos.find((a)=>a.id === orNodesLabel(modWithOr)).y,
+                                x: position?.x || null,
+                                y: position?.y || null,
                                 status: false,
                                 pre: [modWithOr]
                             }
@@ -228,14 +236,12 @@ function useProvideGraphData() {
                                 edgeCount++;
                             }
 
-                        } else{
-                            if (modWithOr.toString() !== "") {
+                        } else if (modWithOr.toString() !== "") {
 
-                                tableMods[node].pre.push(modWithOr.toString());
-                                mod[node].pre.push(modWithOr.toString());
-                                edges[edgeCount] = { from: temp[node].code, to: modWithOr.toString() };
-                                edgeCount++;
-                            }
+                            tableMods[node].pre.push(modWithOr.toString());
+                            mod[node].pre.push(modWithOr.toString());
+                            edges[edgeCount] = { from: temp[node].code, to: modWithOr.toString() };
+                            edgeCount++;
                             
                         }                       
                     }
