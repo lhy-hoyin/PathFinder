@@ -9,44 +9,46 @@ import { graphData } from "../hooks/GraphData";
 import "../css/SemesterSchedule.css";
 
 export default function semesterTable() {
-  const [columns, setColumns] = useState([]);
-  const [message, setMessage] = useState("");
-  const [mods, setMods] = useState([]);
-  const { timeTableMods } = graphData();
+    const [columns, setColumns] = useState([]);
+    const [message, setMessage] = useState("");
+    const [mods, setMods] = useState([]);
+
+    const { timeTableMods } = graphData();
 
   useEffect(() => {
-    const timeTableColumns = [
-      {
-        id: "Modules",
-        name: "Modules",
-        items: timeTableMods
-      },
-      {
-        id: "Semester 1",
-        name: "Semester 1",
-        items: []
-      },
-      {
-        id: "Semester 2",
-        name: "Semester 2",
-        items: []
-      },
-      {
-        id: "Semester 3",
-        name: "Semester 3",
-        items: []
-      },
-      {
-        id: "Semester 4",
-        name: "Semester 4",
-        items: []
-      }
-    ];
-    setMods(timeTableMods);
-    setColumns(timeTableColumns);
-  }, [timeTableMods]);
 
-  console.log(columns);
+      const timeTableColumns = [
+          {
+              id: "Modules",
+              name: "Modules",
+              items: timeTableMods
+          },
+          {
+              id: "Semester 1",
+              name: "Semester 1",
+              items: []
+          },
+          {
+              id: "Semester 2",
+              name: "Semester 2",
+              items: []
+          },
+          {
+              id: "Semester 3",
+              name: "Semester 3",
+              items: []
+          },
+          {
+              id: "Semester 4",
+              name: "Semester 4",
+              items: []
+          }
+      ]
+
+    setMods(timeTableMods);
+      setColumns(timeTableColumns);
+
+  }, [timeTableMods]);
 
   const checkPre = (draggedMod, columns, index) => {
     const modPre = mods.find((a) => a.id === draggedMod).pre;
@@ -63,7 +65,6 @@ export default function semesterTable() {
         return false;
       }
       //searching the columns
-      console.log(modPre);
       for (var y = 0; y < modPre.length; y++) {
         //for OR nodes
         if (modPre[y][0].length > 1) {
@@ -141,7 +142,6 @@ export default function semesterTable() {
         }
       });
     }
-    console.log(columns);
   };
 
   const ScrollingComponent = withScrolling("div");
