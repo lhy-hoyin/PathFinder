@@ -7,7 +7,7 @@ students would be able to better plan their modules ahead of time and any module
 
 ## I am a ...
 * [User ](./user)
-* [Developer Guide](./developer)
+* [Developer](./developer)
 
 ## About Us
 This project is part of NUS Orbital 2022, work of Kristen and Ho Yin.
