@@ -5,9 +5,9 @@ Our aim is to provide students with the ease and accessibility in the planning o
 By being aware of the required modules or the different perquisites,
 students would be able to better plan their modules ahead of time and any modules for graduation requirements.
 
-## Guides
-* [User Guide](./guides/user)
-* [Developer Guide](./guides/developer)
+## I am a ...
+* [User ](./user)
+* [Developer Guide](./developer)
 
 ## About Us
 This project is part of NUS Orbital 2022, work of Kristen and Ho Yin.
