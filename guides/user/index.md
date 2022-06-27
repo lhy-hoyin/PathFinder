@@ -6,7 +6,7 @@ Not sure how our website works? Here is something to get you started!
 
 > *PRO TIP!*  
 > ![image](https://user-images.githubusercontent.com/88828097/175523916-dfd724e6-a3d0-4937-8bf6-0aa8be87579d.png)  
-> You can use the *PathFinder* logo at the top left of our website to quickly to back to the main page
+> You can use the *PathFinder* logo at the top left of our website to quickly navigate back to the main page
 
 
 # Guest User
@@ -39,7 +39,7 @@ If you face any issues, [check this out](./common-issues#create-an-account).
 ## Module Dependency Graph
 ![image](https://user-images.githubusercontent.com/88828097/175800557-bb0a928f-8867-47aa-90cf-26979249186e.png)
 1. From the dropdown, select which course you wish to see the dependency graph
-    > *TIP!* If you indicated your couse in your profile page, it will automatically be displayed here  
+    > *TIP!* If you indicated your course in your profile page, it will automatically be displayed here  
     > You can skip this step!
 2. Click `Generate Module Dependency Graph` to generate graph
 
