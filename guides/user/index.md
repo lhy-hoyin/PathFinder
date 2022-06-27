@@ -29,13 +29,6 @@ Not sure how our website works? Here is something to get you started!
 If you face any issues, [check this out](./common-issues#create-an-account).
 
 
-## Setting up new account
-1. Once you click the link in your verification email, you will see this  
-![image](https://user-images.githubusercontent.com/88828097/175558722-0c39540a-6996-4009-84c9-211380829694.png)
-2. Fill in your first and last name
-3. Click `Update Profile` to finish setting up your account
-
-
 ## Module Dependency Graph
 ![image](https://user-images.githubusercontent.com/88828097/175800557-bb0a928f-8867-47aa-90cf-26979249186e.png)
 1. From the dropdown, select which course you wish to see the dependency graph
@@ -85,6 +78,14 @@ You can do everything a guest user can do (plus extras below)!
 4. Click `Log In` to log into your account
 
 If you face any issues, [check this out](./common-issues#log-in).
+
+
+## Setting up new account
+1. Login, or click the link in your verification email
+2. You should see this page  
+![image](https://user-images.githubusercontent.com/88828097/175558722-0c39540a-6996-4009-84c9-211380829694.png)
+2. Fill in your first and last name
+3. Click `Update Profile` to finish setting up your account
 
 
 ## Forgot Password
