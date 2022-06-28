@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Input } from '@chakra-ui/react'
 
 import { Auth } from "../hooks/Auth";
 import { supabase } from "../supabaseClient";
