@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link, Image } from '@chakra-ui/react'
 import Popup from 'reactjs-popup';
 
 import { supabase } from "../supabaseClient";
@@ -11,8 +12,8 @@ import "../css/Header.css";
 
 export default function Header() {
 
-    const navigate = useNavigate();
     const user = supabase.auth.user();
+    const navigate = useNavigate();
     const { profileInfoReady, role, email, firstName, lastName, logout } = Auth();
 
     useEffect(() => {
@@ -27,9 +28,9 @@ export default function Header() {
     return (
         <section className="header">
 
-            <a href="/">
-                <img src="img/banner.png" alt="Pathfinder" height="100"/>
-            </a>
+            <Link href="/">
+                <Image src="img/banner.png" alt="Pathfinder" height="100"/>
+            </Link>
 
             <div className="nav-links">
                 {!user ? (
@@ -46,9 +47,9 @@ export default function Header() {
                     </ul>
                 ) : (
                     <ul>
-                            <li>Welcome, {firstName ?? lastName ?? email ?? "user"}!</li>
-                            <li className='clickable'><a href="/profile">Profile</a></li>
-                            <li className='clickable'><a onClick={logout}  style={{cursor:'pointer'}}>Logout</a></li>
+                        <li>Welcome, {firstName ?? lastName ?? email ?? "user"}!</li>
+                        <li className='clickable'><a href="/profile">Profile</a></li>
+                        <li className='clickable'><a onClick={logout}  style={{cursor:'pointer'}}>Logout</a></li>
                     </ul>
                 )}
             </div>
