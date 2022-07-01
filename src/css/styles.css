@@ -16,3 +16,21 @@
     flex-basis: 50%;
     flex-grow: 0;
 }
+
+.clickable {
+    display: inline-block;
+}
+
+.clickable::after {
+    content: '';
+    width: 0%;
+    height: 2px;
+    background: #807272;
+    display: block;
+    margin: auto;
+    transition: 0.5s;
+}
+
+.clickable:hover::after {
+    width: 100%;
+}

@@ -35,20 +35,6 @@ body {
         color: var(--custom-font-color);
         text-decoration: none;
 }
-   
-.clickable::after {
-    content: '';
-    width: 0%;
-    height: 2px;
-    background: #807272;
-    display: block;
-    margin: auto;
-    transition: 0.5s;
-}
-
-.clickable:hover::after {
-    width: 100%;
-}
 
     
 /*   This one is suppose to be for mobile version 
