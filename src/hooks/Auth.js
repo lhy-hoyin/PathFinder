@@ -218,24 +218,23 @@ function useProvideAuth() {
         }
     };
 
-    const resettingPassword = (password1, password2, setMessage) => async e => {
-        e.preventDefault();
-
-        if (password1 != password2) {
-            setMessage("Password does not match");
-            console.log("User input mis-matched password");
-            return;
-        }
-
-        var password = password1
-
+    const resettingPassword = async (newPassword) => {
         try {
-            const { error } = await supabase.auth.update({ password });
+            const { error } = await supabase.auth.update({ password: newPassword });
             if (error) throw error;
-            alert("password changed ");
+            console.log("User password updated");
+            return {
+                status: 'success',
+                title: "Success: Password Updated",
+                description: "You can now use your new password"
+            };
         } catch (error) {
-            alert(error.error_description);
-            console.error(error.error_description);
+            console.error(error.error_description || error.message);
+            return {
+                status: 'error',
+                title: "Oops!",
+                description: error.error_description || error.message
+            };
         }
     };
 
