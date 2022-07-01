@@ -1,6 +1,16 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Link, Image } from '@chakra-ui/react'
+import {
+    Link, Image,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    useDisclosure
+} from '@chakra-ui/react';
 import Popup from 'reactjs-popup';
 
 import { supabase } from "../supabaseClient";
@@ -15,6 +25,8 @@ export default function Header() {
     const user = supabase.auth.user();
     const navigate = useNavigate();
     const { profileInfoReady, role, email, firstName, lastName, logout } = Auth();
+
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
     useEffect(() => {
         if (!profileInfoReady)
@@ -36,14 +48,17 @@ export default function Header() {
                 {!user ? (
                     <ul>
                         <li className='clickable'><a href="/sign-up">Sign Up</a></li>
-                        <Popup
-                            className='login-popups'
-                            trigger={
-                                <li className="clickable"  style={{cursor:'pointer'}}>Login</li>
-                            }>
-                            <LoginPop />
-                        </Popup>
-                    
+                        <li className='clickable'><a onClick={onOpen}>Login</a></li>
+                        <Modal isOpen={isOpen} onClose={onClose}>
+                            <ModalOverlay />
+                            <ModalContent>
+                                <ModalHeader>Login</ModalHeader>
+                                <ModalCloseButton />
+                                <ModalBody>
+                                    <LoginPop />
+                                </ModalBody>
+                            </ModalContent>
+                        </Modal>
                     </ul>
                 ) : (
                     <ul>
