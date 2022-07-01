@@ -5,7 +5,7 @@ import {
     FormControl, FormHelperText,
     Input, InputGroup, InputRightElement,
     Button,
-    useBoolean
+    useBoolean, useToast
 } from '@chakra-ui/react';
 
 import { Auth } from "../hooks/Auth";
@@ -16,6 +16,9 @@ import "../css/SignUp.css";
 
 export default function SignUp() {
 
+    const PWD_MIN_LENGTH = 6
+
+    const toast = useToast();
     const navigate = useNavigate();
     const user = supabase.auth.user();
     const { signup } = Auth();
@@ -23,14 +26,47 @@ export default function SignUp() {
     const [email, setEmail] = useState('');
     const [pass1, setPass1] = useState('');
     const [pass2, setPass2] = useState('');
-    const [message, setMessage] = useState('');
+    const [errorMsg, setErrorMsg] = useState('');
 
+    const [isLoading, setIsLoading] = useBoolean();
     const [showPassword, setShowPassword] = useBoolean();
 
     useEffect(() => {
         if (user != null)
             return navigate("/");
     }, [user]);
+
+    const handleSignup = async e => {
+        e.preventDefault();
+
+        const startSignUp = async () => {
+            setIsLoading.on()
+
+            const result = await signup(email, pass1)
+            toast({
+                title: result.title,
+                description: result.description,
+                status: result.status,
+                duration: 5000,
+                isClosable: true,
+            })
+
+            setIsLoading.off()
+        }
+
+        // Verify that password is matching
+        if (pass1 != pass2) {
+            console.warn("Mis-matched password")
+            setErrorMsg("Password does not match")
+        }
+        // verify that password min length is met
+        else if (pass1.length < PWD_MIN_LENGTH) {
+            console.warn("User password too short")
+            setErrorMsg("Password needs at least " + PWD_MIN_LENGTH.toString() + " characters)")
+        }
+        else startSignUp().catch(console.error)
+        
+    }
 
     return (
         <>
@@ -39,7 +75,7 @@ export default function SignUp() {
             <div className="frame">
                 <div className="register-new" aria-live="polite">
 
-                    <form onSubmit={signup(email, pass1, pass2, setMessage)}>
+                    <form onSubmit={handleSignup}>
 
                         <Heading>Sign Up</Heading>
 
@@ -92,7 +128,12 @@ export default function SignUp() {
                                 You can't show/hide this, so make sure to type correctly
                             </FormHelperText>
 
-                            <Button colorScheme='blue' type="submit" margin={1}>
+                            <Button
+                                type="submit"
+                                colorScheme='blue'
+                                loadingText='Signing up ... please be patient...'
+                                isLoading={isLoading}
+                                margin={1}>
                                 Register As New User
                             </Button>
 
@@ -100,7 +141,7 @@ export default function SignUp() {
 
                     </form>
 
-                    <p>{message}</p>
+                    <p>{errorMsg}</p>
 
                 </div>
             </div>

@@ -140,36 +140,28 @@ function useProvideAuth() {
         }
     };
 
-    const signup = (email, password1, password2, setMessage) => async e => {
-        e.preventDefault();
-
-        // Verify that password is matching
-        if (password1 != password2) {
-            setMessage("Password does not match");
-            console.log("User input mis-matched password");
-            return;
-        }
-
-        var password = password1;
-
-        if (password.length < 6) {
-            setMessage("Password too short (min 6 characters)");
-            console.log("User password too short");
-            return;
-        }
+    const signup = async (email, password) => {
 
         //TODO: hex password here for security
         //note: login also need to hex, when this is implemented
 
         try {
-            setMessage("Signing up ... please be patient...");
             const { error } = await supabase.auth.signUp({ email, password });
             if (error) throw error;
-            setMessage("Check your email for the login link!");
             console.log("Verification email sent");
+            return {
+                status: 'success',
+                title: "Account created!",
+                description: "Check your email for the verification email!"
+            };
+            
         } catch (error) {
             console.error(error.error_description || error.message);
-            setMessage(error.error_description || error.message);
+            return {
+                status: 'error',
+                title: "Oops!",
+                description: error.error_description || error.message
+            };
         }
     };
 
