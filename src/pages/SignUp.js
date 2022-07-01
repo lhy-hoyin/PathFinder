@@ -11,12 +11,11 @@ import {
 import { Auth } from "../hooks/Auth";
 import { supabase } from "../supabaseClient";
 import Header from "../components/Header";
+import PWD_MIN_LENGTH from "../definitions";
 
 import "../css/SignUp.css";
 
 export default function SignUp() {
-
-    const PWD_MIN_LENGTH = 6
 
     const toast = useToast();
     const navigate = useNavigate();
@@ -55,7 +54,7 @@ export default function SignUp() {
         }
 
         // Verify that password is matching
-        if (pass1 != pass2) {
+        if (pass1 !== pass2) {
             console.warn("Mis-matched password")
             setErrorMsg("Password does not match")
         }

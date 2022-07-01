@@ -1,0 +1,1 @@
+export const PWD_MIN_LENGTH = 6;
