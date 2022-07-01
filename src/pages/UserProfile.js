@@ -1,23 +1,25 @@
+import { Heading } from '@chakra-ui/react';
+
 import Header from "../components/Header";
 import UserBasicInfo from "../components/UserBasicInfo";
 import UserAcadInfo from "../components/UserAcadInfo";
 import ChangePassword from "../components/ChangePassword";
-
 
 export default function UserProfile() {
 
     return (
         <>
             <Header />
-            <h1>Profile</h1>
 
-            <h3>Personal Information</h3>
+            <Heading as='h1'>Profile</Heading>
+
+            <Heading as='h3' size='md'>Personal Information</Heading>
             <UserBasicInfo />
 
-            <h3>Academic Information</h3>
+            <Heading as='h3' size='md'>Academic Information</Heading>
             <UserAcadInfo />
 
-            <h3>Change password</h3>
+            <Heading as='h3' size='md'>Change password</Heading>
             <ChangePassword />
         </>    
     );
