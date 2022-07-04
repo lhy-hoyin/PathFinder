@@ -6,12 +6,10 @@ import {
     ModalOverlay,
     ModalContent,
     ModalHeader,
-    ModalFooter,
     ModalBody,
     ModalCloseButton,
     useDisclosure
 } from '@chakra-ui/react';
-import Popup from 'reactjs-popup';
 
 import { supabase } from "../supabaseClient";
 import { ProfileRoles } from "../constants";
@@ -22,11 +20,10 @@ import "../css/Header.css";
 
 export default function Header() {
 
-    const user = supabase.auth.user();
     const navigate = useNavigate();
+    const user = supabase.auth.user();
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const { profileInfoReady, role, email, firstName, lastName, logout } = Auth();
-
-    const { isOpen, onOpen, onClose } = useDisclosure()
 
     useEffect(() => {
         if (!profileInfoReady)
@@ -38,7 +35,7 @@ export default function Header() {
     }, [profileInfoReady]);
 
     return (
-        <section className="header">
+        <div className="header">
 
             <Link href="/">
                 <Image src="img/banner.png" alt="Pathfinder" height="100"/>
@@ -69,6 +66,6 @@ export default function Header() {
                 )}
             </div>
 
-        </section>
+        </div>
     );
 }
