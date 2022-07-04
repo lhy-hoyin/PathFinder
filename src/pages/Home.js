@@ -84,10 +84,10 @@ export default function Home() {
             <div style={{
                 display: "flex",
                 width: "50%",
-                justifyContent: "s"
+                justifyContent: "space-between"
             }}>
                 <p>Legend:</p>
-                <p>Gray = Module Completed</p>
+                <p >Gray = Module Completed</p>
                 <p>Green = Module availble</p>
                 <p>Red = Module Lock</p>
             </div>

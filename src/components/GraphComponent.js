@@ -137,18 +137,18 @@ export default function GradGraph(){
     
     return (
         <>
-            <div className="graphBox" id="graph" style={{ height: "700px" }}>
-                <Graph graph={graph} options={options} events = {events} />
+            <div className="graphBox" id="graph">
+                <Graph graph={graph} options={options} events={events} />
             </div>
-            <div className = "disModuleText">
+            <div className="disModuleText">
                 <p>Selected module: {code} </p>
                 <p>Name: {name} </p>
                 <p>Academic Year: {year} </p>
                 <p>Credits: {credit} </p>
                 <p>Description: {descibe}</p>
-          </div>
+            </div>
         </>
-        
+
     );
 }
   
