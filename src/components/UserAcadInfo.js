@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Text, Select, Button, useToast } from '@chakra-ui/react';
 
 import { Auth } from "../hooks/Auth";
 import { getCourseNames } from "../hooks/Database";
@@ -47,7 +48,7 @@ export default function UserAcadInfo() {
                     <tr>
                         <td>Cohort: AY</td>
                         <td>
-                            <select
+                            <Select
                                 onChange={(e) => setProfileCohort(e.target.value)}
                                 required>
                                 <option key="default" hidden>{profileCohort}</option>
@@ -56,13 +57,13 @@ export default function UserAcadInfo() {
                                         <option key={item}>{item}</option>
                                     ))
                                 }
-                            </select>
+                            </Select>
                         </td>
                     </tr>
                     <tr>
                         <td>Course:</td>
                         <td>
-                            <select
+                            <Select
                                 onChange={(e) => setProfileCourse(e.target.value)}
                                 required>
                                 <option key="default" hidden>{profileCourse}</option>
@@ -71,11 +72,17 @@ export default function UserAcadInfo() {
                                         <option key={item}>{item}</option>
                                     ))
                                 }
-                            </select>
+                            </Select>
                         </td>
                     </tr>
                 </tbody></table>
-                <button>Update Profile</button>
+
+                <Button
+                    type="submit"
+                    colorScheme='blue'
+                    margin={1}>
+                    Update Profile
+                </Button>
             </form>
         </>
     );
