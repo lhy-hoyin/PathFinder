@@ -72,14 +72,16 @@ function useProvideAuth() {
         }
     };
 
-    const updateProfileBasic = (fName, lName) => async e => {
-        e.preventDefault();
-
+    const updateProfileBasic = async (fName, lName) => {
         try {
             const user = supabase.auth.user()
 
             if (user == null)
-                return
+                return {
+                    status: 'error',
+                    title: "Oops!",
+                    description: "You are not logged in"
+                };
 
             // Pacakage data properly
             const updates = {
@@ -102,10 +104,20 @@ function useProvideAuth() {
                 setRole(updates.role);
 
                 console.log("Profile Updated successfully")
+                return {
+                    status: 'success',
+                    title: "Update Successful",
+                    description: "Your information has been updated in our system"
+                };
             }
 
         } catch (error) {
-            console.error(error.message);
+            console.error(error.error_description || error.message);
+            return {
+                status: 'error',
+                title: "Oops!",
+                description: error.error_description || error.message
+            };
         }
     };
 

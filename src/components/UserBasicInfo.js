@@ -5,6 +5,7 @@ import { Auth } from "../hooks/Auth";
 
 export default function UserBasicInfo() {
 
+    const toast = useToast();
     const { profileInfoReady, email, firstName, lastName, updateProfileBasic } = Auth();
 
     const [profileFirstName, setProfileFirstName] = useState("");
@@ -18,9 +19,25 @@ export default function UserBasicInfo() {
         setProfileLastName(lastName);
     }, [profileInfoReady]);
 
+    const handleUpdateAcadInfo = async e => {
+        e.preventDefault();
+
+        const startUpdate = async () => {
+            const result = await updateProfileBasic(profileFirstName, profileLastName)
+            toast({
+                title: result.title,
+                description: result.description,
+                status: result.status,
+                duration: 5000,
+                isClosable: true,
+            })
+        }
+        startUpdate().catch(console.error)
+    }
+
     return (
         <>
-            <form onSubmit={updateProfileBasic(profileFirstName, profileLastName) }>
+            <form onSubmit={handleUpdateAcadInfo}>
 
                 <Text style={{ whiteSpace: "nowrap" }} margin={1}>
                     Email: { email }
