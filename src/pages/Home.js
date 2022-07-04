@@ -51,7 +51,11 @@ export default function Home() {
 
             <form onSubmit={ getData(selectedCourse) }>
                 
-                <div style={{ display: "flex", alignItems: "center" }}>
+                <div style={{
+                    display: "flex",
+                    alignItems: "center",
+                    flexFlow: "row wrap"
+                }}>
                     <Text style={{ whiteSpace: "nowrap" }} margin={1}>
                         Course: 
                     </Text>
