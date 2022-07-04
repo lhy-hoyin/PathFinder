@@ -43,39 +43,35 @@ export default function UserAcadInfo() {
 
     return (
         <>
-            <form onSubmit={updateProfileAcad(profileCohort, profileCourse) }>
-                <table><tbody>
-                    <tr>
-                        <td>Cohort: AY</td>
-                        <td>
-                            <Select
-                                onChange={(e) => setProfileCohort(e.target.value)}
-                                required>
-                                <option key="default" hidden>{profileCohort}</option>
-                                {
-                                    cohortYears.map(item => (
-                                        <option key={item}>{item}</option>
-                                    ))
-                                }
-                            </Select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Course:</td>
-                        <td>
-                            <Select
-                                onChange={(e) => setProfileCourse(e.target.value)}
-                                required>
-                                <option key="default" hidden>{profileCourse}</option>
-                                {
-                                    allCourses.map(item => (
-                                        <option key={item}>{item}</option>
-                                    ))
-                                }
-                            </Select>
-                        </td>
-                    </tr>
-                </tbody></table>
+            <form onSubmit={updateProfileAcad(profileCohort, profileCourse)}>
+
+                <div style={{ display: "flex", alignItems: "center" }}>
+                    <Text style={{ whiteSpace: "nowrap" }} margin={1}>
+                        Cohort: AY
+                    </Text>
+                    <Select
+                        onChange={(e) => setProfileCohort(e.target.value)}
+                        margin={1}
+                        required>
+                        <option key="default" hidden>{profileCohort}</option>
+                        {
+                            cohortYears.map(item => ( <option key={item}>{item}</option> ))
+                        }
+                    </Select>
+                </div>                
+
+                <div style={{ display: "flex", alignItems: "center" }}>
+                    <Text style={{ whiteSpace: "nowrap" }} margin={1}>Course:</Text>
+                    <Select
+                        onChange={(e) => setProfileCourse(e.target.value)}
+                        margin={1}
+                        required>
+                        <option key="default" hidden>{profileCourse}</option>
+                        {
+                            allCourses.map(item => ( <option key={item}>{item}</option> ))
+                        }
+                    </Select>
+                </div>
 
                 <Button
                     type="submit"
@@ -83,6 +79,7 @@ export default function UserAcadInfo() {
                     margin={1}>
                     Update Profile
                 </Button>
+
             </form>
         </>
     );
