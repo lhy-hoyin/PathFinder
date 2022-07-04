@@ -1,4 +1,5 @@
 import { Heading } from '@chakra-ui/react';
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 
 import Header from "../components/Header";
 import UserBasicInfo from "../components/UserBasicInfo";
@@ -13,14 +14,31 @@ export default function UserProfile() {
 
             <Heading as='h1'>Profile</Heading>
 
-            <Heading as='h3' size='md'>Personal Information</Heading>
-            <UserBasicInfo />
+            <Tabs isManual isLazy variant='enclosed'>
+                <TabList>
+                    <Tab>Personal</Tab>
+                    <Tab>Academic</Tab>
+                    <Tab>Security</Tab>
+                </TabList>
 
-            <Heading as='h3' size='md'>Academic Information</Heading>
-            <UserAcadInfo />
+                <TabPanels>
+                    <TabPanel>
+                        <Heading as='h3' size='md'>Personal Information</Heading>
+                        <UserBasicInfo />
+                    </TabPanel>
 
-            <Heading as='h3' size='md'>Change password</Heading>
-            <ChangePassword />
+                    <TabPanel>
+                        <Heading as='h3' size='md'>Academic Information</Heading>
+                        <UserAcadInfo />
+                    </TabPanel>
+
+                    <TabPanel>
+                        <Heading as='h3' size='md'>Change password</Heading>
+                        <ChangePassword />
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
+ 
         </>    
     );
 
