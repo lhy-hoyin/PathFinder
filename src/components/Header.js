@@ -1,15 +1,12 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-    Link, Image,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalCloseButton,
+    Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton,
+    Menu, MenuButton, MenuList, MenuItem,
+    Link, Image, IconButton,
     useDisclosure
 } from '@chakra-ui/react';
+import { HamburgerIcon } from '@chakra-ui/icons'
 
 import { supabase } from "../supabaseClient";
 import { ProfileRoles } from "../constants";
@@ -33,6 +30,10 @@ export default function Header() {
             return navigate("/profile/new");
 
     }, [profileInfoReady]);
+
+    const goProfilePage = () => {
+        navigate("/profile")
+    }
 
     return (
         <div className="header">
@@ -60,8 +61,15 @@ export default function Header() {
                 ) : (
                     <ul>
                         <li>Welcome, {firstName ?? lastName ?? email ?? "user"}!</li>
-                        <li className='clickable'><a href="/profile">Profile</a></li>
-                        <li className='clickable'><a onClick={logout}  style={{cursor:'pointer'}}>Logout</a></li>
+                            <li>
+                                <Menu isLazy>
+                                    <MenuButton as={IconButton} icon={<HamburgerIcon />} variant='outline'/>
+                                    <MenuList>
+                                        <MenuItem onClick={goProfilePage}>Profile</MenuItem>
+                                        <MenuItem onClick={logout}>Logout</MenuItem>
+                                    </MenuList>
+                                </Menu>
+                            </li>
                     </ul>
                 )}
             </div>
