@@ -44,7 +44,7 @@ export default function Home() {
 
             <AdminAccess />
 
-            <div className="textbox">
+            <div className="generalinfo">
                 <h1> Design YOUR path today</h1>
                 <p> Only limited to Computer Science for now</p>
             </div>
@@ -81,7 +81,11 @@ export default function Home() {
 
             </form>
 
-            <div className="selectingGrad2">
+            <div style={{
+                display: "flex",
+                width: "50%",
+                justifyContent: "s"
+            }}>
                 <p>Legend:</p>
                 <p>Gray = Module Completed</p>
                 <p>Green = Module availble</p>

@@ -1,22 +1,15 @@
-.textbox {
-  text-align: center;
-  width: 90%;
-  color: #808080;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.selectingGrad2 {
-  display: flex;
-  width: 49%;
-  justify-content: space-between;
+.generalinfo {
+    text-align: center;
+    width: 100%;
+    color: var(--custom-font-color);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 @media(max-width: 700px){
-  .textbox{  
-    font-size: 20px;
-  }
-  
+    .generalinfo{  
+        font-size: 20px;
+    }
 }
