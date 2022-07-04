@@ -52,9 +52,10 @@ export default function Home() {
             <form onSubmit={ getData(selectedCourse) }>
                 
                 <div style={{
+                    gap: "5px",
                     display: "flex",
-                    alignItems: "center",
-                    flexFlow: "row wrap"
+                    flexFlow: "row wrap",
+                    alignItems: "center"
                 }}>
                     <Text style={{ whiteSpace: "nowrap" }} margin={1}>
                         Course: 
@@ -62,7 +63,6 @@ export default function Home() {
 
                     <div style={{ width: "fit-content" }}>
                         <Select
-                            margin={1}
                             onChange={(e) => setSelectedCourse(e.target.value)}
                             required >
                             <option key="default" hidden>{selectedCourse}</option>
@@ -74,8 +74,7 @@ export default function Home() {
 
                     <Button
                         type="submit"
-                        colorScheme='blue'
-                        margin={1}>
+                        colorScheme='blue'>
                         Generate Module Dependency Graph
                     </Button>
                 </div>
