@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Text, Select, Button, useToast } from '@chakra-ui/react';
 
 import { Auth } from "../hooks/Auth";
 import { graphData } from "../hooks/GraphData";
@@ -48,32 +49,45 @@ export default function Home() {
                 <p> Only limited to Computer Science for now</p>
             </div>
 
-            <form onSubmit={getData(selectedCourse) }>
+            <form onSubmit={ getData(selectedCourse) }>
                 
-                <div className="selectingGrad">
-                    <p>Course: </p>
-                    <select required onChange={(e) => setSelectedCourse(e.target.value)}>
-                        <option key="default" hidden>{selectedCourse}</option>
-                        {
-                            courseSelection.map(item => (
-                                <option key={item}>{item}</option>
-                            ))
-                        }
-                    </select>
-                    <button className="buttonBlock">Generate Module Dependency Graph</button>
-                </div>
+                <div style={{ display: "flex", alignItems: "center" }}>
+                    <Text style={{ whiteSpace: "nowrap" }} margin={1}>
+                        Course: 
+                    </Text>
 
-                <div className="selectingGrad2">
-                    <p>Legend:</p>
-                    <p>Gray = Module Completed</p>
-                    <p>Green = Module availble</p>
-                    <p>Red = Module Lock</p>
-                </div>
+                    <div style={{ width: "fit-content" }}>
+                        <Select
+                            margin={1}
+                            onChange={(e) => setSelectedCourse(e.target.value)}
+                            required >
+                            <option key="default" hidden>{selectedCourse}</option>
+                            {
+                                courseSelection.map(item => ( <option key={item}>{item}</option> ))
+                            }
+                        </Select>
+                    </div>
 
-                <GraphComponent />
-                <SemesterSchedule/>
+                    <Button
+                        type="submit"
+                        colorScheme='blue'
+                        margin={1}>
+                        Generate Module Dependency Graph
+                    </Button>
+                </div>
 
             </form>
+
+            <div className="selectingGrad2">
+                <p>Legend:</p>
+                <p>Gray = Module Completed</p>
+                <p>Green = Module availble</p>
+                <p>Red = Module Lock</p>
+            </div>
+
+            <GraphComponent />
+
+            <SemesterSchedule />
 
         </>
     );
