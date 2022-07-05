@@ -16,11 +16,12 @@ export class Module {
     this.color = colour;
     this.x = x;
     this.y = y;
-  }
+}
 
-  setPreReq = (allPreReq, allMods) => {
+setPreReq = (allPreReq, allMods) => {
     const totalCount = allPreReq.length;
 
+    //helper function
     const nodeExist = (checkMod, arr) => {
       let modExist = [];
       let count = 0;
@@ -38,15 +39,21 @@ export class Module {
     }
 
     for (var count = 0; count < totalCount; count++) {
-      let modWithOr = allPreReq[count].toString().split(",");
-      modWithOr = nodeExist(modWithOr, allMods);
+        let modWithOr = allPreReq[count].toString().split(",");
+        modWithOr = nodeExist(modWithOr, allMods);
 
-      if (modWithOr.length > 1) {
-        this.orPreq.push(modWithOr);
-      } else if (modWithOr.toString() !== "") {
-        this.preq.push(modWithOr.toString());
-      }
+        if (modWithOr.length > 1) {
+            this.orPreq.push(modWithOr);
+        } else if (modWithOr.toString() !== "") {
+            this.preq.push(modWithOr.toString());
+        }
     }
-  };
+};
+
+addDependentMods = (mod) => {
+    this.dependentMods.push(mod);
+};
+
+changingLabel = (newLabel) => (this.label = newLabel);
 
 }
