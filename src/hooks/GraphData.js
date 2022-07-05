@@ -66,6 +66,86 @@ function useProvideGraphData() {
       return { from: fromMod, to: toMod };
     };
 
+    const updateColour = (allMods, selectedModule) => {
+      let index = allMods.findIndex((x) => x.id === selectedModule);
+  
+      //updating colour to complete
+      if (allMods[index].isCompleted) {
+        allMods[index].color = colouring(ModuleStateColor.Completed);
+        if (allMods[index].dependentMods.length === 0) {
+          return allMods;
+        }
+      }
+
+      if ( allMods[index].preq.length === 0 && allMods[index].orPreq.length === 0 && !allMods[index].isCompleted ) {
+        allMods[index].color = colouring(ModuleStateColor.Available);
+      }
+  
+      if (allMods[index].dependentMods.length !== 0) {
+        const depMod = allMods[index].dependentMods; //the other mods that depend on the selected module
+        
+        for (var xx = 0; xx < depMod.length; xx++) {
+          const index2 = allMods.findIndex((x) => x.id === depMod[xx]);
+  
+          // The preq and the orpreq of the current dependant mod in the loop
+          const modPreq = allMods[index2].preq;
+          const modOrPreq = allMods[index2].orPreq;
+  
+          let totalCount = 0;
+          for (var y = 0; y < modPreq.length; y++) {
+            const index3 = allMods.findIndex((x) => x.id === modPreq[y]);
+            if (allMods[index3].isCompleted) {
+              totalCount++;
+            }
+          }
+  
+          let totalOrCount = 0;
+          for (var y = 0; y < modOrPreq.length; y++) {
+            let orCheck = false;
+            //Since its a or relationship, the "OR" node needs to be updated as well
+            const indexOr = allMods.findIndex(
+              (x) => x.id === orNodesLabel(modOrPreq[y])
+            );
+  
+            for (var z = 0; z < modOrPreq[y].length; z++) {
+              const index4 = allMods.findIndex((x) => x.id === modOrPreq[y][z]);
+              if (allMods[index4].isCompleted) {
+                orCheck = true;
+              }
+            }
+  
+            if (orCheck) {
+              allMods[indexOr].color = colouring(ModuleStateColor.Completed);
+              totalOrCount++;
+            } else {
+              allMods[indexOr].color = colouring(ModuleStateColor.Locked);
+            }
+          }
+  
+          if (
+            totalCount === modPreq.length &&
+            totalOrCount === modOrPreq.length
+          ) {
+            allMods[index2].color = allMods[index2].isCompleted
+              ? colouring(ModuleStateColor.Completed)
+              : colouring(ModuleStateColor.Available);
+          } else {
+            allMods[index2].isCompleted = false;
+            allMods[index2].color = colouring(ModuleStateColor.Locked);
+          }
+        }
+      }
+
+      return allMods;
+    };
+
+
+
+
+
+
+
+
     const updateStatus = (allMods, selectedModule) => {
         let index = allMods.findIndex((x) => x.id === selectedModule);
     
@@ -242,6 +322,9 @@ function useProvideGraphData() {
             
             testModClass = testModClass.concat(testOrNodes);
       
+            for (var count2 = 0; count2 < testModClass.length; count2++) {
+              updateColour(testModClass, testModClass[count2].id);
+            }
 
 
 
@@ -254,8 +337,7 @@ function useProvideGraphData() {
 
 
 
-
-
+/*
             let mod = [];
             let orNodes = [];
             let orCount = 0;
@@ -343,6 +425,7 @@ function useProvideGraphData() {
             for (var x = 0; x < mod.length; x++) { //Colour correcting the modules
                 updateStatus(mod, mod[x].id);
             }
+            */
 
             //setPreq(edges); // need to set edges first
             //setModules(mod);
