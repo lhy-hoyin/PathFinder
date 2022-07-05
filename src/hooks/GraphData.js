@@ -61,6 +61,10 @@ function useProvideGraphData() {
         }
         return modExist;
       };
+      
+    const addEdges = (fromMod, toMod) => {
+      return { from: fromMod, to: toMod };
+    };
 
     const updateStatus = (allMods, selectedModule) => {
         let index = allMods.findIndex((x) => x.id === selectedModule);
