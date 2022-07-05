@@ -171,14 +171,14 @@ function useProvideGraphData() {
                 throw ("no data from database")
 
             let temp = data.slice(0);
+            const count = temp.length
+
             let testModClass = [];
             let testOrNodes = [];
       
             let edgesTest = [];
             let count1 = 0;
       
-            const count = temp.length
-            // Creating the module/nodes object for every single element in the data
             for (var num = 0; num < count; num++) {
               testModClass[num] = new Module(
                 temp[num].code,
@@ -195,7 +195,64 @@ function useProvideGraphData() {
       
               testModClass[num].setPreReq(temp[num].pre_req, modsArr);
             }
+            
+            for (var index = 0; index < count; index++) {
+              const moduleId = testModClass[index].id;
+              const preqMods = testModClass[index].preq;
+              const orPreqMods = testModClass[index].orPreq;
+
+              if (preqMods.length > 0) {
+                for (var index1 = 0; index1 < preqMods.length; index1++) {
+
+                  edgesTest[count1] = addEdges(moduleId, preqMods[index1]);
+                  count1++;
+
+                  const x = testModClass.findIndex((x) => x.id === preqMods[index1]);
+                  testModClass[x].addDependentMods(moduleId);
+                }
+              }
+
+              if (orPreqMods.length > 0) {
+                for (var index2 = 0; index2 < orPreqMods.length; index2++) {
+                  // Creating "OR" nodes
+                  const label = orNodesLabel(orPreqMods[index2]);
+                  testOrNodes[index2] = new Module(
+                    label,
+                    [null, null, null, null],
+                    colouring(ModuleStateColor.Locked),
+                    pos.find((a) => a.id === label).x,
+                    pos.find((a) => a.id === label).y
+                  );
+
+                  testOrNodes[index2].changingLabel("or");
+                  testOrNodes[index2].shape = "ellipse";
+
+                  for (var index3 = 0; index3 < orPreqMods[index2].length; index3++) {
+                    edgesTest[count1] = addEdges(label, orPreqMods[index2][index3]);
+                    count1++;
+                  }
+
+                  edgesTest[count1] = addEdges(moduleId, label);
+                  count1++;
+
+                  testOrNodes[index2].addDependentMods(moduleId);
+                }
+              }
+            }
+            
+            testModClass = testModClass.concat(testOrNodes);
       
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -287,8 +344,9 @@ function useProvideGraphData() {
                 updateStatus(mod, mod[x].id);
             }
 
-            setPreq(edges); // need to set edges first
+            //setPreq(edges); // need to set edges first
             //setModules(mod);
+            setPreq(edgesTest)
             setModules(testModClass)
 
         } catch (error) {
