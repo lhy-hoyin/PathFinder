@@ -48,19 +48,6 @@ function useProvideGraphData() {
         }
         return label
     }
-
-    const nodeExist = (checkMod, arr) => {
-        let modExist = [];
-        let count = 0;
-    
-        for (var x = 0; x < checkMod.length; x++) {
-          if (arr.includes(checkMod[x])) {
-            modExist[count] = checkMod[x];
-            count++;
-          }
-        }
-        return modExist;
-      };
       
     const addEdges = (fromMod, toMod) => {
       return { from: fromMod, to: toMod };
@@ -69,7 +56,6 @@ function useProvideGraphData() {
     const updateColour = (allMods, selectedModule) => {
       let index = allMods.findIndex((x) => x.id === selectedModule);
   
-      //updating colour to complete
       if (allMods[index].isCompleted) {
         allMods[index].color = colouring(ModuleStateColor.Completed);
         if (allMods[index].dependentMods.length === 0) {
@@ -139,58 +125,6 @@ function useProvideGraphData() {
       return allMods;
     };
 
-
-
-
-
-
-
-
-    const updateStatus = (allMods, selectedModule) => {
-        let index = allMods.findIndex((x) => x.id === selectedModule);
-    
-        if (allMods[index].status === true) {
-          allMods[index].color = colouring(ModuleStateColor.Completed);
-          return allMods;
-        }
-        //Starting modules that have no prequities
-        if (allMods[index].pre.length === 0) {
-          if (allMods[index].status === false) {
-            allMods[index].color = colouring(ModuleStateColor.Available);
-          } else {
-            allMods[index].color = colouring(ModuleStateColor.Completed);
-          }
-        } else {
-          //Modules with preq
-          for (var count = 0; count < allMods[index].pre.length; count++) {
-            
-            //For or nodes
-            if (allMods[index].pre[count][0].length > 1) {
-              for ( var count1 = 0; count1 < allMods[index].pre[count].length; count1++) {
-                let temp = allMods.findIndex( (x) => x.id === allMods[index].pre[count][count1]);
-                if (allMods[temp].status === true) {
-                  allMods[index].color = colouring(ModuleStateColor.Available);
-                  return allMods;
-                }
-              }
-              allMods[index].color = colouring(ModuleStateColor.Locked);
-              return allMods;
-            } else {
-              let temp = allMods.findIndex((x) => x.id === allMods[index].pre[count]);
-
-              if (allMods[temp].status === false) {
-                allMods[index].color = colouring(ModuleStateColor.Locked);
-                return allMods;
-              }
-            }
-          }
-    
-          allMods[index].color = colouring(ModuleStateColor.Available);
-        }
-    
-        return allMods;
-      };
-
     const getCoursesRequirement = async () => {
 
         const posSetUp = (posArr) => {
@@ -253,42 +187,37 @@ function useProvideGraphData() {
             let temp = data.slice(0);
             const count = temp.length
 
-            let testModClass = [];
-            let testOrNodes = [];
+            let mod = [];
+            let orNodes = [];
       
-            let edgesTest = [];
-            let count1 = 0;
+            let edges = [];
+            let edgesCount = 0;
       
             for (var num = 0; num < count; num++) {
-              testModClass[num] = new Module(
+              mod[num] = new Module(
                 temp[num].code,
-                [
-                  temp[num].name,
-                  temp[num].acad_year,
-                  temp[num].credit,
-                  temp[num].description
-                ],
+                [temp[num].name, temp[num].acad_year, temp[num].credit, temp[num].description],
                 colouring(ModuleStateColor.Locked),
                 pos.find((a) => a.id === temp[num].code).x || null,
                 pos.find((a) => a.id === temp[num].code).y || null
               );
       
-              testModClass[num].setPreReq(temp[num].pre_req, modsArr);
+              mod[num].setPreReq(temp[num].pre_req, modsArr);
             }
             
             for (var index = 0; index < count; index++) {
-              const moduleId = testModClass[index].id;
-              const preqMods = testModClass[index].preq;
-              const orPreqMods = testModClass[index].orPreq;
+              const moduleId = mod[index].id;
+              const preqMods = mod[index].preq;
+              const orPreqMods = mod[index].orPreq;
 
               if (preqMods.length > 0) {
                 for (var index1 = 0; index1 < preqMods.length; index1++) {
 
-                  edgesTest[count1] = addEdges(moduleId, preqMods[index1]);
-                  count1++;
+                  edges[edgesCount] = addEdges(moduleId, preqMods[index1]);
+                  edgesCount++;
 
-                  const x = testModClass.findIndex((x) => x.id === preqMods[index1]);
-                  testModClass[x].addDependentMods(moduleId);
+                  const x = mod.findIndex((x) => x.id === preqMods[index1]);
+                  mod[x].addDependentMods(moduleId);
                 }
               }
 
@@ -296,7 +225,7 @@ function useProvideGraphData() {
                 for (var index2 = 0; index2 < orPreqMods.length; index2++) {
                   // Creating "OR" nodes
                   const label = orNodesLabel(orPreqMods[index2]);
-                  testOrNodes[index2] = new Module(
+                  orNodes[index2] = new Module(
                     label,
                     [null, null, null, null],
                     colouring(ModuleStateColor.Locked),
@@ -304,133 +233,30 @@ function useProvideGraphData() {
                     pos.find((a) => a.id === label).y
                   );
 
-                  testOrNodes[index2].changingLabel("or");
-                  testOrNodes[index2].shape = "ellipse";
+                  orNodes[index2].changingLabel("or");
+                  orNodes[index2].shape = "ellipse";
 
                   for (var index3 = 0; index3 < orPreqMods[index2].length; index3++) {
-                    edgesTest[count1] = addEdges(label, orPreqMods[index2][index3]);
-                    count1++;
+                    edges[edgesCount] = addEdges(label, orPreqMods[index2][index3]);
+                    edgesCount++;
                   }
 
-                  edgesTest[count1] = addEdges(moduleId, label);
-                  count1++;
+                  edges[edgesCount] = addEdges(moduleId, label);
+                  edgesCount++;
 
-                  testOrNodes[index2].addDependentMods(moduleId);
+                  orNodes[index2].addDependentMods(moduleId);
                 }
               }
             }
-            
-            testModClass = testModClass.concat(testOrNodes);
       
-            for (var count2 = 0; count2 < testModClass.length; count2++) {
-              updateColour(testModClass, testModClass[count2].id);
+            for (var count1 = 0; count1 < mod.length; count1++) {
+              updateColour(mod, mod[count1].id);
             }
 
+            mod = mod.concat(orNodes);
 
-
-
-
-
-
-
-
-
-
-
-/*
-            let mod = [];
-            let orNodes = [];
-            let orCount = 0;
-
-            let edges = [];
-            let edgeCount = 0;
-
-            let tableMods = [];
-
-            for (var node = 0; node < temp.length; node++) {
-
-                const position = pos.find((a) => a.id === temp[node].code)
-                if (typeof (position) === 'undefined')
-                    console.warn("no position for:", temp[node].code)
-
-                mod[node] = {
-                    id: temp[node].code,
-                    label: temp[node].code,
-                    color: colouring(ModuleStateColor.Completed),
-                    info: [temp[node].name, temp[node].acad_year, temp[node].credit, temp[node].description],
-                    x: position.x || null,
-                    y: position.y || null,
-                    status: false,
-                    pre: []
-                };
-
-                tableMods[node] = {
-                    id: temp[node].code,
-                    content: temp[node].code,
-                    pre: []
-                };
-
-                if (temp[node].pre_req) {
-
-                    for (var req = 0; req < temp[node].pre_req.length; req++) {
-                        
-                        let modWithOr = temp[node].pre_req[req].toString().split(",");
-                        modWithOr = nodeExist(modWithOr, modsArr)
-
-                        if (modWithOr.length > 1) {
-
-                            const position = pos.find((a) => a.id === orNodesLabel(modWithOr))
-                            if (typeof (position) === 'undefined')
-                                console.warn("no position for:", orNodesLabel(modWithOr), "'or' node")
-
-                            orNodes[orCount] = {
-                                id:  orNodesLabel(modWithOr),
-                                label: "or",
-                                shape: "ellipse",
-                                color: colouring(ModuleStateColor.Completed),
-                                info: ["", "", "", ""],
-                                x: position?.x || null,
-                                y: position?.y || null,
-                                status: false,
-                                pre: [modWithOr]
-                            }
-                            orCount++;
-                            
-                            tableMods[node].pre.push(modWithOr);
-                            mod[node].pre.push(orNodesLabel(modWithOr));
-
-                            edges[edgeCount] = { from: temp[node].code, to: orNodesLabel(modWithOr) }
-                            edgeCount++;
-
-                            for(var orReq = 0; orReq < modWithOr.length; orReq++) {
-                                edges[edgeCount] = { from: orNodesLabel(modWithOr) , to: modWithOr[orReq] }
-                                edgeCount++;
-                            }
-
-                        } else if (modWithOr.toString() !== "") {
-
-                            tableMods[node].pre.push(modWithOr.toString());
-                            mod[node].pre.push(modWithOr.toString());
-                            edges[edgeCount] = { from: temp[node].code, to: modWithOr.toString() };
-                            edgeCount++;
-                            
-                        }                       
-                    }
-                }
-            }
-
-            setTimeTableMods(tableMods);
-
-            mod = mod.concat(orNodes)
-            for (var x = 0; x < mod.length; x++) { //Colour correcting the modules
-                updateStatus(mod, mod[x].id);
-            }
-            */
-
-            //setPreq(edges); // need to set edges first
-            //setModules(mod);
-            setPreq(edgesTest)
-            setModules(testModClass)
+            setPreq(edges)
+            setModules(mod)
 
         } catch (error) {
             console.error(error.message);
@@ -441,14 +267,16 @@ function useProvideGraphData() {
         let index = modules.findIndex((x) => x.id === nodes.toString());
         if (modules[index].color.background === ModuleStateColor.Locked) {
           alert("Module is locked. Please clear the prequities first.");
+        } else if (modules[index].label === "or") {
+          return; //do nothing
         } else {
-            const modulesCopy = cloneDeep(modules);
-            modulesCopy[index].status = !modulesCopy[index].status;
-            for (var x = 0; x < modulesCopy.length; x++) {
-                updateStatus(modulesCopy, modulesCopy[x].id);
-            }
+          const modulesCopy = cloneDeep(modules);
+          modulesCopy[index].isCompleted = !modulesCopy[index].isCompleted;
+    
+          for (var index1 = 0; index1 < modulesCopy.length; index1++) {
+            updateColour(modulesCopy, modulesCopy[index1].id);
+          }
             setModules(modulesCopy);
-          //  isUpdating(!updating)
         }
       };
 
