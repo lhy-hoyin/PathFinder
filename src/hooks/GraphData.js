@@ -192,6 +192,8 @@ function useProvideGraphData() {
       
             let edges = [];
             let edgesCount = 0;
+
+            let tableMods = [];
       
             for (var num = 0; num < count; num++) {
               mod[num] = new Module(
@@ -251,10 +253,16 @@ function useProvideGraphData() {
       
             for (var count1 = 0; count1 < mod.length; count1++) {
               updateColour(mod, mod[count1].id);
+              tableMods[count1] = {
+                id: mod[count1].id,
+                content: mod[count1].id,
+                pre: mod[count1].preq.concat(mod[count1].orPreq)
+              }
             }
 
             mod = mod.concat(orNodes);
 
+            setTimeTableMods(tableMods);
             setPreq(edges)
             setModules(mod)
 
