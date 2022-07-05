@@ -4,6 +4,7 @@ import Color from "color";
 
 import { supabase } from "../supabaseClient";
 import { ModuleStateColor } from "../constants"
+import { Module } from "../components/Module"
 
 const graphContext = createContext();
 
@@ -166,6 +167,33 @@ function useProvideGraphData() {
                 throw ("no data from database")
 
             let temp = data.slice(0);
+            let testModClass = [];
+            let testOrNodes = [];
+      
+            let edgesTest = [];
+            let count1 = 0;
+      
+            const count = temp.length
+            // Creating the module/nodes object for every single element in the data
+            for (var num = 0; num < count; num++) {
+              testModClass[num] = new Module(
+                temp[num].code,
+                [
+                  temp[num].name,
+                  temp[num].acad_year,
+                  temp[num].credit,
+                  temp[num].description
+                ],
+                colouring(ModuleStateColor.Locked),
+                pos.find((a) => a.id === temp[num].code).x || null,
+                pos.find((a) => a.id === temp[num].code).y || null
+              );
+      
+              testModClass[num].setPreReq(temp[num].pre_req, modsArr);
+            }
+      
+
+
 
             let mod = [];
             let orNodes = [];
@@ -256,7 +284,8 @@ function useProvideGraphData() {
             }
 
             setPreq(edges); // need to set edges first
-            setModules(mod);
+            //setModules(mod);
+            setModules(testModClass)
 
         } catch (error) {
             console.error(error.message);
