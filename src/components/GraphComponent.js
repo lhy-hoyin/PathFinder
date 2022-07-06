@@ -179,7 +179,9 @@ export default function GradGraph() {
             </div>    
 
             <div style={{ flex: "25%"}}>
-                <p>You have selected: <b>{name}</b> </p>
+                <p>
+                    {name ? "You have selected: " + name.toString() : "Click on a module to find out more!"}
+                </p>
                 <p>
                     {code}
                     {credit ? " (" + credit.toString() + " MC)" : ""}
