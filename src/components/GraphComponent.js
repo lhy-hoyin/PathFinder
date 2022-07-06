@@ -7,10 +7,8 @@ import {
     PopoverContent,
     PopoverHeader,
     PopoverBody,
-    PopoverFooter,
     PopoverArrow,
     PopoverCloseButton,
-    PopoverAnchor,
     IconButton
 } from '@chakra-ui/react'
 import { QuestionOutlineIcon } from '@chakra-ui/icons'
@@ -19,7 +17,8 @@ import { graphData } from "../hooks/GraphData";
 
 import "../css/GraphComponent.css";
 
-export default function GradGraph(){
+export default function GradGraph() {
+
     const { modules, preq, updateGraph } = graphData()
 
     const [nodes, setNodes] = useState([])
