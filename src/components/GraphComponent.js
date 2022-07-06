@@ -138,20 +138,29 @@ export default function GradGraph(){
     return (
         <div style={{ display: "flex", margin: "1%", gap: "1%" }}>
 
-            <div className="graphBox" id="graph">
-                <Graph graph={graph} options={options} events = {events} />
+            <div>
+
+                <div style={{ display: "flex", gap: "1%" }}>
+                    <p>Legend:</p>
+                    <p style={{ backgroundColor: "grey" }}>Module Completed</p>
+                    <p style={{ backgroundColor:"greenyellow"}}>Module Available</p>
+                    <p style={{ backgroundColor: "red" }}>Module Locked</p>
+                </div>
+
+                <div className="graphBox" id="graph">
+                    <Graph graph={graph} options={options} events = {events} />
+                </div>
             </div>
 
-            <div style={{ flex: "30%"}}>
-                <p>Selected module: {code} </p>
-                <br/>
-                <p>Name: {name} </p>
+            <div style={{ flex: "25%"}}>
+                <p>You have selected: <b>{name}</b> </p>
+                <p>
+                    {code}
+                    {credit ? " (" + credit.toString() + " MC)" : ""}
+                </p>
+                <p>{year ? "Academic Year: " + year.toString() : ""}</p>
                 <br />
-                <p>Academic Year: {year} </p>
-                <br />
-                <p>Credits: {credit} </p>
-                <br />
-                <p>Description: {descibe}</p>
+                <p>{descibe}</p>
             </div>
 
         </div>

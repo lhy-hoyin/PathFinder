@@ -10,8 +10,6 @@ import AdminAccess from "../components/AdminAccess";
 import GraphComponent from "../components/GraphComponent";
 import SemesterSchedule from "../components/SemesterSchedule"
 
-import "../css/Home.css";
-
 export default function Home() {
 
     const { getData, getCoursesRequirement } = graphData();
@@ -44,11 +42,6 @@ export default function Home() {
 
             <AdminAccess />
 
-            <div className="generalinfo">
-                <h1> Design YOUR path today</h1>
-                <p> Only limited to Computer Science for now</p>
-            </div>
-
             <form onSubmit={ getData(selectedCourse) }>
                 
                 <div style={{
@@ -80,17 +73,6 @@ export default function Home() {
                 </div>
 
             </form>
-
-            <div style={{
-                display: "flex",
-                width: "50%",
-                justifyContent: "space-between"
-            }}>
-                <p>Legend:</p>
-                <p >Gray = Module Completed</p>
-                <p>Green = Module availble</p>
-                <p>Red = Module Lock</p>
-            </div>
 
             <GraphComponent />
 
