@@ -1,20 +1,11 @@
-body {
-    --custom-font-size: 20px;
-    --custom-font-color: #808080;
-    --custom-font-family: monospace;
-}
-
 .header {
-    min-width: 100vh;
     width: 100%;
-    background-position: center;
-    background-size: cover;
-    position: relative;
+    min-width: 100vh;
     display: flex;
-    justify-content: space-between;
+    position: relative;
     align-items: center;
+    justify-content: space-between;
 }
-
 
 .nav-links {
     flex: 1;
@@ -31,26 +22,6 @@ body {
     padding: 8px 12px;
     position: relative;
 }
- 
-.nav-links ul li a {
-        color: var(--custom-font-color);
-        text-decoration: none;
-}
-   
-.clickable::after {
-    content: '';
-    width: 0%;
-    height: 2px;
-    background: #807272;
-    display: block;
-    margin: auto;
-    transition: 0.5s;
-}
-
-.clickable:hover::after {
-    width: 100%;
-}
-
     
 /*   This one is suppose to be for mobile version 
 @media(max-width: 700px) {

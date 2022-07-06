@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Heading, Button } from '@chakra-ui/react';
 
 import { Auth } from "../hooks/Auth";
 import UserBasicInfo from "../components/UserBasicInfo";
@@ -21,11 +22,11 @@ export default function NewUser() {
 
     return (
         <>
-            <h1>Set Up Your New Profile</h1>
+            <Heading as='h1'>Set Up Your New Profile</Heading>
             <UserBasicInfo />
 
             <form onSubmit={ logout }>
-                <button>Logout Now</button>
+                <Button type="submit">Logout Now</Button>
             </form>
         </>
     );

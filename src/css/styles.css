@@ -1,4 +1,6 @@
 * {
+    --custom-font-size: 20px;
+    --custom-font-color: #808080;
     --custom-font-family: monospace;
 
     --btn-color-text: #ffffff;
@@ -16,3 +18,20 @@
     flex-basis: 50%;
     flex-grow: 0;
 }
+
+.clickable {
+    display: inline-block;
+}
+    .clickable::after {
+        content: '';
+        width: 0%;
+        height: 2px;
+        margin: auto;
+        display: block;
+        transition: 0.5s;
+        background: #807272;
+    }
+
+    .clickable:hover::after {
+        width: 100%;
+    }

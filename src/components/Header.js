@@ -1,6 +1,12 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Popup from 'reactjs-popup';
+import {
+    Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, ModalCloseButton,
+    Menu, MenuButton, MenuList, MenuItem,
+    Link, Image, IconButton,
+    useDisclosure
+} from '@chakra-ui/react';
+import { HamburgerIcon } from '@chakra-ui/icons'
 
 import { supabase } from "../supabaseClient";
 import { ProfileRoles } from "../constants";
@@ -13,6 +19,7 @@ export default function Header() {
 
     const navigate = useNavigate();
     const user = supabase.auth.user();
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const { profileInfoReady, role, email, firstName, lastName, logout } = Auth();
 
     useEffect(() => {
@@ -24,35 +31,49 @@ export default function Header() {
 
     }, [profileInfoReady]);
 
-    return (
-        <section className="header">
+    const goProfilePage = () => {
+        navigate("/profile")
+    }
 
-            <a href="/">
-                <img src="img/banner.png" alt="Pathfinder" height="100"/>
-            </a>
+    return (
+        <div className="header">
+
+            <Link href="/">
+                <Image src="img/banner.png" alt="Pathfinder" height="100"/>
+            </Link>
 
             <div className="nav-links">
                 {!user ? (
                     <ul>
                         <li className='clickable'><a href="/sign-up">Sign Up</a></li>
-                        <Popup
-                            className='login-popups'
-                            trigger={
-                                <li className="clickable"  style={{cursor:'pointer'}}>Login</li>
-                            }>
-                            <LoginPop />
-                        </Popup>
-                    
+                        <li className='clickable'><a onClick={onOpen}>Login</a></li>
+                        <Modal isOpen={isOpen} onClose={onClose}>
+                            <ModalOverlay />
+                            <ModalContent>
+                                <ModalHeader>Login</ModalHeader>
+                                <ModalCloseButton />
+                                <ModalBody>
+                                    <LoginPop />
+                                </ModalBody>
+                            </ModalContent>
+                        </Modal>
                     </ul>
                 ) : (
                     <ul>
-                            <li>Welcome, {firstName ?? lastName ?? email ?? "user"}!</li>
-                            <li className='clickable'><a href="/profile">Profile</a></li>
-                            <li className='clickable'><a onClick={logout}  style={{cursor:'pointer'}}>Logout</a></li>
+                        <li>Welcome, {firstName ?? lastName ?? email ?? "user"}!</li>
+                            <li>
+                                <Menu isLazy>
+                                    <MenuButton as={IconButton} icon={<HamburgerIcon />} variant='outline'/>
+                                    <MenuList>
+                                        <MenuItem onClick={goProfilePage}>Profile</MenuItem>
+                                        <MenuItem onClick={logout}>Logout</MenuItem>
+                                    </MenuList>
+                                </Menu>
+                            </li>
                     </ul>
                 )}
             </div>
 
-        </section>
+        </div>
     );
 }

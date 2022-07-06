@@ -72,14 +72,16 @@ function useProvideAuth() {
         }
     };
 
-    const updateProfileBasic = (fName, lName) => async e => {
-        e.preventDefault();
-
+    const updateProfileBasic = async (fName, lName) => {
         try {
             const user = supabase.auth.user()
 
             if (user == null)
-                return
+                return {
+                    status: 'error',
+                    title: "Oops!",
+                    description: "You are not logged in"
+                };
 
             // Pacakage data properly
             const updates = {
@@ -102,21 +104,33 @@ function useProvideAuth() {
                 setRole(updates.role);
 
                 console.log("Profile Updated successfully")
+                return {
+                    status: 'success',
+                    title: "Update Successful",
+                    description: "Your information has been updated in our system"
+                };
             }
 
         } catch (error) {
-            console.error(error.message);
+            console.error(error.error_description || error.message);
+            return {
+                status: 'error',
+                title: "Oops!",
+                description: error.error_description || error.message
+            };
         }
     };
 
-    const updateProfileAcad = (userCohort, userCourse) => async e => {
-        e.preventDefault();
-
+    const updateProfileAcad = async (userCohort, userCourse) => {
         try {
             const user = supabase.auth.user()
 
             if (user == null)
-                return
+                return {
+                    status: 'error',
+                    title: "Oops!",
+                    description: "You are not logged in"
+                };
 
             // Pacakage data properly
             const updates = {
@@ -132,44 +146,47 @@ function useProvideAuth() {
 
             if (error)
                 throw error
-            else
-                console.log("Profile Updated successfully")
+            else {
+                console.log("Profile Updated successfully");
+                return {
+                    status: 'success',
+                    title: "Update Successful",
+                    description: "Your information has been updated in our system"
+                };
+            }
 
         } catch (error) {
-            console.error(error.message);
+            console.error(error.error_description || error.message);
+            return {
+                status: 'error',
+                title: "Oops!",
+                description: error.error_description || error.message
+            };
         }
     };
 
-    const signup = (email, password1, password2, setMessage) => async e => {
-        e.preventDefault();
-
-        // Verify that password is matching
-        if (password1 != password2) {
-            setMessage("Password does not match");
-            console.log("User input mis-matched password");
-            return;
-        }
-
-        var password = password1;
-
-        if (password.length < 6) {
-            setMessage("Password too short (min 6 characters)");
-            console.log("User password too short");
-            return;
-        }
+    const signup = async (email, password) => {
 
         //TODO: hex password here for security
         //note: login also need to hex, when this is implemented
 
         try {
-            setMessage("Signing up ... please be patient...");
             const { error } = await supabase.auth.signUp({ email, password });
             if (error) throw error;
-            setMessage("Check your email for the login link!");
             console.log("Verification email sent");
+            return {
+                status: 'success',
+                title: "Account created!",
+                description: "Check your email for the verification email!"
+            };
+            
         } catch (error) {
             console.error(error.error_description || error.message);
-            setMessage(error.error_description || error.message);
+            return {
+                status: 'error',
+                title: "Oops!",
+                description: error.error_description || error.message
+            };
         }
     };
 
@@ -226,24 +243,23 @@ function useProvideAuth() {
         }
     };
 
-    const resettingPassword = (password1, password2, setMessage) => async e => {
-        e.preventDefault();
-
-        if (password1 != password2) {
-            setMessage("Password does not match");
-            console.log("User input mis-matched password");
-            return;
-        }
-
-        var password = password1
-
+    const resettingPassword = async (newPassword) => {
         try {
-            const { error } = await supabase.auth.update({ password });
+            const { error } = await supabase.auth.update({ password: newPassword });
             if (error) throw error;
-            alert("password changed ");
+            console.log("User password updated");
+            return {
+                status: 'success',
+                title: "Success: Password Updated",
+                description: "You can now use your new password"
+            };
         } catch (error) {
-            alert(error.error_description);
-            console.error(error.error_description);
+            console.error(error.error_description || error.message);
+            return {
+                status: 'error',
+                title: "Oops!",
+                description: error.error_description || error.message
+            };
         }
     };
 

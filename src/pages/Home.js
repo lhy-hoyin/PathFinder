@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Text, Select, Button, useToast } from '@chakra-ui/react';
 
 import { Auth } from "../hooks/Auth";
 import { graphData } from "../hooks/GraphData";
@@ -43,37 +44,57 @@ export default function Home() {
 
             <AdminAccess />
 
-            <div className="textbox">
+            <div className="generalinfo">
                 <h1> Design YOUR path today</h1>
                 <p> Only limited to Computer Science for now</p>
             </div>
 
-            <form onSubmit={getData(selectedCourse) }>
+            <form onSubmit={ getData(selectedCourse) }>
                 
-                <div className="selectingGrad">
-                    <p>Course: </p>
-                    <select required onChange={(e) => setSelectedCourse(e.target.value)}>
-                        <option key="default" hidden>{selectedCourse}</option>
-                        {
-                            courseSelection.map(item => (
-                                <option key={item}>{item}</option>
-                            ))
-                        }
-                    </select>
-                    <button className="buttonBlock">Generate Module Dependency Graph</button>
-                </div>
+                <div style={{
+                    gap: "5px",
+                    display: "flex",
+                    flexFlow: "row wrap",
+                    alignItems: "center"
+                }}>
+                    <Text style={{ whiteSpace: "nowrap" }} margin={1}>
+                        Course: 
+                    </Text>
 
-                <div className="selectingGrad2">
-                    <p>Legend:</p>
-                    <p>Gray = Module Completed</p>
-                    <p>Green = Module availble</p>
-                    <p>Red = Module Lock</p>
-                </div>
+                    <div style={{ width: "fit-content" }}>
+                        <Select
+                            onChange={(e) => setSelectedCourse(e.target.value)}
+                            required >
+                            <option key="default" hidden>{selectedCourse}</option>
+                            {
+                                courseSelection.map(item => ( <option key={item}>{item}</option> ))
+                            }
+                        </Select>
+                    </div>
 
-                <GraphComponent />
-                <SemesterSchedule/>
+                    <Button
+                        type="submit"
+                        colorScheme='blue'>
+                        Generate Module Dependency Graph
+                    </Button>
+                </div>
 
             </form>
+
+            <div style={{
+                display: "flex",
+                width: "50%",
+                justifyContent: "space-between"
+            }}>
+                <p>Legend:</p>
+                <p >Gray = Module Completed</p>
+                <p>Green = Module availble</p>
+                <p>Red = Module Lock</p>
+            </div>
+
+            <GraphComponent />
+
+            <SemesterSchedule />
 
         </>
     );

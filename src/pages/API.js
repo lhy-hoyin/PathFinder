@@ -45,6 +45,7 @@ export default function API() {
                 (result) => {
                     setIsLoaded(true);
                     setData(result);
+                    setError(null);
                 },
                 (error) => {
                     setIsLoaded(true);

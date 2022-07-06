@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
+import { Text, Select, Button, useToast } from '@chakra-ui/react';
 
 import { Auth } from "../hooks/Auth";
 import { getCourseNames } from "../hooks/Database";
+import NUM_OF_COHORT_YEARS from "../definitions";
 
 export default function UserAcadInfo() {
 
-    const NUM_OF_COHORT_YEARS = 5
-
+    const toast = useToast();
     const { profileInfoReady, cohort, course, updateProfileAcad } = Auth();
 
     const [profileCohort, setProfileCohort] = useState("");
@@ -40,42 +41,61 @@ export default function UserAcadInfo() {
         setProfileCourse(course);
     }, [profileInfoReady]);
 
+    const handleUpdateAcadInfo = async e => {
+        e.preventDefault();
+
+        const startUpdate = async () => {
+            const result = await updateProfileAcad(profileCohort, profileCourse)
+            toast({
+                title: result.title,
+                description: result.description,
+                status: result.status,
+                duration: 5000,
+                isClosable: true,
+            })
+        }
+        startUpdate().catch(console.error)
+    }
+
     return (
         <>
-            <form onSubmit={updateProfileAcad(profileCohort, profileCourse) }>
-                <table><tbody>
-                    <tr>
-                        <td>Cohort: AY</td>
-                        <td>
-                            <select
-                                onChange={(e) => setProfileCohort(e.target.value)}
-                                required>
-                                <option key="default" hidden>{profileCohort}</option>
-                                {
-                                    cohortYears.map(item => (
-                                        <option key={item}>{item}</option>
-                                    ))
-                                }
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Course:</td>
-                        <td>
-                            <select
-                                onChange={(e) => setProfileCourse(e.target.value)}
-                                required>
-                                <option key="default" hidden>{profileCourse}</option>
-                                {
-                                    allCourses.map(item => (
-                                        <option key={item}>{item}</option>
-                                    ))
-                                }
-                            </select>
-                        </td>
-                    </tr>
-                </tbody></table>
-                <button>Update Profile</button>
+            <form onSubmit={handleUpdateAcadInfo}>
+
+                <div style={{ display: "flex", alignItems: "center" }}>
+                    <Text style={{ whiteSpace: "nowrap" }} margin={1}>
+                        Cohort: AY
+                    </Text>
+                    <Select
+                        onChange={(e) => setProfileCohort(e.target.value)}
+                        margin={1}
+                        required>
+                        <option key="default" hidden>{profileCohort}</option>
+                        {
+                            cohortYears.map(item => ( <option key={item}>{item}</option> ))
+                        }
+                    </Select>
+                </div>                
+
+                <div style={{ display: "flex", alignItems: "center" }}>
+                    <Text style={{ whiteSpace: "nowrap" }} margin={1}>Course:</Text>
+                    <Select
+                        onChange={(e) => setProfileCourse(e.target.value)}
+                        margin={1}
+                        required>
+                        <option key="default" hidden>{profileCourse}</option>
+                        {
+                            allCourses.map(item => ( <option key={item}>{item}</option> ))
+                        }
+                    </Select>
+                </div>
+
+                <Button
+                    type="submit"
+                    colorScheme='blue'
+                    margin={1}>
+                    Update Profile
+                </Button>
+
             </form>
         </>
     );

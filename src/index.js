@@ -1,17 +1,20 @@
-import { StrictMode } from "react";
-import ReactDOM from "react-dom";
+import { ChakraProvider } from '@chakra-ui/react';
+import ReactDOM from "react-dom/client";
 
 import { ProvideAuth } from "./hooks/Auth";
 import { ProvideGraphData } from "./hooks/GraphData"
 import App from "./App";
 
 const rootElement = document.getElementById("root");
-ReactDOM.render(
 
+const root = ReactDOM.createRoot(rootElement);
+
+root.render(
+    <ChakraProvider>
         <ProvideAuth>
             <ProvideGraphData>
                 <App />
             </ProvideGraphData>
-        </ProvideAuth>,
-    rootElement
+        </ProvideAuth>
+    </ChakraProvider>
 );
