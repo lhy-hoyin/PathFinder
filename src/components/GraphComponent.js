@@ -1,5 +1,19 @@
 import React, { useEffect, useState } from "react";
 import Graph from "react-vis-graph-wrapper";
+import {
+    Text,
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverHeader,
+    PopoverBody,
+    PopoverFooter,
+    PopoverArrow,
+    PopoverCloseButton,
+    PopoverAnchor,
+    IconButton
+} from '@chakra-ui/react'
+import { QuestionOutlineIcon } from '@chakra-ui/icons'
 
 import { graphData } from "../hooks/GraphData";
 
@@ -138,19 +152,25 @@ export default function GradGraph(){
     return (
         <div style={{ display: "flex", margin: "1%", gap: "1%" }}>
 
-            <div>
+            <div className="graphBox" id="graph">
+                <Popover>
+                    <PopoverTrigger>
+                        <IconButton background="transparent" icon={<QuestionOutlineIcon />} />
+                    </PopoverTrigger>
+                    <PopoverContent>
+                        <PopoverArrow />
+                        <PopoverCloseButton />
+                        <PopoverBody>
+                            <Text>Legend:</Text>
+                            <Text style={{ backgroundColor: "grey" }}>Module Completed</Text>
+                            <Text style={{ backgroundColor: "greenyellow" }}>Module Available</Text>
+                            <Text style={{ backgroundColor: "red" }}>Module Locked</Text>
+                        </PopoverBody>
+                    </PopoverContent>
+                </Popover> 
 
-                <div style={{ display: "flex", gap: "1%" }}>
-                    <p>Legend:</p>
-                    <p style={{ backgroundColor: "grey" }}>Module Completed</p>
-                    <p style={{ backgroundColor:"greenyellow"}}>Module Available</p>
-                    <p style={{ backgroundColor: "red" }}>Module Locked</p>
-                </div>
-
-                <div className="graphBox" id="graph">
-                    <Graph graph={graph} options={options} events = {events} />
-                </div>
-            </div>
+                <Graph graph={graph} options={options} events = {events} />
+            </div>    
 
             <div style={{ flex: "25%"}}>
                 <p>You have selected: <b>{name}</b> </p>
