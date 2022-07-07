@@ -320,10 +320,24 @@ function useProvideGraphData() {
         }
       };
 
+      const addNewSemester = (timeTable) => {
+        const timeTableCopy = cloneDeep(timeTable);
+        const num = timeTableCopy.length;
+        const temp = {
+          id: "Semester " + num,
+          name: "Semester " + num,
+          items: []
+        };
+
+        timeTableCopy.push(temp);
+        setTimeTableColumn(timeTableCopy);
+      };
+
     return {
         getData,
         getCoursesRequirement,
         updateGraph,
+        addNewSemester,
 
         modules,
         preq,
