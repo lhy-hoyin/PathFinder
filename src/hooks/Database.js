@@ -15,3 +15,38 @@ export const getCourseNames = async () => {
         console.error(error.message)
     }
 };
+
+export const getUserAcademic = async (userId) => {
+    try {
+        let { data, error } = await supabase
+            .from("academic")
+            .select("*")
+            .eq('user_id', userId)
+
+        if (data == null)
+            throw error
+
+        return data
+
+    } catch (error) {
+        console.error(error.message)
+    }
+};
+
+export const getModInfo = async (modId) => {
+    try {
+        let { data, error } = await supabase
+            .from("modules")
+            .select("*")
+            .eq('id', modId)
+            .single()
+
+        if (data == null)
+            throw error
+
+        return data
+
+    } catch (error) {
+        console.error(error.message)
+    }
+};
