@@ -2,9 +2,10 @@ import { useState, useContext, createContext } from "react";
 import cloneDeep from 'lodash/cloneDeep';
 import Color from "color";
 
+import { Module } from "../classes/Module";
 import { supabase } from "../supabaseClient";
 import { ModuleStateColor } from "../constants"
-import { Module } from "../components/Module"
+
 
 const graphContext = createContext();
 
