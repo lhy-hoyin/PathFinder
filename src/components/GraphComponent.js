@@ -126,19 +126,11 @@ export default function GradGraph() {
     const events = {
         select: ({ nodes, edges }) => {
             const index = findMod(nodes.toString());
-            if (index !== -1) {
-                setCode(graph.nodes[index].id);
-                setName(graph.nodes[index].info[0]);
-                setYear(graph.nodes[index].info[1]);
-                setCredit(graph.nodes[index].info[2]);
-                setDescribe(graph.nodes[index].info[3]);
-            } else {
-                setCode("");
-                setName("");
-                setYear("");
-                setCredit("");
-                setDescribe("");
-            }
+            setCode(graph.nodes[index]?.id || "");
+            setName(graph.nodes[index]?.info[0] || "");
+            setYear(graph.nodes[index]?.info[1] || "");
+            setCredit(graph.nodes[index]?.info[2] || "");
+            setDescribe(graph.nodes[index]?.info[3] || "");
         },
 
         doubleClick: ({ nodes, edges }) => {
