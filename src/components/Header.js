@@ -43,7 +43,7 @@ export default function Header() {
             </Link>
 
             <div className="nav-links">
-                {!user ? (
+                {!user ?
                     <ul>
                         <li className='clickable'><a href="/sign-up">Sign Up</a></li>
                         <li className='clickable'><a onClick={onOpen}>Login</a></li>
@@ -58,20 +58,20 @@ export default function Header() {
                             </ModalContent>
                         </Modal>
                     </ul>
-                ) : (
+                :
                     <ul>
                         <li>Welcome, {firstName ?? lastName ?? email ?? "user"}!</li>
-                            <li>
-                                <Menu isLazy>
-                                    <MenuButton as={IconButton} icon={<HamburgerIcon />} variant='outline'/>
-                                    <MenuList>
-                                        <MenuItem onClick={goProfilePage}>Profile</MenuItem>
-                                        <MenuItem onClick={logout}>Logout</MenuItem>
-                                    </MenuList>
-                                </Menu>
-                            </li>
+                        <li>
+                            <Menu isLazy computePositionOnMount>
+                                <MenuButton as={IconButton} icon={<HamburgerIcon />} variant='outline'/>
+                                <MenuList>
+                                    <MenuItem onClick={goProfilePage}>Profile</MenuItem>
+                                    <MenuItem onClick={logout}>Logout</MenuItem>
+                                </MenuList>
+                            </Menu>
+                        </li>    
                     </ul>
-                )}
+                }
             </div>
 
         </div>
