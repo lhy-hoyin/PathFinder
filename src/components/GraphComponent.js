@@ -151,31 +151,41 @@ export default function GradGraph() {
     return (
         <div style={{ display: "flex", margin: "1%", gap: "1%" }}>
 
-            <div className="graphBox" id="graph">
-                <Popover isLazy>
-                    <PopoverTrigger>
-                        <IconButton background="transparent" icon={<QuestionOutlineIcon />} />
-                    </PopoverTrigger>
-                    <PopoverContent>
-                        <PopoverHeader>
-                            <Text>Legend</Text>
-                            <Text style={{ backgroundColor: "grey" }}>Module Completed</Text>
-                            <Text style={{ backgroundColor: "greenyellow" }}>Module Available</Text>
-                            <Text style={{ backgroundColor: "red" }}>Module Locked</Text>
-                        </PopoverHeader>
-                        <PopoverArrow />
-                        <PopoverCloseButton />
-                        <PopoverBody>
-                            <Text>Graph Interation</Text>
-                            <Text>Left Click: display module info</Text>
-                            <Text>Double Left Click: toggle module status</Text>
-                            <Text>Left Click & Drag: move module/graph</Text>
-                            <Text>Scrolling: zoom in/out</Text>
-                        </PopoverBody>
-                    </PopoverContent>
-                </Popover> 
+            <div>
+                
 
-                <Graph graph={graph} options={options} events = {events} />
+                <div id="graph" className="graphBox" >
+
+                    <Popover isLazy>
+                        <PopoverTrigger>
+                            <IconButton background="transparent" icon={<QuestionOutlineIcon />} />
+                        </PopoverTrigger>
+                        <PopoverContent>
+                            <PopoverHeader>
+                                <Text>Legend</Text>
+                                <Text style={{ backgroundColor: "grey" }}>Module Completed</Text>
+                                <Text style={{ backgroundColor: "greenyellow" }}>Module Available</Text>
+                                <Text style={{ backgroundColor: "red" }}>Module Locked</Text>
+                            </PopoverHeader>
+                            <PopoverArrow />
+                            <PopoverCloseButton />
+                            <PopoverBody>
+                                <Text>Graph Interation</Text>
+                                <Text>Left Click: display module info</Text>
+                                <Text>Double Left Click: toggle module status</Text>
+                                <Text>Left Click & Drag: move module/graph</Text>
+                                <Text>Scrolling: zoom in/out</Text>
+                            </PopoverBody>
+                        </PopoverContent>
+                    </Popover>
+
+                    <Graph
+                        style={{ height: "700px" }}
+                        graph={graph}
+                        options={options}
+                        events={events} />
+
+                </div>
             </div>    
 
             <div style={{ flex: "25%"}}>
