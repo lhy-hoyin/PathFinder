@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
-import { Text, Select, Button, useToast } from '@chakra-ui/react';
+import { Text, Button } from '@chakra-ui/react';
 import cloneDeep from "lodash/cloneDeep";
 import withScrolling from "react-dnd-scrolling";
 
@@ -36,7 +36,6 @@ export default function semesterTable() {
         return false;
       }
       //searching the columns
-      console.log(modPre);
       for (var y = 0; y < modPre.length; y++) {
         //for OR nodes
         if (modPre[y][0].length > 1) {
@@ -86,11 +85,7 @@ export default function semesterTable() {
     const columnCopy = cloneDeep(columns);
 
     columnCopy[source.droppableId].items.splice(source.index, 1);
-    columnCopy[destination.droppableId].items.splice(
-      destination.index,
-      0,
-      removed
-    );
+    columnCopy[destination.droppableId].items.splice(destination.index, 0, removed);
 
     console.log(columnCopy);
     setColumns(columnCopy);
@@ -116,7 +111,7 @@ export default function semesterTable() {
                   }}
                   key={columnId}
                 >
-                  <h2>{column.name}</h2>
+                  <Text>{column.name}</Text>
                   <div style={{ margin: 8 }}>
                     <DndProvider backend={HTML5Backend}>
                       <ScrollingComponent className="columnStyle">
