@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
+import cloneDeep from "lodash/cloneDeep";
 import withScrolling from "react-dnd-scrolling";
 
 import { graphData } from "../hooks/GraphData";
@@ -13,42 +14,12 @@ export default function semesterTable() {
     const [message, setMessage] = useState("");
     const [mods, setMods] = useState([]);
 
-    const { timeTableMods } = graphData();
+    const { timeTableMods, timeTableColumn } = graphData();
 
   useEffect(() => {
-
-      const timeTableColumns = [
-          {
-              id: "Modules",
-              name: "Modules",
-              items: timeTableMods
-          },
-          {
-              id: "Semester 1",
-              name: "Semester 1",
-              items: []
-          },
-          {
-              id: "Semester 2",
-              name: "Semester 2",
-              items: []
-          },
-          {
-              id: "Semester 3",
-              name: "Semester 3",
-              items: []
-          },
-          {
-              id: "Semester 4",
-              name: "Semester 4",
-              items: []
-          }
-      ]
-
-    setMods(timeTableMods);
-      setColumns(timeTableColumns);
-
-  }, [timeTableMods]);
+        setMods(timeTableMods);
+        setColumns(timeTableColumn);
+      }, [timeTableMods, timeTableColumn]);
 
   const checkPre = (draggedMod, columns, index) => {
     const modPre = mods.find((a) => a.id === draggedMod).pre;
@@ -182,7 +153,6 @@ export default function semesterTable() {
                             padding: 4,
                             width: 250,
                             minHeight: 350,
-                            maxHeight: 350
                           }}
                         >
                           {column.items.map((item, index) => {
