@@ -16,6 +16,24 @@ export const getCourseNames = async () => {
     }
 };
 
+export const getModInfo = async (modId) => {
+    try {
+        let { data, error } = await supabase
+            .from("modules")
+            .select("*")
+            .eq('id', modId)
+            .single()
+
+        if (data == null)
+            throw error
+
+        return data
+
+    } catch (error) {
+        console.error(error.message)
+    }
+};
+
 export const getUserAcademic = async (userId) => {
     try {
         let { data, error } = await supabase
@@ -33,20 +51,31 @@ export const getUserAcademic = async (userId) => {
     }
 };
 
-export const getModInfo = async (modId) => {
+/* 
+export const insertUserAcademicRecord = aysnc () => {
+const { data, error } = await supabase
+  .from('academic')
+  .insert([
+    { some_column: 'someValue', other_column: 'otherValue' },
+  ])
+};
+
+export const updateUserAcademicRecord = aysnc (recordId) => {
+
+};
+*/
+
+export const deleteUserAcademicRecord = async (recordId) => {
     try {
-        let { data, error } = await supabase
-            .from("modules")
-            .select("*")
-            .eq('id', modId)
+        const { status, error } = await supabase
+            .from('academic')
+            .delete()
+            .eq('id', recordId)
             .single()
 
-        if (data == null)
-            throw error
-
-        return data
-
+        return { status, error }
     } catch (error) {
         console.error(error.message)
+        return { status, error }
     }
 };
