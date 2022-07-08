@@ -16,7 +16,7 @@ import {
     deleteUserAcademicRecord
 } from "../hooks/Database";
 
-export default function Modules() {
+export default function ModulesTable() {
 
     const user = supabase.auth.user()
     const toast = useToast()
