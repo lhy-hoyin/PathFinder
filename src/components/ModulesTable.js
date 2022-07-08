@@ -4,7 +4,7 @@ import {
     Th, Tr, Td,
     TableCaption, TableContainer,
     Skeleton, Tooltip,
-    IconButton,
+    Input, Button, IconButton,
     useBoolean, useToast
 } from '@chakra-ui/react';
 import { RepeatIcon, AddIcon, DeleteIcon } from '@chakra-ui/icons';
@@ -21,6 +21,7 @@ export default function ModulesTable() {
     const user = supabase.auth.user()
     const toast = useToast()
 
+    const [newRecord, setNewRecord] = useState("");
     const [modRecords, setModRecords] = useState([]);
     const [isLoading, setIsLoading] = useBoolean();
 
@@ -59,7 +60,7 @@ export default function ModulesTable() {
 
     const handleAddRecord = async e => {
         e.preventDefault();
-        console.debug("Add Record clicked")
+        console.debug("Add Record:", newRecord)
         //TODO
     }
 
@@ -95,14 +96,14 @@ export default function ModulesTable() {
                         onClick={handleRefreshRecords}
                         />
                 </Tooltip>
-                <Tooltip label="Add New Record">
-                    <IconButton
-                        backgroundColor="transparent"
-                        aria-label='add'
-                        icon={<AddIcon />}
-                        onClick={handleAddRecord}
-                        />
-                </Tooltip>
+                <form onSubmit={handleAddRecord} style={{display: "flex"}}>
+                    <Input
+                        placeholder="Module Code"
+                        onChange={(e) => setNewRecord(e.target.value)}
+                        value={newRecord}
+                        required />
+                    <Button type="submit" colorScheme='blue'>Add</Button>
+                </form>
             </div>
 
             <Skeleton isLoaded={!isLoading}>
