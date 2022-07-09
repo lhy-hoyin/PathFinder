@@ -3,11 +3,12 @@ import {
     Table, Thead, Tbody,
     Th, Tr, Td,
     TableCaption, TableContainer,
+    Input, InputGroup, InputRightElement,
     Skeleton, Tooltip,
-    Input, Button, IconButton,
+    Button, IconButton,
     useBoolean, useToast
 } from '@chakra-ui/react';
-import { RepeatIcon, AddIcon, DeleteIcon } from '@chakra-ui/icons';
+import { CheckIcon, CloseIcon, RepeatIcon, DeleteIcon } from '@chakra-ui/icons';
 
 import { supabase } from "../supabaseClient";
 import {
@@ -15,6 +16,7 @@ import {
     getUserAcademic, 
     deleteUserAcademicRecord
 } from "../hooks/Database";
+import { moduleExist } from "../hooks/NUSModsAPI"
 
 export default function ModulesTable() {
 
@@ -22,6 +24,9 @@ export default function ModulesTable() {
     const toast = useToast()
 
     const [newRecord, setNewRecord] = useState("");
+    const [newModValid, setNewModValid] = useState();
+    const [newRecordValidIcon, setNewRecordValidIcon] = useState();
+
     const [modRecords, setModRecords] = useState([]);
     const [isLoading, setIsLoading] = useBoolean();
 
@@ -31,6 +36,23 @@ export default function ModulesTable() {
         else
             fetchUserModules().catch(console.error)
     }, [user])
+
+    useEffect(() => {
+        if (newRecord.length === 0) {
+            setNewModValid() // set to empty
+        }
+        else moduleExist(newRecord)
+            .then(isValid => {setNewModValid(isValid)})
+    }, [newRecord])
+
+    useEffect(() => {
+        if (newModValid === undefined || newModValid === null)
+            setNewRecordValidIcon()
+        else if (newModValid)
+            setNewRecordValidIcon(<CheckIcon color='green.500' />)
+        else
+            setNewRecordValidIcon(<CloseIcon color='red.500' />)
+    }, [newModValid])
 
     const fetchUserModules = async () => {
         setModRecords([])
@@ -97,12 +119,20 @@ export default function ModulesTable() {
                         />
                 </Tooltip>
                 <form onSubmit={handleAddRecord} style={{display: "flex"}}>
-                    <Input
-                        placeholder="Module Code"
-                        onChange={(e) => setNewRecord(e.target.value)}
-                        value={newRecord}
-                        required />
-                    <Button type="submit" colorScheme='blue'>Add</Button>
+                    <InputGroup>
+                        <Input
+                            placeholder="Module Code"
+                            onChange={(e) => {setNewRecord(e.target.value)}}
+                            value={newRecord}
+                            required />
+                        <InputRightElement children={newRecordValidIcon} />
+                    </InputGroup>
+                    <Button
+                        type="submit"
+                        colorScheme='blue'
+                        disabled={!newModValid}>
+                        Add
+                    </Button>
                 </form>
             </div>
 
