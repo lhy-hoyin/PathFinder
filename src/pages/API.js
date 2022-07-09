@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 
 import { supabase } from "../supabaseClient";
 import { ProfileRoles } from "../constants";
-import { Auth } from "../hooks/Auth"
-
+import { formatPreReq, pullModule } from "../hooks/NUSModsAPI";
+import { Auth } from "../hooks/Auth";
 import Header from "../components/Header";
+
 
 export default function API() {
 
@@ -35,25 +36,17 @@ export default function API() {
     const query = async e => {
         e.preventDefault();
 
-        const url = API_BASE_URL + acadYear.replace("/", "-") + "/modules/" + moduleCode.toUpperCase() + ".json"
-        setQueryUrl(url)
-
         setIsLoaded(false)
-        fetch(url)
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    setIsLoaded(true);
-                    setData(result);
-                    setError(null);
-                },
-                (error) => {
-                    setIsLoaded(true);
-                    setError(error);
-                }
-            )
+        const response = await pullModule(moduleCode, acadYear)
+        setData(response.data)
+        setError(response.error)
+        setIsLoaded(true)
+
     }
 
+    // Legacy Code
+    // Too much effort to rewrite the whole thing
+    // See: { upsertModule } from "../hooks/Database"
     const updateModuleInfo = async e => {
         e.preventDefault();
 
@@ -90,32 +83,6 @@ export default function API() {
         } catch (error) {
             console.error(error.message);
         }
-    }
-
-    function formatPreReq(input) {
-        var prereq = []
-
-        if (input == null) {
-            // Do nothing else
-            // This is here to avoid undefined behaviour when attempting
-            // to read data.prereqTree.or or data.prereqTree.and
-        }
-        else if (input.or) {
-            // Only have OR pre-req
-            prereq[0] = input.or.toString()
-        }
-        else if (data.prereqTree.and) {
-            // Only AND pre-req, which may include OR pre-req
-            const d = input.and
-            for (var i = 0; i < d.length; i++) {
-                prereq[i] = (d[i].or) ? d[i].or.toString() : d[i]
-            }
-        }
-        else if (input) {
-            prereq[0] = data.prereqTree.toString()
-        }
-
-        return prereq
     }
 
     async function getExistingRow(aYear, mCode) {

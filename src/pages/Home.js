@@ -13,7 +13,7 @@ import Header from "../components/Header";
 import AdminAccess from "../components/AdminAccess";
 import GraphComponent from "../components/GraphComponent";
 import SemesterSchedule from "../components/SemesterSchedule";
-import Modules from "../components/Modules";
+import ModulesTable from "../components/ModulesTable";
 
 
 export default function Home() {
@@ -113,7 +113,7 @@ export default function Home() {
                     </TabPanel>
 
                     <TabPanel>
-                        <Modules />
+                        <ModulesTable />
                     </TabPanel>
                 </TabPanels>
             </Tabs>
