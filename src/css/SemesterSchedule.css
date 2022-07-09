@@ -8,3 +8,23 @@
     overflow: auto;
   }
   
+.semParent {
+  display: flex;
+  flex-wrap: wrap;
+  height: "100%";
+  max-width: "100%";
+}
+
+.semChild {
+  flex-basis: 20%;
+}
+
+.semButtonFrame {
+    height: 350;
+    width: 250;
+}
+
+.semPosButton{
+    left: 50%;
+    top: 45%;
+}

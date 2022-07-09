@@ -23,7 +23,35 @@ function useProvideGraphData() {
     const [gradReq, setGradReq] = useState([]);
     const [modules, setModules] = useState([]);
     const [preq, setPreq] = useState([]);
+
     const [timeTableMods, setTimeTableMods] = useState([]);
+    const [timeTableColumn, setTimeTableColumn] = useState([
+      {
+        id: "Modules",
+        name: "Modules",
+        items: []
+      },
+      {
+        id: "Semester 1",
+        name: "Semester 1",
+        items: []
+      },
+      {
+        id: "Semester 2",
+        name: "Semester 2",
+        items: []
+      },
+      {
+        id: "Semester 3",
+        name: "Semester 3",
+        items: []
+      },
+      {
+        id: "Semester 4",
+        name: "Semester 4",
+        items: []
+      }
+    ]);
 
     const colouring = (selectedColor) => {
         const color ={
@@ -262,10 +290,14 @@ function useProvideGraphData() {
             }
 
             mod = mod.concat(orNodes);
-
-            setTimeTableMods(tableMods);
             setPreq(edges)
             setModules(mod)
+
+            const timeTableCopy = cloneDeep(timeTableColumn);
+
+            timeTableCopy[0].items = timeTableCopy[0].items.concat(tableMods);
+            setTimeTableColumn(timeTableCopy);
+            setTimeTableMods(tableMods);
 
         } catch (error) {
             console.error(error.message);
@@ -289,13 +321,28 @@ function useProvideGraphData() {
         }
       };
 
+      const addNewSemester = (timeTable) => {
+        const timeTableCopy = cloneDeep(timeTable);
+        const num = timeTableCopy.length;
+        const temp = {
+          id: "Semester " + num,
+          name: "Semester " + num,
+          items: []
+        };
+
+        timeTableCopy.push(temp);
+        setTimeTableColumn(timeTableCopy);
+      };
+
     return {
         getData,
         getCoursesRequirement,
         updateGraph,
+        addNewSemester,
 
         modules,
         preq,
         timeTableMods,
+        timeTableColumn
     };
 }
