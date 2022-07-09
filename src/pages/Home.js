@@ -30,8 +30,6 @@ export default function Home() {
     
     useEffect(() => {
 
-        setTabIndex(1) //hack
-
         const fetchCourses = async () => {
             getCoursesRequirement() 
             const courseNames = await getCourseNames()
