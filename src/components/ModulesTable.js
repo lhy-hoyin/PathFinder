@@ -8,12 +8,20 @@ import {
     Button, IconButton,
     useBoolean, useToast
 } from '@chakra-ui/react';
-import { CheckIcon, CloseIcon, RepeatIcon, DeleteIcon } from '@chakra-ui/icons';
+import {
+    CheckIcon,
+    CloseIcon,
+    RepeatIcon,
+    DeleteIcon
+} from '@chakra-ui/icons';
 
 import { supabase } from "../supabaseClient";
 import {
     getModInfo,
-    getUserAcademic, 
+    getModuleId,
+    upsertModule,
+    getUserAcademic,
+    insertUserAcademicRecord,
     deleteUserAcademicRecord
 } from "../hooks/Database";
 import { moduleExist } from "../hooks/NUSModsAPI"
@@ -48,7 +56,7 @@ export default function ModulesTable() {
     useEffect(() => {
         if (newModValid === undefined || newModValid === null)
             setNewRecordValidIcon()
-        else if (newModValid)
+        else if (newModValid === true)
             setNewRecordValidIcon(<CheckIcon color='green.500' />)
         else
             setNewRecordValidIcon(<CloseIcon color='red.500' />)
@@ -82,13 +90,72 @@ export default function ModulesTable() {
 
     const handleAddRecord = async e => {
         e.preventDefault();
-        console.debug("Add Record:", newRecord)
-        //TODO
+
+        // string of current AY in ("20xx/20xy" format)
+        const currentYear = new Date().getFullYear()
+        const acadYear = currentYear.toString() + "/" + (currentYear + 1).toString()
+
+        // Get the id of the mod from the 'modules' table
+        var modId = (await getModuleId(newRecord, acadYear))?.id
+
+        if (modId === undefined) {
+            // If row does not exist, add new row to the 'modules' table
+            modId = await upsertModule(newRecord, acadYear)
+        }
+        else {
+            // If row exist, check if user already has this module
+            var hasExisting = false
+            const userAcadMods = await getUserAcademic(user.id)
+            userAcadMods.map(item => { hasExisting |= (item.module === modId) })
+
+            if (hasExisting) {
+                // Display a toast
+                toast({
+                    title: "Existing record found",
+                    description: "No new row added",
+                    status: "warning",
+                    duration: 3000,
+                    isClosable: true,
+                })
+
+                return // stop handling add record
+            }
+        }
+
+        // Add new records to database
+        const result = await insertUserAcademicRecord(user.id, modId)
+
+        if (result.status === 'error') {
+            // Failed to insert new module into user academic
+            console.error(result.description)
+            toast({
+                title: result.title,
+                description: result.description,
+                status: result.status,
+                duration: 5000,
+                isClosable: true,
+            })
+
+            return // stop handling add record
+        }
+
+        // Reload UI table
+        fetchUserModules().catch(console.error)
+
+        // Display a toast
+        toast({
+            title: "Successful",
+            description: newRecord + " added",
+            status: result.status,
+            duration: 5000,
+            isClosable: true,
+        })
     }
 
     const handleDeleteRecord = (recordId) => async e => {
         e.preventDefault();
 
+        // Delete row from database
         const { status, error } = await deleteUserAcademicRecord(recordId)
 
         if (status === 200) {

@@ -112,15 +112,32 @@ export const getUserAcademic = async (userId) => {
     }
 };
 
-/* 
-export const insertUserAcademicRecord = aysnc () => {
-const { data, error } = await supabase
-  .from('academic')
-  .insert([
-    { some_column: 'someValue', other_column: 'otherValue' },
-  ])
+export const insertUserAcademicRecord = async (userId, newModId) => {
+    try {
+        const { error } = await supabase
+        .from('academic')
+        .insert([{
+            user_id: userId,
+            module: newModId,
+            //TODO: status ...etc 
+        }])
+
+        if (error)
+            throw error
+        else
+            return { status: 'success' }
+        
+    } catch (error) {
+        console.error(error.error_description || error.message);
+        return {
+            status: 'error',
+            title: "Oops!",
+            description: error.error_description || error.message
+        };
+    }
 };
 
+/*
 export const updateUserAcademicRecord = aysnc (recordId) => {
 
 };
