@@ -342,12 +342,23 @@ function useProvideGraphData() {
         setTimeTableColumn(timeTableCopy);
       };
 
+      const deletePrevSemester = (timeTable) => {
+        const lastCol = timeTable.length - 1;
+        const timeTableCopy = cloneDeep(timeTable);
+        timeTableCopy.pop();
+        timeTableCopy[0].items = timeTableCopy[0].items.concat(
+          timeTable[lastCol].items
+        );
+        setTimeTableColumn(timeTableCopy);
+        console.log();
+      };
 
     return {
         getData,
         getCoursesRequirement,
         updateGraph,
         addNewSemester,
+        deletePrevSemester,
 
         modules,
         preq,
