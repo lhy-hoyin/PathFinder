@@ -14,7 +14,7 @@ export default function semesterTable() {
   const [columns, setColumns] = useState([]);
   const [message, setMessage] = useState("");
   const [mods, setMods] = useState([]);
-  const { timeTableMods, timeTableColumn, addNewSemester } = graphData();
+  const { timeTableMods, timeTableColumn, addNewSemester, deletePrevSemester } = graphData();
 
   useEffect(() => {
     setMods(timeTableMods);
@@ -185,6 +185,7 @@ export default function semesterTable() {
         </DragDropContext>
         <div className="semButtonFrame">
           <Button className="semAPosButton" onClick={() => addNewSemester(columns)}> Add New Semester</Button>
+          <Button className="semAPosButton" disabled={columns.length === 5} onClick={() => deletePrevSemester(columns)}>Delete Previous Semester</Button>
           </div>
       </div>
     </>
