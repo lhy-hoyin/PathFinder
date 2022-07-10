@@ -45,14 +45,14 @@ function useProvideGraphData() {
         year: 1.5
       },
       {
-        id: "Semester 3",
-        name: "Semester 3",
+        id: "Semester 1",
+        name: "Semester 1",
         items: [],
         year: 2
       },
       {
-        id: "Semester 4",
-        name: "Semester 4",
+        id: "Semester 2",
+        name: "Semester 2",
         items: [],
         year: 2.5
       }
