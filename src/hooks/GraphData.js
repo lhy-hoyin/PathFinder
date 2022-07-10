@@ -29,27 +29,32 @@ function useProvideGraphData() {
       {
         id: "Modules",
         name: "Modules",
-        items: []
+        items: [],
+        year: -0.5
       },
       {
         id: "Semester 1",
         name: "Semester 1",
-        items: []
+        items: [],
+        year: 1
       },
       {
         id: "Semester 2",
         name: "Semester 2",
-        items: []
+        items: [],
+        year: 1.5
       },
       {
         id: "Semester 3",
         name: "Semester 3",
-        items: []
+        items: [],
+        year: 2
       },
       {
         id: "Semester 4",
         name: "Semester 4",
-        items: []
+        items: [],
+        year: 2.5
       }
     ]);
 
@@ -324,15 +329,19 @@ function useProvideGraphData() {
       const addNewSemester = (timeTable) => {
         const timeTableCopy = cloneDeep(timeTable);
         const num = timeTableCopy.length;
+        const years = timeTableColumn[num - 1].year + 0.5;
+        const sem = years % 1 === 0 ? 1 : 2 
         const temp = {
-          id: "Semester " + num,
-          name: "Semester " + num,
-          items: []
+          id: "Semester " + sem,
+          name: "Semester " + sem,
+          items: [],
+          year: years
         };
 
         timeTableCopy.push(temp);
         setTimeTableColumn(timeTableCopy);
       };
+
 
     return {
         getData,
