@@ -111,7 +111,15 @@ export default function semesterTable() {
                   }}
                   key={columnId}
                 >
-                  <Text>{column.name}</Text>
+                  <div style={{ rowGap: "10px", textAlign:"center" }}>
+                    {column.year % 1 === 0 ? (
+                      <p> Year {column.year}</p>
+                    ) : (
+                      <p className="blank"> blank </p>
+                    )}
+                    <Text>{column.name}</Text>
+                  </div>
+                  
                   <div style={{ margin: 8 }}>
                     <DndProvider backend={HTML5Backend}>
                       <ScrollingComponent className="columnStyle">
@@ -176,7 +184,7 @@ export default function semesterTable() {
           })}
         </DragDropContext>
         <div className="semButtonFrame">
-          <Button className="semPosButton" onClick={() => addNewSemester(columns)}> Add New Semester</Button>
+          <Button className="semAPosButton" onClick={() => addNewSemester(columns)}> Add New Semester</Button>
           </div>
       </div>
     </>
