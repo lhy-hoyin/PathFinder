@@ -22,9 +22,18 @@
 .semButtonFrame {
     height: 350;
     width: 250;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+
 }
 
-.semPosButton{
-    left: 50%;
-    top: 45%;
+.semAPosButton{
+    left: 20%
 }
+
+.blank {
+    color: rgb(255, 255, 255);
+    user-select: none;
+  }
+
