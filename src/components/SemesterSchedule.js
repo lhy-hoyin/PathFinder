@@ -22,50 +22,6 @@ export default function semesterTable() {
     setColumns(timeTableColumn);
   }, [timeTableMods, timeTableColumn]);
 
-  /*
-  const checkPre = (draggedMod, columns, index) => {
-    const modPre = mods.find((a) => a.id === draggedMod).pre;
-    let status = false;
-
-    if (index === 0) {
-      return true;
-    }
-
-    if (modPre.length === 0) {
-      return true;
-    } else {
-      if (index === 1) {
-        return false;
-      }
-      //searching the columns
-      for (var y = 0; y < modPre.length; y++) {
-        //for OR nodes
-        if (modPre[y][0].length > 1) {
-          for (var z = 0; z < modPre[y][0].length; z++) {
-            for (var x = 1; x < index; x++) {
-              if (columns[x].items.some((a) => a.id === modPre[y][z])) {
-                status = true;
-              }
-            }
-          }
-        } else {
-          //Not or nodes
-          for (var x = 1; x < index; x++) {
-            if (columns[x].items.some((a) => a.id === modPre[y])) {
-              status = true;
-            }
-          }
-        }
-        if (status === false || y === modPre.length - 1) {
-          return status;
-        } else {
-          status = false;
-        }
-      }
-      return status;
-    }
-  }; */
-
   const label = (andMod, orMod)=> {
 
     const orLabel = (orArray) => {
@@ -103,11 +59,9 @@ export default function semesterTable() {
     for (var colIdx = 1; colIdx < index; colIdx++) {
       x = col[colIdx].items.some((y) => y.id === mod.toString());
       if (x) {
-        //console.log(x)
         return x;
       }
     }
-    // console.log(x)
     return x;
   };
 
@@ -157,6 +111,7 @@ export default function semesterTable() {
       totalPreqCount === checkPreq.length
     ) {
       columns[srcIndex].items[index].semColor = ModuleSemseterStateColor.Normal;
+      setMessage(" ")
     } else {
       columns[srcIndex].items[index].semColor = ModuleSemseterStateColor.Locked;
       setMessage("Prequities of " + columns[srcIndex].items[index].id + " not met.\n  Requires: "
@@ -168,7 +123,6 @@ export default function semesterTable() {
     const selectedMod = mods.find((a) => a.id === draggedMod);
     const checkPreq = selectedMod.preq;
     const checkOrPreq = selectedMod.orPreq;
-    //const checkDepMod = selectedMod.dependentMods;
 
     //if it returns to the module table preq doesnt have to be check
     if (desIndex === 0) {
@@ -209,13 +163,7 @@ export default function semesterTable() {
     //Checking preReq
     const index = destination.droppableId;
     const modId = result.draggableId;
-
-    /*
-    if (checkPre(modId, columns, parseInt(index)) === false) {
-      setMessage("Prequities unmet!");
-      return;
-    }*/
-
+    
     preqCheck( result.draggableId, columns, parseInt(destination.droppableId),  
       parseInt(source.droppableId), source.index );
 
