@@ -273,6 +273,8 @@ function useProvideGraphData() {
                   orNodes[index2].shape = "ellipse";
 
                   for (var index3 = 0; index3 < orPreqMods[index2].length; index3++) {
+                    const updateOrDep = mod.findIndex((x) => x.id === orPreqMods[index2][index3]);
+                    mod[updateOrDep].addDependentMods(moduleId);
                     edges[edgesCount] = addEdges(label, orPreqMods[index2][index3]);
                     edgesCount++;
                   }
@@ -284,24 +286,20 @@ function useProvideGraphData() {
                 }
               }
             }
+
+            tableMods = cloneDeep(mod);
+            timeTableColumn[0].items = timeTableColumn[0].items.concat(tableMods);
       
+            mod = mod.concat(orNodes);
+
             for (var count1 = 0; count1 < mod.length; count1++) {
               updateColour(mod, mod[count1].id);
-              tableMods[count1] = {
-                id: mod[count1].id,
-                content: mod[count1].id,
-                pre: mod[count1].preq.concat(mod[count1].orPreq)
-              }
             }
-
-            mod = mod.concat(orNodes);
+           
             setPreq(edges)
             setModules(mod)
 
-            const timeTableCopy = cloneDeep(timeTableColumn);
-
-            timeTableCopy[0].items = timeTableCopy[0].items.concat(tableMods);
-            setTimeTableColumn(timeTableCopy);
+            setTimeTableColumn(timeTableColumn);
             setTimeTableMods(tableMods);
 
         } catch (error) {
@@ -350,7 +348,6 @@ function useProvideGraphData() {
           timeTable[lastCol].items
         );
         setTimeTableColumn(timeTableCopy);
-        console.log();
       };
 
     return {
