@@ -61,8 +61,8 @@ export const getModInfo = async (modId) => {
 };
 
 export const upsertModule = async (moduleCode, acadYear) => {
-
     try {
+        // Retrieve data from API
         const modData = (await pullModule(moduleCode, acadYear)).data
 
         // Package data properly
@@ -139,7 +139,7 @@ export const insertUserAcademicRecord = async (userId, newModId) => {
 export const updateUserAcademicRecord = async (recordId, isCompleted) => {
 
     try {
-        const { data, error } = await supabase
+        const { error } = await supabase
             .from('academic')
             .update({ completed: isCompleted })
             .eq('id', recordId)

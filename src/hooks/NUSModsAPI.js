@@ -53,8 +53,8 @@ export const formatPreReq = (input) => {
             prereq[i] = (d[i].or) ? d[i].or.toString() : d[i]
         }
     }
-    else if (input) {
-        prereq[0] = data.prereqTree.toString()
+	else if (input) {
+		prereq[0] = input.toString()
     }
 
     return prereq
