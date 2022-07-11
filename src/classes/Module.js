@@ -16,6 +16,9 @@ export class Module {
     this.color = colour;
     this.x = x;
     this.y = y;
+
+    // For semesster
+    this.semColor = "#456C86";
 }
 
 setPreReq = (allPreReq, allMods) => {
