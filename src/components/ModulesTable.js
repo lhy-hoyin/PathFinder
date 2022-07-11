@@ -5,7 +5,7 @@ import {
     TableCaption, TableContainer,
     Input, InputGroup, InputRightElement,
     Skeleton, Tooltip,
-    Button, IconButton,
+    Button, IconButton, Switch,
     useBoolean, useToast
 } from '@chakra-ui/react';
 import {
@@ -75,7 +75,7 @@ export default function ModulesTable() {
                 id: userAcadMods[i].id,
                 code: modInfo.code,
                 name: modInfo.name,
-                status: userAcadMods[i].status || "undefined", //fixme
+                isCompleted: userAcadMods[i].completed || false, //fixme
             }
 
             setModRecords(current => [...current, thisMod])
@@ -152,6 +152,13 @@ export default function ModulesTable() {
         })
     }
 
+    const handleToggleModComplete = async e => {
+        e.preventDefault()
+
+        console.debug("handleToggleModComplete:", e.target.id, e.target.checked)
+        //TODO
+    }
+
     const handleDeleteRecord = (recordId) => async e => {
         e.preventDefault();
 
@@ -211,7 +218,7 @@ export default function ModulesTable() {
                             <Tr>
                                 <Th>Module Code</Th>
                                 <Th>Module Name</Th>
-                                <Th>Status</Th>
+                                <Th>Completed</Th>
                                 <Th>{/* Delete Btn */}</Th>
                             </Tr>
                         </Thead>
@@ -220,14 +227,21 @@ export default function ModulesTable() {
                                 <Tr id={item.id}  key={item.id}>
                                     <Td>{item.code}</Td>
                                     <Td>{item.name}</Td>
-                                    <Td>{item.status}</Td>
+                                    <Td>
+                                        <Switch
+                                            id={item.id}
+                                            size="lg"
+                                            defaultChecked={item.isCompleted}
+                                            onChange={(e) => handleToggleModComplete(e)}
+                                        />
+                                    </Td>
                                     <Td>
                                         <IconButton
                                             backgroundColor="transparent"
                                             aria-label='delete'
                                             size=""
                                             icon={<DeleteIcon />}
-                                            onClick={handleDeleteRecord(item.id, this)}
+                                            onClick={handleDeleteRecord(item.id)}
                                         />
                                     </Td>
                                 </Tr>
