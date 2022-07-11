@@ -139,9 +139,6 @@ export default function ModulesTable() {
             return // stop handling add record
         }
 
-        // Reload UI table
-        fetchUserModules().catch(console.error)
-
         // Display a toast
         toast({
             title: "Successful",
@@ -150,6 +147,10 @@ export default function ModulesTable() {
             duration: 5000,
             isClosable: true,
         })
+
+        // Reload UI table + clear the texbox
+        fetchUserModules().catch(console.error)
+        setNewRecord("")
     }
 
     const handleToggleModComplete = async e => {
