@@ -10,3 +10,9 @@ export const ModuleStateColor = {
     Available:  "rgb(153 , 255, 153)",
     Locked:     "rgb(255 , 0, 0)",
 }
+
+export const ModuleSemseterStateColor = {
+    Normal: "#456C86",
+    Locked: "#FF0000"
+  };
+  
