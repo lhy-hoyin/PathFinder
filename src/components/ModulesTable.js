@@ -72,6 +72,9 @@ export default function ModulesTable() {
         for (var i = 0; i < userAcadMods.length; i++) {
             const modInfo = await getModInfo(userAcadMods[i].module)
 
+            if (modInfo == null)
+                continue
+
             const thisMod = {
                 id: userAcadMods[i].id,
                 code: modInfo.code,
@@ -99,7 +102,7 @@ export default function ModulesTable() {
         // Get the id of the mod from the 'modules' table
         var modId = (await getModuleId(newRecord, acadYear))?.id
 
-        if (modId === undefined) {
+        if (modId === undefined || modId == null) {
             // If row does not exist, add new row to the 'modules' table
             modId = await upsertModule(newRecord, acadYear)
         }
