@@ -22,6 +22,7 @@ import {
     upsertModule,
     getUserAcademic,
     insertUserAcademicRecord,
+    updateUserAcademicRecord,
     deleteUserAcademicRecord
 } from "../hooks/Database";
 import { moduleExist } from "../hooks/NUSModsAPI"
@@ -75,7 +76,7 @@ export default function ModulesTable() {
                 id: userAcadMods[i].id,
                 code: modInfo.code,
                 name: modInfo.name,
-                isCompleted: userAcadMods[i].completed || false, //fixme
+                isCompleted: userAcadMods[i].completed,
             }
 
             setModRecords(current => [...current, thisMod])
@@ -155,9 +156,7 @@ export default function ModulesTable() {
 
     const handleToggleModComplete = async e => {
         e.preventDefault()
-
-        console.debug("handleToggleModComplete:", e.target.id, e.target.checked)
-        //TODO
+        updateUserAcademicRecord(e.target.id, e.target.checked)
     }
 
     const handleDeleteRecord = (recordId) => async e => {
