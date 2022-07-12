@@ -106,10 +106,7 @@ export default function semesterTable() {
     }
 
     //toggling the color
-    if (
-      totalOrPreqCount === checkOrPreq.length &&
-      totalPreqCount === checkPreq.length
-    ) {
+    if (totalOrPreqCount === checkOrPreq.length && totalPreqCount === checkPreq.length ) {
       columns[srcIndex].items[index].semColor = ModuleSemseterStateColor.Normal;
       setMessage(" ")
     } else {
@@ -178,7 +175,7 @@ export default function semesterTable() {
 
     backwardCheck(result.draggableId, columnCopy);
 
-    console.log(columnCopy);
+    //console.log(columnCopy);
     setColumns(columnCopy);
     backwardCheck(result.draggableId, columnCopy);
   };
@@ -195,20 +192,11 @@ export default function semesterTable() {
           {Object.entries(columns).map(([columnId, column], index) => {
             return (
               <div className="semChild">
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center"
-                  }}
-                  key={columnId}
-                >
+                <div style={{ display: "flex", flexDirection: "column", lignItems: "center"  }} key={columnId}>
+                  
                   <div style={{ rowGap: "10px", textAlign:"center" }}>
                     {column.year % 1 === 0 ? (
-                      <p> Year {column.year}</p>
-                    ) : (
-                      <p className="blank"> blank </p>
-                    )}
+                      <p> Year {column.year}</p>) : ( <p className="blank"> blank </p> )}
                     <Text>{column.name}</Text>
                   </div>
                   

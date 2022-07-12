@@ -142,10 +142,7 @@ function useProvideGraphData() {
             }
           }
   
-          if (
-            totalCount === modPreq.length &&
-            totalOrCount === modOrPreq.length
-          ) {
+          if (totalCount === modPreq.length && totalOrCount === modOrPreq.length ) {
             allMods[index2].color = allMods[index2].isCompleted
               ? colouring(ModuleStateColor.Completed)
               : colouring(ModuleStateColor.Available);
@@ -339,6 +336,7 @@ function useProvideGraphData() {
         timeTableCopy.push(temp);
         setTimeTableColumn(timeTableCopy);
       };
+
 
       const deletePrevSemester = (timeTable) => {
         const lastCol = timeTable.length - 1;
