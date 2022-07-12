@@ -40,7 +40,7 @@ export default function ModulesTable() {
     const [modRecords, setModRecords] = useState([]);
     const [isLoading, setIsLoading] = useBoolean();
 
-    const { isUserModUpdate } =graphData()
+    const { isUserModUpdate, setUserModules } =graphData()
 
     useEffect(() => {
         if (user === null)
@@ -70,6 +70,7 @@ export default function ModulesTable() {
         setModRecords([])
         setIsLoading.on()
 
+        const userGraph = []
         const userAcadMods = await getUserAcademic(user.id)
 
         for (var i = 0; i < userAcadMods.length; i++) {
@@ -85,9 +86,15 @@ export default function ModulesTable() {
                 isCompleted: userAcadMods[i].completed,
             }
 
+            userGraph[i] = {code: modInfo.code, isCompleted: userAcadMods[i].completed,}
+
             setModRecords(current => [...current, thisMod])
         }
         setIsLoading.off()
+
+        // Update Graph
+        setUserModules(userGraph)
+        isUserModUpdate(true)
     }
 
     const handleRefreshRecords = async e => {
@@ -158,17 +165,11 @@ export default function ModulesTable() {
         // Reload UI table + clear the texbox
         fetchUserModules().catch(console.error)
         setNewRecord("")
-
-        // Update Graph
-        isUserModUpdate(true)
     }
 
     const handleToggleModComplete = async e => {
         e.preventDefault()
         updateUserAcademicRecord(e.target.id, e.target.checked)
-
-        // Update Graph
-        isUserModUpdate(true)
     }
 
     const handleDeleteRecord = (recordId) => async e => {
@@ -181,9 +182,6 @@ export default function ModulesTable() {
             // Successful, also delete table row from UI
             var row = document.getElementById(recordId)
             row.parentNode.removeChild(row)
-
-            // Update Graph
-            isUserModUpdate(true)
         }
 
         // Display a toast
