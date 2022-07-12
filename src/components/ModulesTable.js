@@ -25,6 +25,7 @@ import {
     updateUserAcademicRecord,
     deleteUserAcademicRecord
 } from "../hooks/Database";
+import { graphData } from '../hooks/GraphData';
 import { moduleExist } from "../hooks/NUSModsAPI"
 
 export default function ModulesTable() {
@@ -38,6 +39,8 @@ export default function ModulesTable() {
 
     const [modRecords, setModRecords] = useState([]);
     const [isLoading, setIsLoading] = useBoolean();
+
+    const { isUserModUpdate } =graphData()
 
     useEffect(() => {
         if (user === null)
@@ -155,11 +158,17 @@ export default function ModulesTable() {
         // Reload UI table + clear the texbox
         fetchUserModules().catch(console.error)
         setNewRecord("")
+
+        // Update Graph
+        isUserModUpdate(true)
     }
 
     const handleToggleModComplete = async e => {
         e.preventDefault()
         updateUserAcademicRecord(e.target.id, e.target.checked)
+
+        // Update Graph
+        isUserModUpdate(true)
     }
 
     const handleDeleteRecord = (recordId) => async e => {
@@ -172,6 +181,9 @@ export default function ModulesTable() {
             // Successful, also delete table row from UI
             var row = document.getElementById(recordId)
             row.parentNode.removeChild(row)
+
+            // Update Graph
+            isUserModUpdate(true)
         }
 
         // Display a toast

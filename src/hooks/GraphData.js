@@ -28,19 +28,20 @@ function useProvideGraphData() {
   useEffect( ()=> {
     if (isLoggedIn) {
       fetchUserModules()
-      //console.log(userModules)
     }
   })
 
   const [userModUpdate, isUserModUpdate] = useState(false)
   
+
+  // Error with auto update
   useEffect(() => {
     if (userModUpdate && modules.length !== 0) {
       
       const modulesCopy = cloneDeep(modules)
       userModuleGraph(modulesCopy)
       setModules(modulesCopy)
-      console.log(userModules)
+      //console.log(userModules)
     }
 
     isUserModUpdate(false)
