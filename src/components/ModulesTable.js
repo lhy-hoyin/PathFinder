@@ -5,7 +5,7 @@ import {
     TableCaption, TableContainer,
     Input, InputGroup, InputRightElement,
     Skeleton, Tooltip,
-    Button, IconButton,
+    Button, IconButton, Switch,
     useBoolean, useToast
 } from '@chakra-ui/react';
 import {
@@ -22,6 +22,7 @@ import {
     upsertModule,
     getUserAcademic,
     insertUserAcademicRecord,
+    updateUserAcademicRecord,
     deleteUserAcademicRecord
 } from "../hooks/Database";
 import { moduleExist } from "../hooks/NUSModsAPI"
@@ -71,11 +72,14 @@ export default function ModulesTable() {
         for (var i = 0; i < userAcadMods.length; i++) {
             const modInfo = await getModInfo(userAcadMods[i].module)
 
+            if (modInfo == null)
+                continue
+
             const thisMod = {
                 id: userAcadMods[i].id,
                 code: modInfo.code,
                 name: modInfo.name,
-                status: userAcadMods[i].status || "undefined", //fixme
+                isCompleted: userAcadMods[i].completed,
             }
 
             setModRecords(current => [...current, thisMod])
@@ -98,7 +102,7 @@ export default function ModulesTable() {
         // Get the id of the mod from the 'modules' table
         var modId = (await getModuleId(newRecord, acadYear))?.id
 
-        if (modId === undefined) {
+        if (modId === undefined || modId == null) {
             // If row does not exist, add new row to the 'modules' table
             modId = await upsertModule(newRecord, acadYear)
         }
@@ -139,9 +143,6 @@ export default function ModulesTable() {
             return // stop handling add record
         }
 
-        // Reload UI table
-        fetchUserModules().catch(console.error)
-
         // Display a toast
         toast({
             title: "Successful",
@@ -150,6 +151,15 @@ export default function ModulesTable() {
             duration: 5000,
             isClosable: true,
         })
+
+        // Reload UI table + clear the texbox
+        fetchUserModules().catch(console.error)
+        setNewRecord("")
+    }
+
+    const handleToggleModComplete = async e => {
+        e.preventDefault()
+        updateUserAcademicRecord(e.target.id, e.target.checked)
     }
 
     const handleDeleteRecord = (recordId) => async e => {
@@ -211,7 +221,7 @@ export default function ModulesTable() {
                             <Tr>
                                 <Th>Module Code</Th>
                                 <Th>Module Name</Th>
-                                <Th>Status</Th>
+                                <Th>Completed</Th>
                                 <Th>{/* Delete Btn */}</Th>
                             </Tr>
                         </Thead>
@@ -220,14 +230,21 @@ export default function ModulesTable() {
                                 <Tr id={item.id}  key={item.id}>
                                     <Td>{item.code}</Td>
                                     <Td>{item.name}</Td>
-                                    <Td>{item.status}</Td>
+                                    <Td>
+                                        <Switch
+                                            id={item.id}
+                                            size="lg"
+                                            defaultChecked={item.isCompleted}
+                                            onChange={(e) => handleToggleModComplete(e)}
+                                        />
+                                    </Td>
                                     <Td>
                                         <IconButton
                                             backgroundColor="transparent"
                                             aria-label='delete'
                                             size=""
                                             icon={<DeleteIcon />}
-                                            onClick={handleDeleteRecord(item.id, this)}
+                                            onClick={handleDeleteRecord(item.id)}
                                         />
                                     </Td>
                                 </Tr>

@@ -44,6 +44,9 @@ export const getModuleId = async (modCode, year) => {
 
 export const getModInfo = async (modId) => {
     try {
+        if (modId == undefined || modId == null)
+            throw { message: "getModInfo: modId is undefined"}
+
         let { data, error } = await supabase
             .from("modules")
             .select("*")
@@ -61,8 +64,8 @@ export const getModInfo = async (modId) => {
 };
 
 export const upsertModule = async (moduleCode, acadYear) => {
-
     try {
+        // Retrieve data from API
         const modData = (await pullModule(moduleCode, acadYear)).data
 
         // Package data properly
@@ -119,7 +122,6 @@ export const insertUserAcademicRecord = async (userId, newModId) => {
         .insert([{
             user_id: userId,
             module: newModId,
-            //TODO: status ...etc 
         }])
 
         if (error)
@@ -137,11 +139,20 @@ export const insertUserAcademicRecord = async (userId, newModId) => {
     }
 };
 
-/*
-export const updateUserAcademicRecord = aysnc (recordId) => {
+export const updateUserAcademicRecord = async (recordId, isCompleted) => {
 
+    try {
+        const { error } = await supabase
+            .from('academic')
+            .update({ completed: isCompleted })
+            .eq('id', recordId)
+
+        if (error)
+            throw error
+    } catch (error) {
+        console.error(error.error_description || error.message);
+    }
 };
-*/
 
 export const deleteUserAcademicRecord = async (recordId) => {
     try {
