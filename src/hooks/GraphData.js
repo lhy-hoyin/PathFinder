@@ -25,11 +25,12 @@ function useProvideGraphData() {
   const isLoggedIn = (user !== null);
   const [userModules, setUserModules] = useState([])
 
+  /*
   useEffect( ()=> {
     if (isLoggedIn) {
       fetchUserModules()
     }
-  })
+  }) */
 
   const [userModUpdate, isUserModUpdate] = useState(false)
   
@@ -46,7 +47,7 @@ function useProvideGraphData() {
 
     isUserModUpdate(false)
 
-  }, [userModUpdate])
+  }, [userModUpdate]) 
   
 
   const [gradReq, setGradReq] = useState([]);
@@ -86,16 +87,6 @@ function useProvideGraphData() {
       year: 2.5
     }
   ]);
-
-  const fetchUserModules = async () => {
-    const userAcadMods = await getUserAcademic(user.id)
-    const userMod = []
-    for (var i = 0; i < userAcadMods.length; i++) {
-      const modInfo = await getModInfo(userAcadMods[i].module)
-      userMod[i] = {code: modInfo.code, isCompleted: userAcadMods[i].completed}
-    }
-    setUserModules(userMod)
-  }
 
   const colouring = (selectedColor) => {
       const color ={
@@ -238,6 +229,56 @@ function useProvideGraphData() {
     }
   }
 
+  const relationShip = (count, mod, orNodes, edges, pos) => {
+    let edgesCount = 0;
+    for (var index = 0; index < count; index++) {
+      const moduleId = mod[index].id;
+      const preqMods = mod[index].preq;
+      const orPreqMods = mod[index].orPreq;
+
+      if (preqMods.length > 0) {
+        for (var index1 = 0; index1 < preqMods.length; index1++) {
+
+          edges[edgesCount] = addEdges(moduleId, preqMods[index1]);
+          edgesCount++;
+
+          const x = mod.findIndex((x) => x.id === preqMods[index1]);
+          mod[x].addDependentMods(moduleId);
+        }
+      }
+
+      if (orPreqMods.length > 0) {
+        for (var index2 = 0; index2 < orPreqMods.length; index2++) {
+          // Creating "OR" nodes
+          const label = orNodesLabel(orPreqMods[index2]);
+          const position = pos.find((a) => a.id === label)
+          orNodes[index2] = new Module(
+            label,
+            [null, null, null, null],
+            colouring(ModuleStateColor.Locked),
+            position === undefined ? null : position.x,
+            position === undefined ? null : position.y
+          );
+
+          orNodes[index2].changingLabel("or");
+          orNodes[index2].shape = "ellipse";
+
+          for (var index3 = 0; index3 < orPreqMods[index2].length; index3++) {
+            const updateOrDep = mod.findIndex((x) => x.id === orPreqMods[index2][index3]);
+            mod[updateOrDep].addDependentMods(moduleId);
+            edges[edgesCount] = addEdges(label, orPreqMods[index2][index3]);
+            edgesCount++;
+          }
+
+          edges[edgesCount] = addEdges(moduleId, label);
+          edgesCount++;
+
+          orNodes[index2].addDependentMods(moduleId);
+        }
+      }
+    }
+  }
+
   const getData = (selectedCourse) => async e => {
       e.preventDefault();
 
@@ -245,6 +286,15 @@ function useProvideGraphData() {
       const modsArr = gradReq[selectedCourseIndex].modReq
       const pos = gradReq[selectedCourseIndex].pos
 
+      const gradMod = cloneDeep(modsArr)
+
+      // Including the user related modules
+     for (var userModIndex = 0; userModIndex < userModules.length; userModIndex++ ) {
+        if(!modsArr.includes(userModules[userModIndex].code)) {
+          modsArr.push(userModules[userModIndex].code)
+        } 
+      }
+     
       try {
           let { data, error } = await supabase
               .from("modules")
@@ -255,7 +305,6 @@ function useProvideGraphData() {
               throw ("no data from database")
 
           let temp = data.slice(0);
-          const count = temp.length
 
           let mod = [];
           let orNodes = [];
@@ -264,74 +313,48 @@ function useProvideGraphData() {
           let edgesCount = 0;
 
           let tableMods = [];
+          let blank1 = [];
+          let blank2 = [];
     
-          for (var num = 0; num < count; num++) {
-            mod[num] = new Module(
+          for (var num = 0; num < gradMod.length; num++) {
+            const position = pos.find((a) => a.id === temp[num].code);
+
+            const module = new Module(
               temp[num].code,
               [temp[num].name, temp[num].acad_year, temp[num].credit, temp[num].description],
               colouring(ModuleStateColor.Locked),
-              pos.find((a) => a.id === temp[num].code).x || null,
-              pos.find((a) => a.id === temp[num].code).y || null
+              position === undefined ? null : position.x,
+              position === undefined ? null : position.y
             );
     
-            mod[num].setPreReq(temp[num].pre_req, modsArr);
+              mod[num] = module 
+              mod[num].setPreReq(temp[num].pre_req, gradMod);
+          }
+
+          for (var num = 0; num < modsArr.length; num++) {
+
+            const module = new Module(
+              temp[num].code,
+              [temp[num].name, temp[num].acad_year, temp[num].credit, temp[num].description],
+              colouring(ModuleStateColor.Locked),
+              null,
+              null
+            );
+  
+            tableMods[num] = module
+            tableMods[num].setPreReq(temp[num].pre_req, modsArr);
           }
           
-          for (var index = 0; index < count; index++) {
-            const moduleId = mod[index].id;
-            const preqMods = mod[index].preq;
-            const orPreqMods = mod[index].orPreq;
+          relationShip(gradMod.length, mod, orNodes, edges, pos)
+          relationShip(modsArr.length, tableMods, blank1, blank2, pos)
+         
+          timeTableColumn[0].items = tableMods;
 
-            if (preqMods.length > 0) {
-              for (var index1 = 0; index1 < preqMods.length; index1++) {
-
-                edges[edgesCount] = addEdges(moduleId, preqMods[index1]);
-                edgesCount++;
-
-                const x = mod.findIndex((x) => x.id === preqMods[index1]);
-                mod[x].addDependentMods(moduleId);
-              }
-            }
-
-            if (orPreqMods.length > 0) {
-              for (var index2 = 0; index2 < orPreqMods.length; index2++) {
-                // Creating "OR" nodes
-                const label = orNodesLabel(orPreqMods[index2]);
-                orNodes[index2] = new Module(
-                  label,
-                  [null, null, null, null],
-                  colouring(ModuleStateColor.Locked),
-                  pos.find((a) => a.id === label).x,
-                  pos.find((a) => a.id === label).y
-                );
-
-                orNodes[index2].changingLabel("or");
-                orNodes[index2].shape = "ellipse";
-
-                for (var index3 = 0; index3 < orPreqMods[index2].length; index3++) {
-                  const updateOrDep = mod.findIndex((x) => x.id === orPreqMods[index2][index3]);
-                  mod[updateOrDep].addDependentMods(moduleId);
-                  edges[edgesCount] = addEdges(label, orPreqMods[index2][index3]);
-                  edgesCount++;
-                }
-
-                edges[edgesCount] = addEdges(moduleId, label);
-                edgesCount++;
-
-                orNodes[index2].addDependentMods(moduleId);
-              }
-            }
-          }
-
-          tableMods = cloneDeep(mod);
-          timeTableColumn[0].items = timeTableColumn[0].items.concat(tableMods);
-    
           mod = mod.concat(orNodes);
 
           for (var count1 = 0; count1 < mod.length; count1++) {
             updateColour(mod, mod[count1].id);
           }
-
           userModuleGraph(mod)
           
           setPreq(edges)
@@ -350,6 +373,11 @@ function useProvideGraphData() {
       const index = mod.findIndex((x) => x.id === userModules[userModIndex].code)
       if (index !== -1 && userModules[userModIndex].isCompleted) {
         mod[index].isCompleted = true
+        updateColour(mod, mod[index].id);
+      }
+
+      if (index !== -1 && !userModules[userModIndex].isCompleted) {
+        mod[index].isCompleted = false
         updateColour(mod, mod[index].id);
       }
     }
@@ -406,6 +434,7 @@ function useProvideGraphData() {
       addNewSemester,
       deletePrevSemester,
 
+      setUserModules,
       isUserModUpdate,
       modules,
       preq,
