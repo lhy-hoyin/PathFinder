@@ -51,7 +51,6 @@ export default function semesterTable() {
     }
 
     return msg
-    
   }
 
   const findPreqCol = (col, mod, index) => {
@@ -266,7 +265,7 @@ export default function semesterTable() {
         <div className="semButtonFrame">
           <Button className="semAPosButton" onClick={() => addNewSemester(columns)}> Add New Semester</Button>
           <Button className="semAPosButton" disabled={columns.length === 5} onClick={() => deletePrevSemester(columns)}>Delete Previous Semester</Button>
-          </div>
+        </div>
       </div>
     </>
   );
