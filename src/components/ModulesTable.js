@@ -10,7 +10,6 @@ import {
 } from '@chakra-ui/react';
 import {
     CheckIcon,
-    CloseIcon,
     RepeatIcon,
     DeleteIcon
 } from '@chakra-ui/icons';
@@ -21,11 +20,9 @@ import {
     getModuleId,
     upsertModule,
     getUserAcademic,
-    insertUserAcademicRecord,
-    updateUserAcademicRecord,
-    deleteUserAcademicRecord
+    UserAcademicRecord
 } from "../hooks/Database";
-import { moduleExist } from "../hooks/NUSModsAPI"
+import { moduleExist } from "../hooks/NUSModsAPI";
 
 export default function ModulesTable() {
 
@@ -46,21 +43,21 @@ export default function ModulesTable() {
             fetchUserModules().catch(console.error)
     }, [user])
 
+    // Actively checks if entered value is a module code that exists
     useEffect(() => {
         if (newRecord.length === 0) {
             setNewModValid() // set to empty
         }
         else moduleExist(newRecord)
-            .then(isValid => {setNewModValid(isValid)})
+            .then(isValid => { setNewModValid(isValid) })
     }, [newRecord])
 
+    // Control the icon for "add module" textbox
     useEffect(() => {
         if (newModValid === undefined || newModValid === null)
             setNewRecordValidIcon()
-        else if (newModValid === true)
-            setNewRecordValidIcon(<CheckIcon color='green.500' />)
         else
-            setNewRecordValidIcon(<CloseIcon color='red.500' />)
+            setNewRecordValidIcon(<CheckIcon color={newModValid ? 'green.500' : 'red.500'} />)
     }, [newModValid])
 
     const fetchUserModules = async () => {
@@ -127,7 +124,7 @@ export default function ModulesTable() {
         }
 
         // Add new records to database
-        const result = await insertUserAcademicRecord(user.id, modId)
+        const result = await UserAcademicRecord.insert(user.id, modId)
 
         if (result.status === 'error') {
             // Failed to insert new module into user academic
@@ -159,14 +156,14 @@ export default function ModulesTable() {
 
     const handleToggleModComplete = async e => {
         e.preventDefault()
-        updateUserAcademicRecord(e.target.id, e.target.checked)
+        UserAcademicRecord.update(e.target.id, e.target.checked)
     }
 
     const handleDeleteRecord = (recordId) => async e => {
         e.preventDefault();
 
         // Delete row from database
-        const { status, error } = await deleteUserAcademicRecord(recordId)
+        const { status, error } = await UserAcademicRecord.delete(recordId)
 
         if (status === 200) {
             // Successful, also delete table row from UI
@@ -193,13 +190,13 @@ export default function ModulesTable() {
                         aria-label='refresh'
                         icon={<RepeatIcon />}
                         onClick={handleRefreshRecords}
-                        />
+                    />
                 </Tooltip>
-                <form onSubmit={handleAddRecord} style={{display: "flex"}}>
+                <form onSubmit={handleAddRecord} style={{ display: "flex" }}>
                     <InputGroup>
                         <Input
                             placeholder="Module Code"
-                            onChange={(e) => {setNewRecord(e.target.value)}}
+                            onChange={(e) => { setNewRecord(e.target.value) }}
                             value={newRecord}
                             required />
                         <InputRightElement children={newRecordValidIcon} />
@@ -227,7 +224,7 @@ export default function ModulesTable() {
                         </Thead>
                         <Tbody>
                             {modRecords.map(item => (
-                                <Tr id={item.id}  key={item.id}>
+                                <Tr id={item.id} key={item.id}>
                                     <Td>{item.code}</Td>
                                     <Td>{item.name}</Td>
                                     <Td>
