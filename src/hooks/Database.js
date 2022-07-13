@@ -115,56 +115,58 @@ export const getUserAcademic = async (userId) => {
     }
 };
 
-export const insertUserAcademicRecord = async (userId, newModId) => {
-    try {
-        const { error } = await supabase
-        .from('academic')
-        .insert([{
-            user_id: userId,
-            module: newModId,
-        }])
+export var UserAcademicRecord = {
+    insert: async (userId, newModId) => {
+        try {
+            const { error } = await supabase
+                .from('academic')
+                .insert([{
+                    user_id: userId,
+                    module: newModId,
+                }])
 
-        if (error)
-            throw error
-        else
-            return { status: 'success' }
-        
-    } catch (error) {
-        console.error(error.error_description || error.message);
-        return {
-            status: 'error',
-            title: "Oops!",
-            description: error.error_description || error.message
-        };
-    }
-};
+            if (error)
+                throw error
+            else
+                return { status: 'success' }
 
-export const updateUserAcademicRecord = async (recordId, isCompleted) => {
+        } catch (error) {
+            console.error(error.error_description || error.message)
+            return {
+                status: 'error',
+                title: "Oops!",
+                description: error.error_description || error.message
+            }
+        }
+    },
 
-    try {
-        const { error } = await supabase
-            .from('academic')
-            .update({ completed: isCompleted })
-            .eq('id', recordId)
+    update: async (recordId, isCompleted) => {
 
-        if (error)
-            throw error
-    } catch (error) {
-        console.error(error.error_description || error.message);
-    }
-};
+        try {
+            const { error } = await supabase
+                .from('academic')
+                .update({ completed: isCompleted })
+                .eq('id', recordId)
 
-export const deleteUserAcademicRecord = async (recordId) => {
-    try {
-        const { status, error } = await supabase
-            .from('academic')
-            .delete()
-            .eq('id', recordId)
-            .single()
+            if (error)
+                throw error
+        } catch (error) {
+            console.error(error.error_description || error.message);
+        }
+    },
 
-        return { status, error }
-    } catch (error) {
-        console.error(error.message)
-        return { status, error }
-    }
-};
+    delete: async (recordId) => {
+        try {
+            const { status, error } = await supabase
+                .from('academic')
+                .delete()
+                .eq('id', recordId)
+                .single()
+
+            return { status, error }
+        } catch (error) {
+            console.error(error.message)
+            return { status, error }
+        }
+    },
+}
