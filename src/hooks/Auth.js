@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, createContext } from "react";
 
 import { ProfileRoles } from "../constants";
-import { supabase } from "../supabaseClient";
+import { supabase } from "../helpers/SupabaseClient";
 
 const authContext = createContext();
 

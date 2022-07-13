@@ -1,5 +1,5 @@
 import {Outlet, Navigate} from 'react-router-dom';
-import { supabase } from "../supabaseClient";
+import { supabase } from "../helpers/SupabaseClient";
 
 export function UserOnlyRoute(props) {
 	const user = supabase.auth.user();

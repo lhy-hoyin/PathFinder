@@ -1,5 +1,5 @@
-import { supabase } from "../supabaseClient";
-import { pullModule, formatPreReq } from "../hooks/NUSModsAPI";
+import { supabase } from "./SupabaseClient";
+import { pullModule, formatPreReq } from "./NUSModsAPI";
 
 export const getCourseNames = async () => {
     try {

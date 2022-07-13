@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Text, Select, Button, useToast } from '@chakra-ui/react';
 
 import { Auth } from "../hooks/Auth";
-import { getCourseNames } from "../hooks/Database";
+import { getCourseNames } from "../helpers/Database";
 import NUM_OF_COHORT_YEARS from "../definitions";
 
 export default function UserAcadInfo() {

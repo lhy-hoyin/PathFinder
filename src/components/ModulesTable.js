@@ -14,15 +14,15 @@ import {
     DeleteIcon
 } from '@chakra-ui/icons';
 
-import { supabase } from "../supabaseClient";
 import {
     getModInfo,
     getModuleId,
     upsertModule,
     getUserAcademic,
     UserAcademicRecord
-} from "../hooks/Database";
-import { moduleExist } from "../hooks/NUSModsAPI";
+} from "../helpers/Database";
+import { moduleExist } from "../helpers/NUSModsAPI";
+import { supabase } from "../helpers/SupabaseClient";
 
 export default function ModulesTable() {
 
