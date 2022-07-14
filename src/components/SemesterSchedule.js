@@ -26,9 +26,11 @@ export default function SemesterSchedule() {
 
     const { timeTableMods } = graphData();
 
-    const [columns, setColumns] = useState([]);
     const [message, setMessage] = useState("");
     const [mods, setMods] = useState([]);
+
+    const [modsPool, setModPool] = useState([]);
+    const [semesters, setSemesters] = useState([]);
 
     const [timeTableColumn, setTimeTableColumn] = useState([
         new Semester("Modules", -0.5),
@@ -38,11 +40,16 @@ export default function SemesterSchedule() {
         new Semester("Semester 1", 2.5),
     ]);
 
-    useEffect(() => {
-        setMods(timeTableMods);
+    /*useEffect(() => {
 
+    }, [])*/
+
+    useEffect(() => {
+        setModPool(timeTableMods);
+
+        setMods(timeTableMods);
         timeTableColumn[0].items = timeTableMods;
-        setColumns(timeTableColumn);
+        setSemesters(timeTableColumn);
 
     }, [timeTableMods, timeTableColumn]);
 
@@ -55,7 +62,7 @@ export default function SemesterSchedule() {
                 return label
 
             for (var x = 0; x < orArray.length; x++) {
-                label += orArray[x] + (orArray[x+1] ? " or " : "")
+                label += orArray[x] + (orArray[x + 1] ? " or " : "")
             }
 
             return "(" + label + ")";
@@ -207,7 +214,7 @@ export default function SemesterSchedule() {
     };
 
     const addNewSemester = () => {
-        const timeTableCopy = cloneDeep(columns);
+        const timeTableCopy = cloneDeep(semesters);
         const num = timeTableCopy.length;
         const years = timeTableColumn[num - 1].year + 0.5;
         const sem = years % 1 === 0 ? 1 : 2
@@ -223,108 +230,109 @@ export default function SemesterSchedule() {
     };
 
     const deletePrevSemester = () => {
-        const lastCol = columns.length - 1;
-        const timeTableCopy = cloneDeep(columns);
+        const lastCol = semesters.length - 1;
+        const timeTableCopy = cloneDeep(semesters);
         timeTableCopy.pop();
 
         // return items on the semester to the pool of semester
         timeTableCopy[0].items = timeTableCopy[0].items.concat(
-            columns[lastCol].items
+            semesters[lastCol].items
         );
 
         setTimeTableColumn(timeTableCopy); // Update with new table
     };
 
+    const displaySemesters = ([columnId, column], index) => {
+        return (
+            <div
+                key={columnId}
+                style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center"
+                }} >
+
+                <div style={{ rowGap: "10px", textAlign: "center" }}>
+                    {column.year % 1 === 0 ? (<p> Year {column.year}</p>) : (<p className="blank"> blank </p>)}
+                    <Text>{column.name}</Text>
+                </div>
+
+                <div style={{ margin: 10 }}>
+                    <DndProvider backend={HTML5Backend}>
+                        <ScrollingComponent className="columnStyle">
+                            <Droppable droppableId={columnId} key={columnId}>
+                                {(provided, snapshot) => {
+                                    return (
+                                        <div
+                                            {...provided.droppableProps}
+                                            ref={provided.innerRef}
+                                            style={{
+                                                background: snapshot.isDraggingOver
+                                                    ? "lightblue"
+                                                    : "lightgrey",
+                                                padding: 4,
+                                                width: 250,
+                                                minHeight: 350
+                                            }}
+                                        >
+                                            {column.items.map(displayModules)}
+                                            {provided.placeholder}
+                                        </div>
+                                    );
+                                }}
+                            </Droppable>
+                        </ScrollingComponent>
+                    </DndProvider>
+                </div>
+            </div>
+        )
+    };
+
+    const displayModules = (item, index) => {
+        return (
+            <Draggable
+                key={item.id}
+                draggableId={item.id}
+                index={index}
+            >
+                {(provided, snapshot) => {
+                    return (
+                        <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+
+                            style={{
+                                userSelect: "none",
+                                padding: 16,
+                                margin: "0 0 8px 0",
+                                minHeight: "25px",
+                                backgroundColor: snapshot.isDragging ? "#263B4A" : item.semColor,
+                                color: "white",
+                                ...provided.draggableProps.style
+                            }}
+                        >
+                            {item.label}
+                        </div>
+                    );
+                }}
+            </Draggable>
+        );
+    };
+
     return (
         <>
-            <h2 className="notice">Note: {message}</h2>
+            <h2 style={{ textAlign: "center", minHeight: "20px" }}>Note: {message}</h2>
 
-            <div className="semParent">
-                <DragDropContext onDragEnd={(result) => handleReleaseDragging(result, columns, setColumns)}>
-                    {Object.entries(columns).map(([columnId, column], index) => {
-                        return (
-                            <div className="semChild">
-                                <div
-                                    key={columnId}
-                                    style={{
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        alignItems: "center"
-                                    }}
-                                >
-                                    <div style={{ rowGap: "10px", textAlign: "center" }}>
-                                        {column.year % 1 === 0 ? (
-                                            <p> Year {column.year}</p>) : (<p className="blank"> blank </p>)}
-                                        <Text>{column.name}</Text>
-                                    </div>
-
-                                    <div style={{ margin: 8 }}>
-                                        <DndProvider backend={HTML5Backend}>
-                                            <ScrollingComponent className="columnStyle">
-                                                <Droppable droppableId={columnId} key={columnId}>
-                                                    {(provided, snapshot) => {
-                                                        return (
-                                                            <div
-                                                                {...provided.droppableProps}
-                                                                ref={provided.innerRef}
-                                                                style={{
-                                                                    background: snapshot.isDraggingOver
-                                                                        ? "lightblue"
-                                                                        : "lightgrey",
-                                                                    padding: 4,
-                                                                    width: 250,
-                                                                    minHeight: 350
-                                                                }}
-                                                            >
-                                                                {column.items.map((item, index) => {
-                                                                    return (
-                                                                        <Draggable
-                                                                            key={item.id}
-                                                                            draggableId={item.id}
-                                                                            index={index}
-                                                                        >
-                                                                            {(provided, snapshot) => {
-                                                                                return (
-                                                                                    <div
-                                                                                        ref={provided.innerRef}
-                                                                                        {...provided.draggableProps}
-                                                                                        {...provided.dragHandleProps}
-                                                                                        style={{
-                                                                                            userSelect: "none",
-                                                                                            padding: 16,
-                                                                                            margin: "0 0 8px 0",
-                                                                                            minHeight: "25px",
-                                                                                            backgroundColor: snapshot.isDragging
-                                                                                                ? "#263B4A"
-                                                                                                : item.semColor,
-                                                                                            color: "white",
-                                                                                            ...provided.draggableProps.style
-                                                                                        }}
-                                                                                    >
-                                                                                        {item.label}
-                                                                                    </div>
-                                                                                );
-                                                                            }}
-                                                                        </Draggable>
-                                                                    );
-                                                                })}
-                                                                {provided.placeholder}
-                                                            </div>
-                                                        );
-                                                    }}
-                                                </Droppable>
-                                            </ScrollingComponent>
-                                        </DndProvider>
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    })}
+            <div style={{ display: "flex", flexWrap: "wrap" }}>
+                <DragDropContext
+                    onDragEnd={(result) => handleReleaseDragging(result, semesters, setSemesters)}>
+                    {Object.entries(semesters).map(displaySemesters)}
                 </DragDropContext>
 
                 <div className="semButtonFrame">
                     <Button className="semAddPosButton" onClick={addNewSemester}>Add New Semester</Button>
-                    <Button className="semDelPosButton" disabled={columns.length === 5} onClick={deletePrevSemester}>Delete Previous Semester</Button>
+                    <Button className="semDelPosButton" disabled={semesters.length === 5} onClick={deletePrevSemester}>Delete Previous Semester</Button>
                 </div>
             </div>
         </>
