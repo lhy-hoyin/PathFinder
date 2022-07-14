@@ -4,7 +4,7 @@ import Color from "color";
 
 import { Module } from "../classes/Module";
 import { supabase } from "../helpers/SupabaseClient";
-import { ModuleStateColor } from "../constants"
+import { ModuleColor } from "../constants"
 
 
 const graphContext = createContext();
@@ -112,14 +112,14 @@ function useProvideGraphData() {
         let index = allMods.findIndex((x) => x.id === selectedModule);
 
         if (allMods[index].isCompleted) {
-            allMods[index].color = setColor(ModuleStateColor.Completed);
+            allMods[index].color = setColor(ModuleColor.Completed.rgb);
             if (allMods[index].dependentMods.length === 0) {
                 return allMods;
             }
         }
 
         if (allMods[index].preq.length === 0 && allMods[index].orPreq.length === 0 && !allMods[index].isCompleted) {
-            allMods[index].color = setColor(ModuleStateColor.Available);
+            allMods[index].color = setColor(ModuleColor.Available.rgb);
         }
 
         if (allMods[index].dependentMods.length !== 0) {
@@ -156,20 +156,20 @@ function useProvideGraphData() {
                     }
 
                     if (orCheck) {
-                        allMods[indexOr].color = setColor(ModuleStateColor.Completed);
+                        allMods[indexOr].color = setColor(ModuleColor.Completed.rgb);
                         totalOrCount++;
                     } else {
-                        allMods[indexOr].color = setColor(ModuleStateColor.Locked);
+                        allMods[indexOr].color = setColor(ModuleColor.Locked.rgb);
                     }
                 }
 
                 if (totalCount === modPreq.length && totalOrCount === modOrPreq.length) {
                     allMods[index2].color = allMods[index2].isCompleted
-                        ? setColor(ModuleStateColor.Completed)
-                        : setColor(ModuleStateColor.Available);
+                        ? setColor(ModuleColor.Completed.rgb)
+                        : setColor(ModuleColor.Available.rgb);
                 } else {
                     allMods[index2].isCompleted = false;
-                    allMods[index2].color = setColor(ModuleStateColor.Locked);
+                    allMods[index2].color = setColor(ModuleColor.Locked.rgb);
                 }
             }
         }
@@ -246,7 +246,7 @@ function useProvideGraphData() {
                     orNodes[index2] = new Module(
                         label,
                         [null, null, null, null],
-                        setColor(ModuleStateColor.Locked),
+                        setColor(ModuleColor.Locked.rgb),
                         position === undefined ? null : position.x,
                         position === undefined ? null : position.y
                     );
@@ -324,7 +324,7 @@ function useProvideGraphData() {
                 const module = new Module(
                     temp[num].code,
                     [temp[num].name, temp[num].acad_year, temp[num].credit, temp[num].description],
-                    setColor(ModuleStateColor.Locked),
+                    setColor(ModuleColor.Locked.rgb),
                     position === undefined ? null : position.x,
                     position === undefined ? null : position.y
                 );
@@ -339,7 +339,7 @@ function useProvideGraphData() {
                 const module = new Module(
                     temp[num].code,
                     [temp[num].name, temp[num].acad_year, temp[num].credit, temp[num].description],
-                    setColor(ModuleStateColor.Locked),
+                    setColor(ModuleColor.Locked.rgb),
                     null,
                     null
                 );
@@ -388,7 +388,7 @@ function useProvideGraphData() {
 
     const updateGraph = (nodes) => {
         let index = modules.findIndex((x) => x.id === nodes.toString());
-        if (modules[index].color.background === ModuleStateColor.Locked) {
+        if (modules[index].color.background === ModuleColor.Locked.rgb) {
             alert("Module is locked. Please clear the prequities first.");
         } else if (modules[index].label === "or") {
             return; //do nothing

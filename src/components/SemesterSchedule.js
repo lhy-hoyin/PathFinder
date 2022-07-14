@@ -7,7 +7,7 @@ import cloneDeep from "lodash/cloneDeep";
 import withScrolling from "react-dnd-scrolling";
 
 import { graphData } from "../hooks/GraphData";
-import { ModuleSemseterStateColor } from "../constants"
+import { ModuleColor } from "../constants"
 
 import "../css/SemesterSchedule.css";
 
@@ -106,10 +106,10 @@ export default function SemesterSchedule() {
 
         //toggling the color
         if (totalOrPreqCount === checkOrPreq.length && totalPreqCount === checkPreq.length) {
-            columns[srcIndex].items[index].semColor = ModuleSemseterStateColor.Normal;
+            columns[srcIndex].items[index].semColor = ModuleColor.Normal.hex;
             setMessage(" ")
         } else {
-            columns[srcIndex].items[index].semColor = ModuleSemseterStateColor.Locked;
+            columns[srcIndex].items[index].semColor = ModuleColor.Locked.hex;
             setMessage("Prequities of " + columns[srcIndex].items[index].id + " not met.\n  Requires: "
                 + label(checkPreq, checkOrPreq))
         }
@@ -122,10 +122,10 @@ export default function SemesterSchedule() {
 
         //if it returns to the module table preq doesnt have to be check
         if (desIndex === 0) {
-            columns[srcIndex].items[index].semColor = ModuleSemseterStateColor.Normal;
+            columns[srcIndex].items[index].semColor = ModuleColor.Normal.hex;
             //if it does not preq then doesnt have to be check
         } else if (checkPreq.length === 0 && checkOrPreq.length === 0) {
-            columns[srcIndex].items[index].semColor = ModuleSemseterStateColor.Normal;
+            columns[srcIndex].items[index].semColor = ModuleColor.Normal.hex;
         } else {
             check(checkPreq, checkOrPreq, columns, desIndex, srcIndex, index);
         }
