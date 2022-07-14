@@ -283,15 +283,20 @@ function useProvideGraphData() {
       e.preventDefault();
 
       const selectedCourseIndex = gradReq.findIndex((x) => x.id === selectedCourse)
-      const modsArr = gradReq[selectedCourseIndex].modReq
+
+      // Graph related     
+      const gradMod = cloneDeep( gradReq[selectedCourseIndex].modReq)
       const pos = gradReq[selectedCourseIndex].pos
 
-      const gradMod = cloneDeep(modsArr)
+      // Semester related
+      const modsArr = cloneDeep( gradReq[selectedCourseIndex].modReq) 
+      const additionalMods = []
 
       // Including the user related modules
      for (var userModIndex = 0; userModIndex < userModules.length; userModIndex++ ) {
         if(!modsArr.includes(userModules[userModIndex].code)) {
           modsArr.push(userModules[userModIndex].code)
+          additionalMods.push(userModules[userModIndex].code)
         } 
       }
      
@@ -307,6 +312,7 @@ function useProvideGraphData() {
           let temp = data.slice(0);
 
           let mod = [];
+          let modCount = 0
           let orNodes = [];
     
           let edges = [];
@@ -316,7 +322,12 @@ function useProvideGraphData() {
           let blank1 = [];
           let blank2 = [];
     
-          for (var num = 0; num < gradMod.length; num++) {
+          for (var num = 0; num < modsArr.length; num++) {
+
+            if (additionalMods.some((x)=> x === temp[num].code)) {
+              continue
+            }
+            
             const position = pos.find((a) => a.id === temp[num].code);
 
             const module = new Module(
@@ -327,8 +338,9 @@ function useProvideGraphData() {
               position === undefined ? null : position.y
             );
     
-              mod[num] = module 
-              mod[num].setPreReq(temp[num].pre_req, gradMod);
+              mod[modCount] = module 
+              mod[modCount].setPreReq(temp[num].pre_req, gradMod);
+              modCount ++
           }
 
           for (var num = 0; num < modsArr.length; num++) {
@@ -345,7 +357,7 @@ function useProvideGraphData() {
             tableMods[num].setPreReq(temp[num].pre_req, modsArr);
           }
           
-          relationShip(gradMod.length, mod, orNodes, edges, pos)
+          relationShip(mod.length, mod, orNodes, edges, pos)
           relationShip(modsArr.length, tableMods, blank1, blank2, pos)
          
           timeTableColumn[0].items = tableMods;
