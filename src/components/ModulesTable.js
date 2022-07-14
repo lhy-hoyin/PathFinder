@@ -66,7 +66,6 @@ export default function ModulesTable() {
         setModRecords([])
         setIsLoading.on()
 
-        const userGraph = []
         const userAcadMods = await getUserAcademic(user.id)
 
         for (var i = 0; i < userAcadMods.length; i++) {
@@ -82,14 +81,12 @@ export default function ModulesTable() {
                 isCompleted: userAcadMods[i].completed,
             }
 
-            userGraph[i] = {code: modInfo.code, isCompleted: userAcadMods[i].completed,}
-
             setModRecords(current => [...current, thisMod])
+            setUserModules(current => [...current, thisMod]) // update graph side variable
         }
         setIsLoading.off()
 
         // Update Graph
-        setUserModules(userGraph)
         isUserModUpdate(true)
     }
 
