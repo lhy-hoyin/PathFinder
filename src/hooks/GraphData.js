@@ -24,15 +24,7 @@ function useProvideGraphData() {
     const isLoggedIn = (user !== null);
     const [userModules, setUserModules] = useState([])
 
-    /*
-    useEffect( ()=> {
-      if (isLoggedIn) {
-        fetchUserModules()
-      }
-    }) */
-
     const [userModUpdate, isUserModUpdate] = useState(false)
-
 
     // Error with auto update
     useEffect(() => {
@@ -87,7 +79,7 @@ function useProvideGraphData() {
         }
     ]);
 
-    const colouring = (selectedColor) => {
+    const setColor = (selectedColor) => {
         const color = {
             border: Color(selectedColor).darken(0.2).hex(),
             background: selectedColor,
@@ -120,14 +112,14 @@ function useProvideGraphData() {
         let index = allMods.findIndex((x) => x.id === selectedModule);
 
         if (allMods[index].isCompleted) {
-            allMods[index].color = colouring(ModuleStateColor.Completed);
+            allMods[index].color = setColor(ModuleStateColor.Completed);
             if (allMods[index].dependentMods.length === 0) {
                 return allMods;
             }
         }
 
         if (allMods[index].preq.length === 0 && allMods[index].orPreq.length === 0 && !allMods[index].isCompleted) {
-            allMods[index].color = colouring(ModuleStateColor.Available);
+            allMods[index].color = setColor(ModuleStateColor.Available);
         }
 
         if (allMods[index].dependentMods.length !== 0) {
@@ -164,20 +156,20 @@ function useProvideGraphData() {
                     }
 
                     if (orCheck) {
-                        allMods[indexOr].color = colouring(ModuleStateColor.Completed);
+                        allMods[indexOr].color = setColor(ModuleStateColor.Completed);
                         totalOrCount++;
                     } else {
-                        allMods[indexOr].color = colouring(ModuleStateColor.Locked);
+                        allMods[indexOr].color = setColor(ModuleStateColor.Locked);
                     }
                 }
 
                 if (totalCount === modPreq.length && totalOrCount === modOrPreq.length) {
                     allMods[index2].color = allMods[index2].isCompleted
-                        ? colouring(ModuleStateColor.Completed)
-                        : colouring(ModuleStateColor.Available);
+                        ? setColor(ModuleStateColor.Completed)
+                        : setColor(ModuleStateColor.Available);
                 } else {
                     allMods[index2].isCompleted = false;
-                    allMods[index2].color = colouring(ModuleStateColor.Locked);
+                    allMods[index2].color = setColor(ModuleStateColor.Locked);
                 }
             }
         }
@@ -254,7 +246,7 @@ function useProvideGraphData() {
                     orNodes[index2] = new Module(
                         label,
                         [null, null, null, null],
-                        colouring(ModuleStateColor.Locked),
+                        setColor(ModuleStateColor.Locked),
                         position === undefined ? null : position.x,
                         position === undefined ? null : position.y
                     );
@@ -332,7 +324,7 @@ function useProvideGraphData() {
                 const module = new Module(
                     temp[num].code,
                     [temp[num].name, temp[num].acad_year, temp[num].credit, temp[num].description],
-                    colouring(ModuleStateColor.Locked),
+                    setColor(ModuleStateColor.Locked),
                     position === undefined ? null : position.x,
                     position === undefined ? null : position.y
                 );
@@ -347,7 +339,7 @@ function useProvideGraphData() {
                 const module = new Module(
                     temp[num].code,
                     [temp[num].name, temp[num].acad_year, temp[num].credit, temp[num].description],
-                    colouring(ModuleStateColor.Locked),
+                    setColor(ModuleStateColor.Locked),
                     null,
                     null
                 );
@@ -424,18 +416,20 @@ function useProvideGraphData() {
         };
 
         timeTableCopy.push(temp);
-        setTimeTableColumn(timeTableCopy);
+        setTimeTableColumn(timeTableCopy); // Update with new table
     };
-
 
     const deletePrevSemester = (timeTable) => {
         const lastCol = timeTable.length - 1;
         const timeTableCopy = cloneDeep(timeTable);
         timeTableCopy.pop();
+
+        // return items on the semester to the pool of semester
         timeTableCopy[0].items = timeTableCopy[0].items.concat(
             timeTable[lastCol].items
         );
-        setTimeTableColumn(timeTableCopy);
+
+        setTimeTableColumn(timeTableCopy); // Update with new table
     };
 
     return {
