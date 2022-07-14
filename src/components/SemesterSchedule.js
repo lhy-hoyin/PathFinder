@@ -11,6 +11,15 @@ import { ModuleColor } from "../constants"
 
 import "../css/SemesterSchedule.css";
 
+class Semester {
+    constructor(id, year) {
+        this.id = id
+        this.name = id
+        this.items = []
+        this.year = year
+    }
+}
+
 export default function SemesterSchedule() {
 
     const ScrollingComponent = withScrolling("div");
@@ -22,36 +31,11 @@ export default function SemesterSchedule() {
     const [mods, setMods] = useState([]);
 
     const [timeTableColumn, setTimeTableColumn] = useState([
-        {
-            id: "Modules",
-            name: "Modules",
-            items: [],
-            year: -0.5
-        },
-        {
-            id: "Semester 1",
-            name: "Semester 1",
-            items: [],
-            year: 1
-        },
-        {
-            id: "Semester 2",
-            name: "Semester 2",
-            items: [],
-            year: 1.5
-        },
-        {
-            id: "Semester 1",
-            name: "Semester 1",
-            items: [],
-            year: 2
-        },
-        {
-            id: "Semester 2",
-            name: "Semester 2",
-            items: [],
-            year: 2.5
-        }
+        new Semester("Modules", -0.5),
+        new Semester("Semester 1", 1),
+        new Semester("Semester 2", 1.5),
+        new Semester("Semester 1", 2),
+        new Semester("Semester 1", 2.5),
     ]);
 
     useEffect(() => {
@@ -190,7 +174,6 @@ export default function SemesterSchedule() {
             }
         }
     };
-
 
     const handleReleaseDragging = (result, columns, setColumns) => {
         //dragged to blank area
