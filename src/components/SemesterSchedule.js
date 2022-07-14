@@ -152,9 +152,11 @@ export default function SemesterSchedule() {
     };
 
 
-    const handleDraggingEnd = (result, columns, setColumns) => {
-        //if drag to no where then do nothing
-        if (!result.destination) return;
+    const handleReleaseDragging = (result, columns, setColumns) => {
+        //dragged to blank area
+        if (!result.destination)
+            return
+
         const { source, destination } = result;
 
         preqCheck(
@@ -188,7 +190,7 @@ export default function SemesterSchedule() {
             <h2 className="notice">Note: {message}</h2>
 
             <div className="semParent">
-                <DragDropContext onDragEnd={(result) => handleDraggingEnd(result, columns, setColumns)}>
+                <DragDropContext onDragEnd={(result) => handleReleaseDragging(result, columns, setColumns)}>
                     {Object.entries(columns).map(([columnId, column], index) => {
                         return (
                             <div className="semChild">
