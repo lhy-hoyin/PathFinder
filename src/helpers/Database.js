@@ -1,5 +1,5 @@
-import { supabase } from "../supabaseClient";
-import { pullModule, formatPreReq } from "../hooks/NUSModsAPI";
+import { supabase } from "./SupabaseClient";
+import { pullModule, formatPreReq } from "./NUSModsAPI";
 
 export const getCourseNames = async () => {
     try {
@@ -45,7 +45,7 @@ export const getModuleId = async (modCode, year) => {
 export const getModInfo = async (modId) => {
     try {
         if (modId == undefined || modId == null)
-            throw { message: "getModInfo: modId is undefined"}
+            throw { message: "getModInfo: modId is undefined" }
 
         let { data, error } = await supabase
             .from("modules")
@@ -170,3 +170,4 @@ export var UserAcademicRecord = {
         }
     },
 }
+

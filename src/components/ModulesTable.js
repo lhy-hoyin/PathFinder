@@ -14,16 +14,17 @@ import {
     DeleteIcon
 } from '@chakra-ui/icons';
 
-import { supabase } from "../supabaseClient";
 import {
     getModInfo,
     getModuleId,
     upsertModule,
     getUserAcademic,
     UserAcademicRecord
-} from "../hooks/Database";
+} from "../helpers/Database";
+import { moduleExist } from "../helpers/NUSModsAPI";
+import { supabase } from "../helpers/SupabaseClient";
+
 import { graphData } from '../hooks/GraphData';
-import { moduleExist } from "../hooks/NUSModsAPI";
 
 export default function ModulesTable() {
 
@@ -51,7 +52,7 @@ export default function ModulesTable() {
             setNewModValid() // set to empty
         }
         else moduleExist(newRecord)
-            .then(isValid => {setNewModValid(isValid)})
+            .then(isValid => { setNewModValid(isValid) })
     }, [newRecord])
 
     // Control the icon for "add module" textbox
@@ -204,13 +205,13 @@ export default function ModulesTable() {
                         aria-label='refresh'
                         icon={<RepeatIcon />}
                         onClick={handleRefreshRecords}
-                        />
+                    />
                 </Tooltip>
-                <form onSubmit={handleAddRecord} style={{display: "flex"}}>
+                <form onSubmit={handleAddRecord} style={{ display: "flex" }}>
                     <InputGroup>
                         <Input
                             placeholder="Module Code"
-                            onChange={(e) => {setNewRecord(e.target.value)}}
+                            onChange={(e) => { setNewRecord(e.target.value) }}
                             value={newRecord}
                             required />
                         <InputRightElement children={newRecordValidIcon} />
@@ -238,7 +239,7 @@ export default function ModulesTable() {
                         </Thead>
                         <Tbody>
                             {modRecords.map(item => (
-                                <Tr id={item.id}  key={item.id}>
+                                <Tr id={item.id} key={item.id}>
                                     <Td>{item.code}</Td>
                                     <Td>{item.name}</Td>
                                     <Td>

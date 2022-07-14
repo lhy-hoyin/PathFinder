@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 
 import { Auth } from "../hooks/Auth";
-import { supabase } from "../supabaseClient";
+import { supabase } from "../helpers/SupabaseClient";
 import Header from "../components/Header";
 import PWD_MIN_LENGTH from "../definitions";
 

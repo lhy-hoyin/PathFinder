@@ -3,9 +3,9 @@ import cloneDeep from 'lodash/cloneDeep';
 import Color from "color";
 
 import { Module } from "../classes/Module";
-import { supabase } from "../supabaseClient";
+import { supabase } from "../helpers/SupabaseClient";
 import { ModuleStateColor } from "../constants"
-import { getModInfo, getUserAcademic,} from "./Database";
+//import { getModInfo, getUserAcademic,} from "./Database";
 
 
 const graphContext = createContext();

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { supabase } from "../supabaseClient";
 import { ProfileRoles } from "../constants";
-import { formatPreReq, pullModule } from "../hooks/NUSModsAPI";
+import { supabase } from "../helpers/SupabaseClient";
+import { formatPreReq, pullModule } from "../helpers/NUSModsAPI";
 import { Auth } from "../hooks/Auth";
 import Header from "../components/Header";
 

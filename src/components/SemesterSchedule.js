@@ -20,7 +20,7 @@ export default function semesterTable() {
   useEffect(() => {
     setMods(timeTableMods);
     setColumns(timeTableColumn);
-  }, [timeTableMods, timeTableColumn]);
+} , [timeTableMods, timeTableColumn]);
 
   const label = (andMod, orMod)=> {
 
@@ -150,6 +150,7 @@ export default function semesterTable() {
       }
     }
   };
+    
 
   const onDragEnd = (result, columns, setColumns) => {
     //if drag to no where then do nothing
@@ -179,94 +180,100 @@ export default function semesterTable() {
     backwardCheck(result.draggableId, columnCopy);
   };
 
-  const ScrollingComponent = withScrolling("div");
+    const ScrollingComponent = withScrolling("div");
 
-  return (
-    <>
-      <h2 className="notice">Note: {message}</h2>
-      <div className="semParent">
-        <DragDropContext
-          onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
-        >
-          {Object.entries(columns).map(([columnId, column], index) => {
-            return (
-              <div className="semChild">
-                <div style={{ display: "flex", flexDirection: "column", lignItems: "center"  }} key={columnId}>
-                  
-                  <div style={{ rowGap: "10px", textAlign:"center" }}>
-                    {column.year % 1 === 0 ? (
-                      <p> Year {column.year}</p>) : ( <p className="blank"> blank </p> )}
-                    <Text>{column.name}</Text>
-                  </div>
-                  
-                  <div style={{ margin: 8 }}>
-                    <DndProvider backend={HTML5Backend}>
-                      <ScrollingComponent className="columnStyle">
-                        <Droppable droppableId={columnId} key={columnId}>
-                          {(provided, snapshot) => {
-                            return (
-                              <div
-                                {...provided.droppableProps}
-                                ref={provided.innerRef}
-                                style={{
-                                  background: snapshot.isDraggingOver
-                                    ? "lightblue"
-                                    : "lightgrey",
-                                  padding: 4,
-                                  width: 250,
-                                  minHeight: 350
-                                }}
-                              >
-                                {column.items.map((item, index) => {
-                                  return (
-                                    <Draggable
-                                      key={item.id}
-                                      draggableId={item.id}
-                                      index={index}
-                                    >
-                                      {(provided, snapshot) => {
-                                        return (
-                                          <div
-                                            ref={provided.innerRef}
-                                            {...provided.draggableProps}
-                                            {...provided.dragHandleProps}
-                                            style={{
-                                              userSelect: "none",
-                                              padding: 16,
-                                              margin: "0 0 8px 0",
-                                              minHeight: "25px",
-                                              backgroundColor: snapshot.isDragging
-                                                ? "#263B4A"
-                                                : item.semColor,
-                                              color: "white",
-                                              ...provided.draggableProps.style
-                                            }}
-                                          >
-                                            {item.label}
-                                          </div>
-                                        );
-                                      }}
-                                    </Draggable>
-                                  );
-                                })}
-                                {provided.placeholder}
-                              </div>
-                            );
-                          }}
-                        </Droppable>
-                      </ScrollingComponent>
-                    </DndProvider>
-                  </div>
+    return (
+        <>
+            <h2 className="notice">Note: {message}</h2>
+
+            <div className="semParent">
+                <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
+                    {Object.entries(columns).map(([columnId, column], index) => {
+                        return (
+                            <div className="semChild">
+                                <div
+                                    key={columnId}
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        alignItems: "center"
+                                    }}
+                                >
+                                    <div style={{ rowGap: "10px", textAlign:"center" }}>
+                                      {column.year % 1 === 0 ? (
+                                        <p> Year {column.year}</p>) : ( <p className="blank"> blank </p> )}
+                                      <Text>{column.name}</Text>
+                                    </div>
+
+                                    <div style={{ margin: 8 }}>
+                                        <DndProvider backend={HTML5Backend}>
+                                            <ScrollingComponent className="columnStyle">
+                                                <Droppable droppableId={columnId} key={columnId}>
+                                                    {(provided, snapshot) => {
+                                                        return (
+                                                            <div
+                                                                {...provided.droppableProps}
+                                                                ref={provided.innerRef}
+                                                                style={{
+                                                                    background: snapshot.isDraggingOver
+                                                                        ? "lightblue"
+                                                                        : "lightgrey",
+                                                                    padding: 4,
+                                                                    width: 250,
+                                                                    minHeight: 350
+                                                                }}
+                                                            >
+                                                                {column.items.map((item, index) => {
+                                                                    return (
+                                                                        <Draggable
+                                                                            key={item.id}
+                                                                            draggableId={item.id}
+                                                                            index={index}
+                                                                        >
+                                                                            {(provided, snapshot) => {
+                                                                                return (
+                                                                                    <div
+                                                                                        ref={provided.innerRef}
+                                                                                        {...provided.draggableProps}
+                                                                                        {...provided.dragHandleProps}
+                                                                                        style={{
+                                                                                            userSelect: "none",
+                                                                                            padding: 16,
+                                                                                            margin: "0 0 8px 0",
+                                                                                            minHeight: "25px",
+                                                                                            backgroundColor: snapshot.isDragging
+                                                                                                ? "#263B4A"
+                                                                                                : item.semColor,
+                                                                                            color: "white",
+                                                                                            ...provided.draggableProps.style
+                                                                                        }}
+                                                                                    >
+                                                                                        {item.label}
+                                                                                    </div>
+                                                                                );
+                                                                            }}
+                                                                        </Draggable>
+                                                                    );
+                                                                })}
+                                                                {provided.placeholder}
+                                                            </div>
+                                                        );
+                                                    }}
+                                                </Droppable>
+                                            </ScrollingComponent>
+                                        </DndProvider>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </DragDropContext>
+
+                <div className="semButtonFrame">
+                    <Button className="semAddPosButton" onClick={() => addNewSemester(columns)}>Add New Semester</Button>
+                    <Button className="semDelPosButton" disabled={columns.length === 5} onClick={() => deletePrevSemester(columns)}>Delete Previous Semester</Button>
                 </div>
-              </div>
-            );
-          })}
-        </DragDropContext>
-        <div className="semButtonFrame">
-          <Button className="semAPosButton" onClick={() => addNewSemester(columns)}> Add New Semester</Button>
-          <Button className="semAPosButton" disabled={columns.length === 5} onClick={() => deletePrevSemester(columns)}>Delete Previous Semester</Button>
-        </div>
-      </div>
-    </>
-  );
+            </div>
+        </>
+    );
 }

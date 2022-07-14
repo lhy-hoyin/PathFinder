@@ -8,8 +8,9 @@ import {
 } from '@chakra-ui/react';
 import { HamburgerIcon } from '@chakra-ui/icons'
 
-import { supabase } from "../supabaseClient";
+
 import { ProfileRoles } from "../constants";
+import { supabase } from "../helpers/SupabaseClient";
 import { Auth } from "../hooks/Auth";
 import LoginPop from './LoginPop';
 

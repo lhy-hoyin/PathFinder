@@ -6,8 +6,8 @@ import {
 
 import { Auth } from "../hooks/Auth";
 import { graphData } from "../hooks/GraphData";
-import { getCourseNames } from "../hooks/Database";
-import { supabase } from "../supabaseClient";
+import { getCourseNames } from "../helpers/Database";
+import { supabase } from "../helpers/SupabaseClient";
 
 import Header from "../components/Header";
 import AdminAccess from "../components/AdminAccess";
