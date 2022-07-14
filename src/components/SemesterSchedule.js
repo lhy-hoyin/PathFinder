@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { DndProvider } from "react-dnd";
 import { Text, Button } from '@chakra-ui/react';
+import { DndProvider } from "react-dnd";
 import cloneDeep from "lodash/cloneDeep";
 import withScrolling from "react-dnd-scrolling";
 
@@ -11,7 +11,7 @@ import { ModuleSemseterStateColor } from "../constants"
 
 import "../css/SemesterSchedule.css";
 
-export default function semesterTable() {
+export default function SemesterSchedule() {
     const [columns, setColumns] = useState([]);
     const [message, setMessage] = useState("");
     const [mods, setMods] = useState([]);
