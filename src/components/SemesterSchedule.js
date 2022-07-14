@@ -22,32 +22,37 @@ export default function SemesterSchedule() {
         setColumns(timeTableColumn);
     }, [timeTableMods, timeTableColumn]);
 
-    const label = (andMod, orMod) => {
+    const label = (andMods, orMods) => {
 
         const orLabel = (orArray) => {
-            let label = "(" + orArray[0].toString();
-            for (var x = 1; x < orArray.length; x++) {
-                label = label + " or " + orArray[x];
+            let label = ""
+
+            if (orArray.length === 0)
+                return label
+
+            for (var x = 0; x < orArray.length; x++) {
+                label += orArray[x] + (orArray[x+1] ? " or " : "")
             }
-            return label + ")";
+
+            return "(" + label + ")";
         };
 
         let msg = ""
-        if (andMod.length !== 0) {
-            msg = andMod[0]
-            for (var x = 1; x < andMod.length; x++) {
-                msg = msg + " and " + andMod[x]
+        if (andMods.length !== 0) {
+            msg = andMods[0]
+            for (var x = 1; x < andMods.length; x++) {
+                msg = msg + " and " + andMods[x]
             }
-            if (orMod.length !== 0) {
+            if (orMods.length !== 0) {
                 msg = msg + " and "
             } else {
                 return msg
             }
         }
 
-        msg = msg + orLabel(orMod[0])
-        for (var orCount = 1; orCount < orMod; orCount++) {
-            msg = msg + " and " + orLabel(orMod[orCount])
+        msg = msg + orLabel(orMods[0])
+        for (var orCount = 1; orCount < orMods; orCount++) {
+            msg = msg + " and " + orLabel(orMods[orCount])
         }
 
         return msg
@@ -110,8 +115,7 @@ export default function SemesterSchedule() {
             setMessage(" ")
         } else {
             columns[srcIndex].items[index].semColor = ModuleColor.Locked.hex;
-            setMessage("Prequities of " + columns[srcIndex].items[index].id + " not met.\n  Requires: "
-                + label(checkPreq, checkOrPreq))
+            setMessage("Missing prequities. " + columns[srcIndex].items[index].id + "  requires: " + label(checkPreq, checkOrPreq))
         }
     };
 
@@ -152,17 +156,18 @@ export default function SemesterSchedule() {
     };
 
 
-    const onDragEnd = (result, columns, setColumns) => {
+    const handleDraggingEnd = (result, columns, setColumns) => {
         //if drag to no where then do nothing
         if (!result.destination) return;
         const { source, destination } = result;
 
-        //Checking preReq
-        const index = destination.droppableId;
-        const modId = result.draggableId;
-
-        preqCheck(result.draggableId, columns, parseInt(destination.droppableId),
-            parseInt(source.droppableId), source.index);
+        preqCheck(
+            result.draggableId,
+            columns,
+            parseInt(destination.droppableId),
+            parseInt(source.droppableId),
+            source.index
+        );
 
         const sourceColumn = columns[source.droppableId];
         const sourceItems = [...sourceColumn.items];
@@ -187,7 +192,7 @@ export default function SemesterSchedule() {
             <h2 className="notice">Note: {message}</h2>
 
             <div className="semParent">
-                <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
+                <DragDropContext onDragEnd={(result) => handleDraggingEnd(result, columns, setColumns)}>
                     {Object.entries(columns).map(([columnId, column], index) => {
                         return (
                             <div className="semChild">
