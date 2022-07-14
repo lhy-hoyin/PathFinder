@@ -10,7 +10,6 @@ import {
 } from '@chakra-ui/react';
 import {
     CheckIcon,
-    CloseIcon,
     RepeatIcon,
     DeleteIcon
 } from '@chakra-ui/icons';
@@ -21,17 +20,16 @@ import {
     getModuleId,
     upsertModule,
     getUserAcademic,
-    insertUserAcademicRecord,
-    updateUserAcademicRecord,
-    deleteUserAcademicRecord
+    UserAcademicRecord
 } from "../hooks/Database";
 import { graphData } from '../hooks/GraphData';
-import { moduleExist } from "../hooks/NUSModsAPI"
+import { moduleExist } from "../hooks/NUSModsAPI";
 
 export default function ModulesTable() {
 
     const user = supabase.auth.user()
     const toast = useToast()
+    const { isUserModUpdate, setUserModules } = graphData()
 
     const [newRecord, setNewRecord] = useState("");
     const [newModValid, setNewModValid] = useState();
@@ -40,8 +38,6 @@ export default function ModulesTable() {
     const [modRecords, setModRecords] = useState([]);
     const [isLoading, setIsLoading] = useBoolean();
 
-    const { isUserModUpdate, setUserModules } =graphData()
-
     useEffect(() => {
         if (user === null)
             setModRecords([])
@@ -49,6 +45,7 @@ export default function ModulesTable() {
             fetchUserModules().catch(console.error)
     }, [user])
 
+    // Actively checks if entered value is a module code that exists
     useEffect(() => {
         if (newRecord.length === 0) {
             setNewModValid() // set to empty
@@ -57,20 +54,18 @@ export default function ModulesTable() {
             .then(isValid => {setNewModValid(isValid)})
     }, [newRecord])
 
+    // Control the icon for "add module" textbox
     useEffect(() => {
         if (newModValid === undefined || newModValid === null)
             setNewRecordValidIcon()
-        else if (newModValid === true)
-            setNewRecordValidIcon(<CheckIcon color='green.500' />)
         else
-            setNewRecordValidIcon(<CloseIcon color='red.500' />)
+            setNewRecordValidIcon(<CheckIcon color={newModValid ? 'green.500' : 'red.500'} />)
     }, [newModValid])
 
     const fetchUserModules = async () => {
         setModRecords([])
         setIsLoading.on()
 
-        const userGraph = []
         const userAcadMods = await getUserAcademic(user.id)
 
         for (var i = 0; i < userAcadMods.length; i++) {
@@ -86,14 +81,12 @@ export default function ModulesTable() {
                 isCompleted: userAcadMods[i].completed,
             }
 
-            userGraph[i] = {code: modInfo.code, isCompleted: userAcadMods[i].completed,}
-
             setModRecords(current => [...current, thisMod])
+            setUserModules(current => [...current, thisMod]) // update graph side variable
         }
         setIsLoading.off()
 
         // Update Graph
-        setUserModules(userGraph)
         isUserModUpdate(true)
     }
 
@@ -137,7 +130,7 @@ export default function ModulesTable() {
         }
 
         // Add new records to database
-        const result = await insertUserAcademicRecord(user.id, modId)
+        const result = await UserAcademicRecord.insert(user.id, modId)
 
         if (result.status === 'error') {
             // Failed to insert new module into user academic
@@ -169,14 +162,22 @@ export default function ModulesTable() {
 
     const handleToggleModComplete = async e => {
         e.preventDefault()
-        updateUserAcademicRecord(e.target.id, e.target.checked)
+
+        // Update database
+        UserAcademicRecord.update(e.target.id, e.target.checked)
+
+        // Update local array variable
+        modRecords.map(item => {
+            if (item.id == e.target.id)
+                item.isCompleted = e.target.checked
+        })
     }
 
     const handleDeleteRecord = (recordId) => async e => {
         e.preventDefault();
 
         // Delete row from database
-        const { status, error } = await deleteUserAcademicRecord(recordId)
+        const { status, error } = await UserAcademicRecord.delete(recordId)
 
         if (status === 200) {
             // Successful, also delete table row from UI
