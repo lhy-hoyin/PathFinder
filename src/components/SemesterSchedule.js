@@ -95,11 +95,7 @@ export default function SemesterSchedule() {
         let totalOrPreqCount = 0;
         for (var preqOrIndex = 0; preqOrIndex < checkOrPreq.length; preqOrIndex++) {
             let orCount = 0;
-            for (
-                var orIndex = 0;
-                orIndex < checkOrPreq[preqOrIndex].length;
-                orIndex++
-            ) {
+            for (var orIndex = 0; orIndex < checkOrPreq[preqOrIndex].length; orIndex++) {
                 if (findPreqCol(columns, checkOrPreq[preqOrIndex][orIndex], desIndex)) {
                     orCount++;
                 }
