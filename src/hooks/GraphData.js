@@ -46,38 +46,6 @@ function useProvideGraphData() {
     const [preq, setPreq] = useState([]);
 
     const [timeTableMods, setTimeTableMods] = useState([]);
-    const [timeTableColumn, setTimeTableColumn] = useState([
-        {
-            id: "Modules",
-            name: "Modules",
-            items: [],
-            year: -0.5
-        },
-        {
-            id: "Semester 1",
-            name: "Semester 1",
-            items: [],
-            year: 1
-        },
-        {
-            id: "Semester 2",
-            name: "Semester 2",
-            items: [],
-            year: 1.5
-        },
-        {
-            id: "Semester 1",
-            name: "Semester 1",
-            items: [],
-            year: 2
-        },
-        {
-            id: "Semester 2",
-            name: "Semester 2",
-            items: [],
-            year: 2.5
-        }
-    ]);
 
     const setColor = (selectedColor) => {
         const color = {
@@ -350,9 +318,6 @@ function useProvideGraphData() {
 
             relationShip(mod.length, mod, orNodes, edges, pos)
             relationShip(modsArr.length, tableMods, blank1, blank2, pos)
-
-            timeTableColumn[0].items = tableMods;
-
             mod = mod.concat(orNodes);
 
             for (var count1 = 0; count1 < mod.length; count1++) {
@@ -363,7 +328,6 @@ function useProvideGraphData() {
             setPreq(edges)
             setModules(mod)
 
-            setTimeTableColumn(timeTableColumn);
             setTimeTableMods(tableMods);
 
         } catch (error) {
@@ -403,47 +367,16 @@ function useProvideGraphData() {
         }
     };
 
-    const addNewSemester = (timeTable) => {
-        const timeTableCopy = cloneDeep(timeTable);
-        const num = timeTableCopy.length;
-        const years = timeTableColumn[num - 1].year + 0.5;
-        const sem = years % 1 === 0 ? 1 : 2
-        const temp = {
-            id: "Semester " + sem,
-            name: "Semester " + sem,
-            items: [],
-            year: years
-        };
-
-        timeTableCopy.push(temp);
-        setTimeTableColumn(timeTableCopy); // Update with new table
-    };
-
-    const deletePrevSemester = (timeTable) => {
-        const lastCol = timeTable.length - 1;
-        const timeTableCopy = cloneDeep(timeTable);
-        timeTableCopy.pop();
-
-        // return items on the semester to the pool of semester
-        timeTableCopy[0].items = timeTableCopy[0].items.concat(
-            timeTable[lastCol].items
-        );
-
-        setTimeTableColumn(timeTableCopy); // Update with new table
-    };
-
     return {
         getData,
         getCoursesRequirement,
         updateGraph,
-        addNewSemester,
-        deletePrevSemester,
 
         setUserModules,
         isUserModUpdate,
         modules,
         preq,
+
         timeTableMods,
-        timeTableColumn
     };
 }

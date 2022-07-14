@@ -12,14 +12,54 @@ import { ModuleColor } from "../constants"
 import "../css/SemesterSchedule.css";
 
 export default function SemesterSchedule() {
+
+    const ScrollingComponent = withScrolling("div");
+
+    const { timeTableMods } = graphData();
+
     const [columns, setColumns] = useState([]);
     const [message, setMessage] = useState("");
     const [mods, setMods] = useState([]);
-    const { timeTableMods, timeTableColumn, addNewSemester, deletePrevSemester } = graphData();
+
+    const [timeTableColumn, setTimeTableColumn] = useState([
+        {
+            id: "Modules",
+            name: "Modules",
+            items: [],
+            year: -0.5
+        },
+        {
+            id: "Semester 1",
+            name: "Semester 1",
+            items: [],
+            year: 1
+        },
+        {
+            id: "Semester 2",
+            name: "Semester 2",
+            items: [],
+            year: 1.5
+        },
+        {
+            id: "Semester 1",
+            name: "Semester 1",
+            items: [],
+            year: 2
+        },
+        {
+            id: "Semester 2",
+            name: "Semester 2",
+            items: [],
+            year: 2.5
+        }
+    ]);
 
     useEffect(() => {
         setMods(timeTableMods);
+
+        timeTableColumn[0].items = timeTableMods;
         setColumns(timeTableColumn);
+
     }, [timeTableMods, timeTableColumn]);
 
     const label = (andMods, orMods) => {
@@ -111,7 +151,7 @@ export default function SemesterSchedule() {
             setMessage(" ")
         } else {
             columns[srcIndex].items[index].semColor = ModuleColor.Locked.hex;
-            setMessage("Missing prequities. " + columns[srcIndex].items[index].id + "  requires: " + label(checkPreq, checkOrPreq))
+            setMessage(columns[srcIndex].items[index].id + ": Missing prequities.\n  Requires: " + label(checkPreq, checkOrPreq))
         }
     };
 
@@ -183,7 +223,34 @@ export default function SemesterSchedule() {
         backwardCheck(result.draggableId, columnCopy);
     };
 
-    const ScrollingComponent = withScrolling("div");
+    const addNewSemester = () => {
+        const timeTableCopy = cloneDeep(columns);
+        const num = timeTableCopy.length;
+        const years = timeTableColumn[num - 1].year + 0.5;
+        const sem = years % 1 === 0 ? 1 : 2
+        const temp = {
+            id: "Semester " + sem,
+            name: "Semester " + sem,
+            items: [],
+            year: years
+        };
+
+        timeTableCopy.push(temp);
+        setTimeTableColumn(timeTableCopy); // Update with new table
+    };
+
+    const deletePrevSemester = () => {
+        const lastCol = columns.length - 1;
+        const timeTableCopy = cloneDeep(columns);
+        timeTableCopy.pop();
+
+        // return items on the semester to the pool of semester
+        timeTableCopy[0].items = timeTableCopy[0].items.concat(
+            columns[lastCol].items
+        );
+
+        setTimeTableColumn(timeTableCopy); // Update with new table
+    };
 
     return (
         <>
@@ -273,8 +340,8 @@ export default function SemesterSchedule() {
                 </DragDropContext>
 
                 <div className="semButtonFrame">
-                    <Button className="semAddPosButton" onClick={() => addNewSemester(columns)}>Add New Semester</Button>
-                    <Button className="semDelPosButton" disabled={columns.length === 5} onClick={() => deletePrevSemester(columns)}>Delete Previous Semester</Button>
+                    <Button className="semAddPosButton" onClick={addNewSemester}>Add New Semester</Button>
+                    <Button className="semDelPosButton" disabled={columns.length === 5} onClick={deletePrevSemester}>Delete Previous Semester</Button>
                 </div>
             </div>
         </>
