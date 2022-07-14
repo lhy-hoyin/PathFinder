@@ -29,7 +29,7 @@ export default function SemesterSchedule() {
     const [message, setMessage] = useState("");
     const [mods, setMods] = useState([]);
 
-    const [modsPool, setModPool] = useState([]);
+
     const [semesters, setSemesters] = useState([]);
 
     const [timeTableColumn, setTimeTableColumn] = useState([
@@ -40,13 +40,7 @@ export default function SemesterSchedule() {
         new Semester("Semester 1", 2.5),
     ]);
 
-    /*useEffect(() => {
-
-    }, [])*/
-
     useEffect(() => {
-        setModPool(timeTableMods);
-
         setMods(timeTableMods);
         timeTableColumn[0].items = timeTableMods;
         setSemesters(timeTableColumn);
