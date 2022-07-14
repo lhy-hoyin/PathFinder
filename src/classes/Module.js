@@ -19,6 +19,7 @@ export class Module {
 
         // For semesster
         this.semColor = "#456C86";
+        this.tooltip = ""; // used to display error message
     }
 
     setPreReq = (allPreReq, allMods) => {

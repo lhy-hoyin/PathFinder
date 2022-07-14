@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { Text, Button } from '@chakra-ui/react';
+import { Text, Button, Tooltip } from '@chakra-ui/react';
 import { DndProvider } from "react-dnd";
 import cloneDeep from "lodash/cloneDeep";
 import withScrolling from "react-dnd-scrolling";
@@ -26,12 +26,9 @@ export default function SemesterSchedule() {
 
     const { timeTableMods } = graphData();
 
-    const [message, setMessage] = useState("");
     const [mods, setMods] = useState([]);
 
-
     const [semesters, setSemesters] = useState([]);
-
     const [timeTableColumn, setTimeTableColumn] = useState([
         new Semester("Modules", -0.5),
         new Semester("Semester 1", 1),
@@ -41,6 +38,7 @@ export default function SemesterSchedule() {
     ]);
 
     useEffect(() => {
+
         setMods(timeTableMods);
         timeTableColumn[0].items = timeTableMods;
         setSemesters(timeTableColumn);
@@ -133,10 +131,10 @@ export default function SemesterSchedule() {
         //toggling the color
         if (totalOrPreqCount === checkOrPreq.length && totalPreqCount === checkPreq.length) {
             columns[srcIndex].items[index].semColor = ModuleColor.Normal.hex;
-            setMessage(" ")
+            columns[srcIndex].items[index].tooltip = "";
         } else {
             columns[srcIndex].items[index].semColor = ModuleColor.Locked.hex;
-            setMessage(columns[srcIndex].items[index].id + ": Missing prequities.\n  Requires: " + label(checkPreq, checkOrPreq))
+            columns[srcIndex].items[index].tooltip = "Missing prequities.\nRequires: " + label(checkPreq, checkOrPreq);
         }
     };
 
@@ -261,9 +259,7 @@ export default function SemesterSchedule() {
                                             {...provided.droppableProps}
                                             ref={provided.innerRef}
                                             style={{
-                                                background: snapshot.isDraggingOver
-                                                    ? "lightblue"
-                                                    : "lightgrey",
+                                                background: snapshot.isDraggingOver ? "lightblue" : "lightgrey",
                                                 padding: 4,
                                                 width: 250,
                                                 minHeight: 350
@@ -291,44 +287,43 @@ export default function SemesterSchedule() {
             >
                 {(provided, snapshot) => {
                     return (
-                        <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
+                        <Tooltip hasArrow label={item.tooltip}>
+                            <div
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
 
-                            style={{
-                                userSelect: "none",
-                                padding: 16,
-                                margin: "0 0 8px 0",
-                                minHeight: "25px",
-                                backgroundColor: snapshot.isDragging ? "#263B4A" : item.semColor,
-                                color: "white",
-                                ...provided.draggableProps.style
-                            }}
-                        >
-                            {item.label}
-                        </div>
-                    );
+                                style={{
+                                    userSelect: "none",
+                                    padding: 16,
+                                    margin: "0 0 8px 0",
+                                    minHeight: "25px",
+                                    backgroundColor: snapshot.isDragging ? "#263B4A" : item.semColor,
+                                    color: "white",
+                                    ...provided.draggableProps.style
+                                }}
+                            >
+                                {item.label}
+                            </div>
+                        </Tooltip>
+                    )
                 }}
             </Draggable>
         );
     };
 
     return (
-        <>
-            <h2 style={{ textAlign: "center", minHeight: "20px" }}>Note: {message}</h2>
+        <div style={{ display: "flex", flexWrap: "wrap" }}>
+            <DragDropContext
+                onDragEnd={(result) => handleReleaseDragging(result, semesters, setSemesters)}>
+                {Object.entries(semesters).map(displaySemesters)}
+            </DragDropContext>
 
-            <div style={{ display: "flex", flexWrap: "wrap" }}>
-                <DragDropContext
-                    onDragEnd={(result) => handleReleaseDragging(result, semesters, setSemesters)}>
-                    {Object.entries(semesters).map(displaySemesters)}
-                </DragDropContext>
-
-                <div className="semButtonFrame">
-                    <Button className="semAddPosButton" onClick={addNewSemester}>Add New Semester</Button>
-                    <Button className="semDelPosButton" disabled={semesters.length === 5} onClick={deletePrevSemester}>Delete Previous Semester</Button>
-                </div>
+            <div className="semButtonFrame">
+                <Button className="semAddPosButton" onClick={addNewSemester}>Add New Semester</Button>
+                <Button className="semDelPosButton" disabled={semesters.length === 5} onClick={deletePrevSemester}>Delete Previous Semester</Button>
             </div>
-        </>
+        </div>
+
     );
 }
