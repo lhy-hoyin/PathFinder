@@ -2,7 +2,6 @@
     --custom-font-size: 20px;
     --custom-font-color: #808080;
     --custom-font-family: monospace;
-
     --btn-color-text: #ffffff;
     --btn-color-bg-default: #0026ff;
     --btn-color-bg-hover: #0094ff;
@@ -22,6 +21,7 @@
 .clickable {
     display: inline-block;
 }
+
     .clickable::after {
         content: '';
         width: 0%;

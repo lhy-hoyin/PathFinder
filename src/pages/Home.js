@@ -22,16 +22,16 @@ export default function Home() {
     const isLoggedIn = (user !== null);
 
     const { getData, getCoursesRequirement } = graphData();
-    const { profileInfoReady,  course } = Auth();
+    const { profileInfoReady, course } = Auth();
 
     const [tabIndex, setTabIndex] = useState(0);
     const [selectedCourse, setSelectedCourse] = useState("");
     const [courseSelection, setCourseSelection] = useState([]);
-    
+
     useEffect(() => {
 
         const fetchCourses = async () => {
-            getCoursesRequirement() 
+            getCoursesRequirement()
             const courseNames = await getCourseNames()
             setCourseSelection(courseNames)
         }
@@ -66,7 +66,7 @@ export default function Home() {
                     <Tab>Graph</Tab>
 
                     <Tooltip
-                        label={ isLoggedIn ? "" : "Requires login" }
+                        label={isLoggedIn ? "" : "Requires login"}
                         placement='top'
                         closeOnClick={false}
                         shouldWrapChildren>
@@ -78,8 +78,8 @@ export default function Home() {
                 <TabPanels>
                     <TabPanel>
 
-                        <form onSubmit={ getData(selectedCourse) }>
-                
+                        <form onSubmit={getData(selectedCourse)}>
+
                             <div style={{
                                 gap: "5px",
                                 display: "flex",
@@ -88,7 +88,7 @@ export default function Home() {
                             }}>
 
                                 <Text style={{ whiteSpace: "nowrap" }} margin={1}>
-                                    Course: 
+                                    Course:
                                 </Text>
 
                                 <div style={{ width: "fit-content" }}>
@@ -97,7 +97,7 @@ export default function Home() {
                                         required >
                                         <option key="default" hidden>{selectedCourse}</option>
                                         {
-                                            courseSelection.map(item => ( <option key={item}>{item}</option> ))
+                                            courseSelection.map(item => (<option key={item}>{item}</option>))
                                         }
                                     </Select>
                                 </div>
@@ -118,7 +118,7 @@ export default function Home() {
                 </TabPanels>
             </Tabs>
 
-            
+
 
         </>
     );

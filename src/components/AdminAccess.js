@@ -23,9 +23,9 @@ export default function AdminAccess() {
             {showContent ? (
                 <>
                     <p>Admin Quick Links</p>
-                    <a href="/api">API</a>  
+                    <a href="/api">API</a>
                 </>
-            ): (<></>)}
+            ) : (<></>)}
         </>
     );
 

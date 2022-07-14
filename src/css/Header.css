@@ -15,14 +15,14 @@
     color: var(--custom-font-color);
 }
 
-.nav-links ul li {
-    text-decoration: none;
-    list-style: none;
-    display: inline-block;
-    padding: 8px 12px;
-    position: relative;
-}
-    
+    .nav-links ul li {
+        text-decoration: none;
+        list-style: none;
+        display: inline-block;
+        padding: 8px 12px;
+        position: relative;
+    }
+
 /*   This one is suppose to be for mobile version 
 @media(max-width: 700px) {
     .nav-links {

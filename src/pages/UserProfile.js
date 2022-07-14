@@ -38,8 +38,8 @@ export default function UserProfile() {
                     </TabPanel>
                 </TabPanels>
             </Tabs>
- 
-        </>    
+
+        </>
     );
 
 }

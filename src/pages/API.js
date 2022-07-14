@@ -32,7 +32,7 @@ export default function API() {
             return navigate("/");
 
     }, [profileInfoReady])
-  
+
     const query = async e => {
         e.preventDefault();
 
@@ -59,7 +59,7 @@ export default function API() {
             // Package data properly
             const updates = {
                 code: data.moduleCode,
-                name:data.title,
+                name: data.title,
                 description: data.description,
                 acad_year: data.acadYear,
                 credit: data.moduleCredit,
@@ -70,7 +70,7 @@ export default function API() {
 
             // if table has existing entry, add the id to update the correct entry
             const existingRow = await getExistingRow(acadYear, moduleCode)
-            if (existingRow) 
+            if (existingRow)
                 updates.id = existingRow.id
 
             let { error } = await supabase.from('modules').upsert(updates, {
@@ -145,7 +145,7 @@ export default function API() {
             </form>
 
             <h3>Searching</h3>
-            { queryUrl }
+            {queryUrl}
             {error ? <div>Error: {error.message}</div> : <></>}
             {isLoaded ? <></> : <div>Loading...</div>}
 

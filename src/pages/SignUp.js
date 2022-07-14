@@ -64,7 +64,7 @@ export default function SignUp() {
             setErrorMsg("Password needs at least " + PWD_MIN_LENGTH.toString() + " characters)")
         }
         else startSignUp().catch(console.error)
-        
+
     }
 
     return (
@@ -144,7 +144,7 @@ export default function SignUp() {
 
                 </div>
             </div>
-            
+
         </>
     )
 }

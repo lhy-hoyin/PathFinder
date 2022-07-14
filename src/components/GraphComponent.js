@@ -12,7 +12,6 @@ import {
     IconButton
 } from '@chakra-ui/react'
 import { QuestionOutlineIcon } from '@chakra-ui/icons'
-
 import { graphData } from "../hooks/GraphData";
 
 import "../css/GraphComponent.css";
@@ -32,11 +31,11 @@ export default function GradGraph() {
 
     useEffect(() => {
         setNodes(modules)
-        setEdges(preq)   
+        setEdges(preq)
     }, [modules]);
 
     const graph = { nodes, edges }
-  
+
     const options = {
         layout: {
             randomSeed: 23,
@@ -53,13 +52,13 @@ export default function GradGraph() {
         },
         edges: {
             smooth: {
-                enabled: true,    
+                enabled: true,
                 type: "dynamic",
                 roundness: 1
             },
             arrows: {
-                from:   { enabled: true },
-                to:     { enabled: false }
+                from: { enabled: true },
+                to: { enabled: false }
             }
         },
         nodes: {
@@ -72,7 +71,7 @@ export default function GradGraph() {
             fixed: {
                 x: false,
                 y: false
-              },
+            },
             physics: false,
             color: {
                 border: "red"
@@ -116,10 +115,11 @@ export default function GradGraph() {
 
     const findMod = (mod) => {
         try {
-          for (var index = 0; index <= graph.nodes.length; index++) {
-            if (graph.nodes[index].id === mod) { 
-                return index; }
-          }
+            for (var index = 0; index <= graph.nodes.length; index++) {
+                if (graph.nodes[index].id === mod) {
+                    return index;
+                }
+            }
         } catch { return -1; }
     };
 
@@ -139,7 +139,7 @@ export default function GradGraph() {
             }
         }
     };
-    
+
     return (
         <div style={{ display: "flex", margin: "1%", gap: "1%" }}>
             <div id="graph" className="graphBox" >
@@ -173,9 +173,9 @@ export default function GradGraph() {
                     options={options}
                     events={events} />
 
-            </div>  
+            </div>
 
-            <div style={{ flex: "25%"}}>
+            <div style={{ flex: "25%" }}>
                 <p>
                     {name ? "You have selected: " + name.toString() : "Click on a module to find out more!"}
                 </p>
@@ -191,6 +191,3 @@ export default function GradGraph() {
         </div>
     );
 }
-  
-  
-  

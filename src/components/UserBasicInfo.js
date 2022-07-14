@@ -40,7 +40,7 @@ export default function UserBasicInfo() {
             <form onSubmit={handleUpdateAcadInfo}>
 
                 <Text style={{ whiteSpace: "nowrap" }} margin={1}>
-                    Email: { email }
+                    Email: {email}
                 </Text>
 
                 <div style={{ display: "flex", alignItems: "center" }}>
@@ -69,14 +69,14 @@ export default function UserBasicInfo() {
                         onChange={(e) => setProfileLastName(e.target.value)}
                         required
                     />
-                </div> 
- 
+                </div>
+
                 <Button
                     type="submit"
                     colorScheme='blue'
                     margin={1}>
                     Update Profile
-                </Button>  
+                </Button>
 
             </form>
 
