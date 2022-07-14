@@ -165,7 +165,15 @@ export default function ModulesTable() {
 
     const handleToggleModComplete = async e => {
         e.preventDefault()
+
+        // Update database
         UserAcademicRecord.update(e.target.id, e.target.checked)
+
+        // Update local array variable
+        modRecords.map(item => {
+            if (item.id == e.target.id)
+                item.isCompleted = e.target.checked
+        })
     }
 
     const handleDeleteRecord = (recordId) => async e => {
