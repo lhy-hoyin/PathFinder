@@ -7,26 +7,10 @@ import cloneDeep from "lodash/cloneDeep";
 import withScrolling from "react-dnd-scrolling";
 
 import { graphData } from "../hooks/GraphData";
-import { ModuleColor } from "../constants"
+import { Semester } from "../classes/Semester";
+import { ModuleColor } from "../constants";
 
 import "../css/SemesterSchedule.css";
-
-class Semester {
-    constructor(id, year) {
-        this.id = id
-        this.name = id
-        this.items = []
-        this.year = year
-    }
-
-    addModule(mod) {
-        this.items = this.items.push(mod)
-    }
-
-    addModules(modsArr) {
-        this.items = this.items.concat(modsArr)
-    }
-}
 
 export default function SemesterSchedule() {
 
@@ -35,14 +19,15 @@ export default function SemesterSchedule() {
     const { timeTableMods } = graphData();
 
     const [mods, setMods] = useState([]);
-    const [semesters, setSemesters] = useState([new Semester("Modules", -0.5)]);
+    const [semesters, setSemesters] = useState([new Semester("Modules", 0.5)]);
 
     useEffect(() => {
+        // Populate some semester for user convinence
         setSemesters(current => [...current,
-            new Semester("Semester 1", 1),
-            new Semester("Semester 2", 1.5),
-            new Semester("Semester 1", 2),
-            new Semester("Semester 1", 2.5),
+        new Semester("Semester 1", 1),
+        new Semester("Semester 2", 1.5),
+        new Semester("Semester 1", 2),
+        new Semester("Semester 1", 2.5),
         ])
     }, []);
 
@@ -91,7 +76,7 @@ export default function SemesterSchedule() {
     const findPreqCol = (col, mod, index) => {
         let x = false;
         for (var colIdx = 1; colIdx < index; colIdx++) {
-            x = col[colIdx].items.some((y) => y.id === mod.toString());
+            x = col[colIdx].modules.some((y) => y.id === mod.toString());
             if (x) {
                 return x;
             }
@@ -102,11 +87,11 @@ export default function SemesterSchedule() {
     const findDepCol = (col, mod) => {
         let x = false;
         for (var colIdx = 2; colIdx < col.length; colIdx++) {
-            x = col[colIdx].items.some((y) => y.id === mod.toString());
+            x = col[colIdx].modules.some((y) => y.id === mod.toString());
             if (x) {
                 const arr = [];
                 arr[0] = colIdx;
-                arr[1] = col[colIdx].items.findIndex((y) => y.id === mod.toString());
+                arr[1] = col[colIdx].modules.findIndex((y) => y.id === mod.toString());
                 return arr;
             }
         }
@@ -137,11 +122,11 @@ export default function SemesterSchedule() {
 
         //toggling the color
         if (totalOrPreqCount === checkOrPreq.length && totalPreqCount === checkPreq.length) {
-            columns[srcIndex].items[index].semColor = ModuleColor.Normal.hex;
-            columns[srcIndex].items[index].tooltip = "";
+            columns[srcIndex].modules[index].semColor = ModuleColor.Normal.hex;
+            columns[srcIndex].modules[index].tooltip = "";
         } else {
-            columns[srcIndex].items[index].semColor = ModuleColor.Locked.hex;
-            columns[srcIndex].items[index].tooltip = "Missing prequities.\nRequires: " + label(checkPreq, checkOrPreq);
+            columns[srcIndex].modules[index].semColor = ModuleColor.Locked.hex;
+            columns[srcIndex].modules[index].tooltip = "Missing prequities.\nRequires: " + label(checkPreq, checkOrPreq);
         }
     };
 
@@ -152,11 +137,11 @@ export default function SemesterSchedule() {
 
         //if it returns to the module table preq doesnt have to be check
         if (desIndex === 0) {
-            columns[srcIndex].items[index].semColor = ModuleColor.Normal.hex;
-            columns[srcIndex].items[index].tooltip = "";
+            columns[srcIndex].modules[index].semColor = ModuleColor.Normal.hex;
+            columns[srcIndex].modules[index].tooltip = "";
             //if it does not preq then doesnt have to be check
         } else if (checkPreq.length === 0 && checkOrPreq.length === 0) {
-            columns[srcIndex].items[index].semColor = ModuleColor.Normal.hex;
+            columns[srcIndex].modules[index].semColor = ModuleColor.Normal.hex;
         } else {
             check(checkPreq, checkOrPreq, columns, desIndex, srcIndex, index);
         }
@@ -198,13 +183,13 @@ export default function SemesterSchedule() {
         );
 
         const sourceColumn = semesters[source.droppableId];
-        const sourceItems = [...sourceColumn.items];
+        const sourceItems = [...sourceColumn.modules];
         const [removed] = sourceItems.splice(source.index, 1);
 
         const columnCopy = cloneDeep(semesters);
 
-        columnCopy[source.droppableId].items.splice(source.index, 1);
-        columnCopy[destination.droppableId].items.splice(destination.index, 0, removed);
+        columnCopy[source.droppableId].modules.splice(source.index, 1);
+        columnCopy[destination.droppableId].modules.splice(destination.index, 0, removed);
 
         backwardCheck(result.draggableId, columnCopy);
 
@@ -212,30 +197,24 @@ export default function SemesterSchedule() {
         backwardCheck(result.draggableId, columnCopy);
     };
 
-    const addNewSemester = () => {
-        const timeTableCopy = cloneDeep(semesters);
-        const num = timeTableCopy.length;
-        const years = timeTableColumn[num - 1].year + 0.5;
+    const handleAddSemester = () => {
+        const years = semesters[semesters.length - 1].year + 0.5;
         const sem = years % 1 === 0 ? 1 : 2
 
-        timeTableCopy.push(new Semester("Semester " + sem, years));
-        setTimeTableColumn(timeTableCopy); // Update with new table
+        setSemesters(current => [...current, new Semester("Semester " + sem, years)])
     };
 
-    const deletePrevSemester = () => {
+    const handleDeletePrevSemester = () => {
         if (semesters.length === 1)
             return
 
-        const lastCol = semesters.length - 1;
         const timeTableCopy = cloneDeep(semesters);
         timeTableCopy.pop();
 
-        // return items on the semester to the pool of semester
-        timeTableCopy[0].items = timeTableCopy[0].items.concat(
-            semesters[lastCol].items
-        );
+        // return modules on the semester to the pool of semester
+        timeTableCopy[0].addModules(semesters[semesters.length - 1].modules)
 
-        setTimeTableColumn(timeTableCopy); // Update with new table
+        setSemesters(timeTableCopy); // Update with new table
     };
 
     const displaySemesters = ([columnId, sem], index) => {
@@ -263,7 +242,7 @@ export default function SemesterSchedule() {
                                                 minHeight: 350
                                             }}
                                         >
-                                            {sem.items?.map(displayModules)}
+                                            {sem.modules?.map(displayModules)}
                                             {provided.placeholder}
                                         </div>
                                     );
@@ -318,12 +297,12 @@ export default function SemesterSchedule() {
             </DragDropContext>
 
             <div className="semButtonFrame">
-                <Button onClick={addNewSemester}>
+                <Button onClick={handleAddSemester}>
                     Add New Semester
                 </Button>
 
                 {(semesters.length === 1) ? <></> :
-                    <Button  onClick={deletePrevSemester}>
+                    <Button onClick={handleDeletePrevSemester}>
                         Delete Previous Semester
                     </Button>
                 }
