@@ -18,6 +18,14 @@ class Semester {
         this.items = []
         this.year = year
     }
+
+    addModule(mod) {
+        this.items = this.items.push(mod)
+    }
+
+    addModules(modsArr) {
+        this.items = this.items.concat(modsArr)
+    }
 }
 
 export default function SemesterSchedule() {
@@ -27,23 +35,22 @@ export default function SemesterSchedule() {
     const { timeTableMods } = graphData();
 
     const [mods, setMods] = useState([]);
-
-    const [semesters, setSemesters] = useState([]);
-    const [timeTableColumn, setTimeTableColumn] = useState([
-        new Semester("Modules", -0.5),
-        new Semester("Semester 1", 1),
-        new Semester("Semester 2", 1.5),
-        new Semester("Semester 1", 2),
-        new Semester("Semester 1", 2.5),
-    ]);
+    const [semesters, setSemesters] = useState([new Semester("Modules", -0.5)]);
 
     useEffect(() => {
-        
-        setMods(timeTableMods);
-        timeTableColumn[0].items = timeTableMods;
-        setSemesters(timeTableColumn);
+        setSemesters(current => [...current,
+            new Semester("Semester 1", 1),
+            new Semester("Semester 2", 1.5),
+            new Semester("Semester 1", 2),
+            new Semester("Semester 1", 2.5),
+        ])
+    }, []);
 
-    }, [timeTableMods, timeTableColumn]);
+    useEffect(() => {
+        setMods(timeTableMods);
+        semesters[0].addModules(timeTableMods)
+
+    }, [timeTableMods]);
 
     const label = (andMods, orMods) => {
 
@@ -201,7 +208,6 @@ export default function SemesterSchedule() {
 
         backwardCheck(result.draggableId, columnCopy);
 
-        //console.log(columnCopy);
         setSemesters(columnCopy);
         backwardCheck(result.draggableId, columnCopy);
     };
@@ -257,7 +263,7 @@ export default function SemesterSchedule() {
                                                 minHeight: 350
                                             }}
                                         >
-                                            {sem.items.map(displayModules)}
+                                            {sem.items?.map(displayModules)}
                                             {provided.placeholder}
                                         </div>
                                     );
@@ -312,11 +318,12 @@ export default function SemesterSchedule() {
             </DragDropContext>
 
             <div className="semButtonFrame">
-                <Button className="semAddPosButton" onClick={addNewSemester}>Add New Semester</Button>
+                <Button onClick={addNewSemester}>
+                    Add New Semester
+                </Button>
 
-                {(semesters.length === 1) ?
-                    <></> :
-                    <Button className="semDelPosButton" onClick={deletePrevSemester}>
+                {(semesters.length === 1) ? <></> :
+                    <Button  onClick={deletePrevSemester}>
                         Delete Previous Semester
                     </Button>
                 }

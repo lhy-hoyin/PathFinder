@@ -1,8 +1,3 @@
-.notice {
-    text-align: center;
-    min-height: 20px;
-}
-
 .columnStyle {
     height: 360px;
     overflow: auto;
@@ -18,23 +13,11 @@
 }
 
 .semButtonFrame {
-    height: 350;
-    width: 250;
+    height: 350px;
+    width: 250px;
+    padding: 4px;
     justify-content: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.semAddPosButton {
-    left: 15%
-}
-
-.semDelPosButton {
-    left: 15%
-}
-
-.blank {
-    color: rgb(255, 255, 255);
-    user-select: none;
 }
