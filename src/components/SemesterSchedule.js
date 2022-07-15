@@ -27,7 +27,7 @@ export default function SemesterSchedule() {
         new Semester("Semester 1", 1),
         new Semester("Semester 2", 1.5),
         new Semester("Semester 1", 2),
-        new Semester("Semester 1", 2.5),
+        new Semester("Semester 2", 2.5),
         ])
     }, []);
 
@@ -208,13 +208,16 @@ export default function SemesterSchedule() {
         if (semesters.length === 1)
             return
 
-        const timeTableCopy = cloneDeep(semesters);
-        timeTableCopy.pop();
+        const prevSem = semesters[semesters.length - 1]
 
         // return modules on the semester to the pool of semester
-        timeTableCopy[0].addModules(semesters[semesters.length - 1].modules)
+        semesters[0].addModules(prevSem.modules)
 
-        setSemesters(timeTableCopy); // Update with new table
+        // remove previous semester
+        setSemesters(semesters.filter((sem) => {
+            return sem.id !== prevSem.id
+        })); 
+        
     };
 
     const displaySemesters = ([columnId, sem], index) => {
