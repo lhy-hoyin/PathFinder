@@ -38,7 +38,7 @@ export default function SemesterSchedule() {
     ]);
 
     useEffect(() => {
-
+        
         setMods(timeTableMods);
         timeTableColumn[0].items = timeTableMods;
         setSemesters(timeTableColumn);
@@ -146,6 +146,7 @@ export default function SemesterSchedule() {
         //if it returns to the module table preq doesnt have to be check
         if (desIndex === 0) {
             columns[srcIndex].items[index].semColor = ModuleColor.Normal.hex;
+            columns[srcIndex].items[index].tooltip = "";
             //if it does not preq then doesnt have to be check
         } else if (checkPreq.length === 0 && checkOrPreq.length === 0) {
             columns[srcIndex].items[index].semColor = ModuleColor.Normal.hex;
@@ -174,7 +175,7 @@ export default function SemesterSchedule() {
         }
     };
 
-    const handleReleaseDragging = (result, columns, setColumns) => {
+    const handleDragEnd = (result) => {
         //dragged to blank area
         if (!result.destination)
             return
@@ -183,17 +184,17 @@ export default function SemesterSchedule() {
 
         preqCheck(
             result.draggableId,
-            columns,
+            semesters,
             parseInt(destination.droppableId),
             parseInt(source.droppableId),
             source.index
         );
 
-        const sourceColumn = columns[source.droppableId];
+        const sourceColumn = semesters[source.droppableId];
         const sourceItems = [...sourceColumn.items];
         const [removed] = sourceItems.splice(source.index, 1);
 
-        const columnCopy = cloneDeep(columns);
+        const columnCopy = cloneDeep(semesters);
 
         columnCopy[source.droppableId].items.splice(source.index, 1);
         columnCopy[destination.droppableId].items.splice(destination.index, 0, removed);
@@ -201,7 +202,7 @@ export default function SemesterSchedule() {
         backwardCheck(result.draggableId, columnCopy);
 
         //console.log(columnCopy);
-        setColumns(columnCopy);
+        setSemesters(columnCopy);
         backwardCheck(result.draggableId, columnCopy);
     };
 
@@ -210,18 +211,15 @@ export default function SemesterSchedule() {
         const num = timeTableCopy.length;
         const years = timeTableColumn[num - 1].year + 0.5;
         const sem = years % 1 === 0 ? 1 : 2
-        const temp = {
-            id: "Semester " + sem,
-            name: "Semester " + sem,
-            items: [],
-            year: years
-        };
 
-        timeTableCopy.push(temp);
+        timeTableCopy.push(new Semester("Semester " + sem, years));
         setTimeTableColumn(timeTableCopy); // Update with new table
     };
 
     const deletePrevSemester = () => {
+        if (semesters.length === 1)
+            return
+
         const lastCol = semesters.length - 1;
         const timeTableCopy = cloneDeep(semesters);
         timeTableCopy.pop();
@@ -234,19 +232,13 @@ export default function SemesterSchedule() {
         setTimeTableColumn(timeTableCopy); // Update with new table
     };
 
-    const displaySemesters = ([columnId, column], index) => {
+    const displaySemesters = ([columnId, sem], index) => {
         return (
-            <div
-                key={columnId}
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center"
-                }} >
+            <div key={columnId} >
 
-                <div style={{ rowGap: "10px", textAlign: "center" }}>
-                    {column.year % 1 === 0 ? (<p> Year {column.year}</p>) : (<p className="blank"> blank </p>)}
-                    <Text>{column.name}</Text>
+                <div style={{ textAlign: "center", width: "100%" }}>
+                    {sem.year % 1 === 0 ? (<p>Year {sem.year}</p>) : <br></br>}
+                    <Text>{sem.name}</Text>
                 </div>
 
                 <div style={{ margin: 10 }}>
@@ -265,7 +257,7 @@ export default function SemesterSchedule() {
                                                 minHeight: 350
                                             }}
                                         >
-                                            {column.items.map(displayModules)}
+                                            {sem.items.map(displayModules)}
                                             {provided.placeholder}
                                         </div>
                                     );
@@ -274,6 +266,7 @@ export default function SemesterSchedule() {
                         </ScrollingComponent>
                     </DndProvider>
                 </div>
+
             </div>
         )
     };
@@ -296,7 +289,7 @@ export default function SemesterSchedule() {
                                 style={{
                                     userSelect: "none",
                                     padding: 16,
-                                    margin: "0 0 8px 0",
+                                    margin: "4px 0px",
                                     minHeight: "25px",
                                     backgroundColor: snapshot.isDragging ? "#263B4A" : item.semColor,
                                     color: "white",
@@ -314,16 +307,20 @@ export default function SemesterSchedule() {
 
     return (
         <div style={{ display: "flex", flexWrap: "wrap" }}>
-            <DragDropContext
-                onDragEnd={(result) => handleReleaseDragging(result, semesters, setSemesters)}>
+            <DragDropContext onDragEnd={handleDragEnd}>
                 {Object.entries(semesters).map(displaySemesters)}
             </DragDropContext>
 
             <div className="semButtonFrame">
                 <Button className="semAddPosButton" onClick={addNewSemester}>Add New Semester</Button>
-                <Button className="semDelPosButton" disabled={semesters.length === 5} onClick={deletePrevSemester}>Delete Previous Semester</Button>
+
+                {(semesters.length === 1) ?
+                    <></> :
+                    <Button className="semDelPosButton" onClick={deletePrevSemester}>
+                        Delete Previous Semester
+                    </Button>
+                }
             </div>
         </div>
-
     );
 }
