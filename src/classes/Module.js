@@ -1,5 +1,3 @@
-import React from "react";
-
 export class Module {
     constructor(id, info, colour, x, y, label) {
         this.id = id; //aka the code
