@@ -1,8 +1,8 @@
 export class Semester {
-    constructor(name, year) {
-        this.id = year.toString() + name
-        this.name = name
-        this.year = year
+    constructor(initializer) {
+        this.id = initializer.id || (initializer.year.toString() + initializer.name)
+        this.name = initializer.name || initializer.id
+        this.year = initializer.year
         this.modules = []
     }
 

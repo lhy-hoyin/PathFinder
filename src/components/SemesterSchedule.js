@@ -19,17 +19,17 @@ export default function SemesterSchedule() {
     const { timeTableMods } = graphData();
 
     const [mods, setMods] = useState([]);
-    const [semesters, setSemesters] = useState([new Semester("Modules", 0.5)]);
+    const [semesters, setSemesters] = useState([new Semester({ name: "Modules", year: 0.5 })]);
 
     useEffect(() => {
         // Populate some semester for user convinence
         setSemesters(current => [...current,
-        new Semester("Semester 1", 1),
-        new Semester("Semester 2", 1.5),
-        new Semester("Semester 1", 2),
-        new Semester("Semester 2", 2.5),
+        new Semester({ name: "Semester 1", year: 1 }),
+        new Semester({ name: "Semester 2", year: 1.5 }),
+        new Semester({ name: "Semester 1", year: 2 }),
+        new Semester({ name: "Semester 2", year: 2.5 }),
         ])
-    }, []);
+    }, [])
 
     useEffect(() => {
         setMods(timeTableMods);
@@ -201,7 +201,9 @@ export default function SemesterSchedule() {
         const years = semesters[semesters.length - 1].year + 0.5;
         const sem = years % 1 === 0 ? 1 : 2
 
-        setSemesters(current => [...current, new Semester("Semester " + sem, years)])
+        setSemesters(current => [...current,
+            new Semester({ name: "Semester " + sem, year: years })
+        ])
     };
 
     const handleDeletePrevSemester = () => {
