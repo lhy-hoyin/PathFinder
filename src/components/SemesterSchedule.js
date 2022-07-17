@@ -130,20 +130,20 @@ export default function SemesterSchedule() {
         }
     };
 
-    const preqCheck = (draggedMod, columns, desIndex, srcIndex, index) => {
+    const preqCheck = (draggedMod, desIndex, srcIndex, index) => {
         const selectedMod = mods.find((a) => a.id === draggedMod);
         const checkPreq = selectedMod.preq;
         const checkOrPreq = selectedMod.orPreq;
 
         //if it returns to the module table preq doesnt have to be check
         if (desIndex === 0) {
-            columns[srcIndex].modules[index].semColor = ModuleColor.Normal.hex;
-            columns[srcIndex].modules[index].tooltip = "";
+            selectedMod.semColor = ModuleColor.Normal.hex;
+            selectedMod.tooltip = "";
             //if it does not preq then doesnt have to be check
         } else if (checkPreq.length === 0 && checkOrPreq.length === 0) {
-            columns[srcIndex].modules[index].semColor = ModuleColor.Normal.hex;
+            selectedMod.semColor = ModuleColor.Normal.hex;
         } else {
-            check(checkPreq, checkOrPreq, columns, desIndex, srcIndex, index);
+            check(checkPreq, checkOrPreq, semesters, desIndex, srcIndex, index);
         }
     };
 
@@ -176,7 +176,6 @@ export default function SemesterSchedule() {
 
         preqCheck(
             result.draggableId,
-            semesters,
             parseInt(destination.droppableId),
             parseInt(source.droppableId),
             source.index
@@ -211,20 +210,14 @@ export default function SemesterSchedule() {
             return
 
         const prevSem = semesters[semesters.length - 1]
-
-        // return modules on the semester to the pool of semester
-        semesters[0].addModules(prevSem.modules)
-
-        // remove previous semester
-        setSemesters(semesters.filter((sem) => {
-            return sem.id !== prevSem.id
-        })); 
-        
+        semesters[0].addModules(prevSem.modules) // return modules on the semester to the pool of semester
+        setSemesters(semesters.filter((sem) => { return sem.id !== prevSem.id })); // remove previous semester
     };
 
+    //TODO: try to replace columnId with sem.id
     const displaySemesters = ([columnId, sem], index) => {
         return (
-            <div key={columnId} >
+            <div key={sem.id} >
 
                 <div style={{ textAlign: "center", width: "100%" }}>
                     {sem.year % 1 === 0 ? (<p>Year {sem.year}</p>) : <br></br>}
@@ -234,7 +227,7 @@ export default function SemesterSchedule() {
                 <div style={{ margin: 10 }}>
                     <DndProvider backend={HTML5Backend}>
                         <ScrollingComponent className="columnStyle">
-                            <Droppable droppableId={columnId} key={columnId}>
+                            <Droppable droppableId={columnId} key={sem.id}>
                                 {(provided, snapshot) => {
                                     return (
                                         <div

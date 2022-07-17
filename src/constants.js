@@ -19,5 +19,4 @@ export const ModuleColor = {
         rgb: "rgb(255 , 0, 0)",
         hex: "#FF0000"
     },
-
 }
