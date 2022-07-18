@@ -2,7 +2,7 @@
 
 Run this SQL to quickly provide some data to your database.
 > *HINT*  
-> If you are using Supabase, you can quickly generate the tables by pasting this into the Supabase SQL Editor.  
+> If you are using Supabase, you can quickly insert the data to your database by pasting this into the Supabase SQL Editor.  
 > Log into Supabase > Project > `SQL Editor` > `+ New query` > paste schema > `Run`
 
 ``` sql
