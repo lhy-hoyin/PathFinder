@@ -7,10 +7,10 @@ Copy this database sechma to quickly generate the required database tables.
 
 ``` sql
 -- Drop any existing tables
-drop table if exist profiles;
-drop table if exist modules;
-drop table if exist courses;
-drop table if exist academic;
+drop table if exists profiles;
+drop table if exists modules;
+drop table if exists courses;
+drop table if exists academic;
 
 -- Create 'profiles' table
 create table profiles (
