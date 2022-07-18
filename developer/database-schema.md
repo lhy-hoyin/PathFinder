@@ -6,11 +6,8 @@ Copy this database sechma to quickly generate the required database tables.
 > Log into Supabase > Project > `SQL Editor` > `+ New query` > paste schema > `Run`
 
 ``` sql
--- Drop any existing tables
-drop table if exists profiles;
-drop table if exists modules;
-drop table if exists courses;
-drop table if exists academic;
+-- Drop all existing tables
+drop table if exists profiles, courses, modules, academic;
 
 -- Create 'profiles' table
 create table profiles (
