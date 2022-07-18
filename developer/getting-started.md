@@ -12,7 +12,7 @@
 3. [Clone](#cloning-pathfinder) the PathFinder project
 4. Go to the directory of the repository
 5. Create and add [environment variables](#environment-variables) to  a `.env` file
-6. `npm install` to automatically install required dependencies 
+6. `npm install --legacy-peer-deps` to automatically install required dependencies 
 7. `npm start` to start running the web application
 8. Wait for it to load, it will automatically open the web application in your broswer.
 
