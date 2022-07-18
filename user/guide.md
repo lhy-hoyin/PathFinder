@@ -73,7 +73,7 @@ You can do everything a guest user can do (plus extras below)!
 ## Log In
 1. At the main page, click on `Login` found at the top right corner
 2. A small popup will appear  
-![login-popup](https://user-images.githubusercontent.com/88828097/175517616-b9bde7d3-8f61-466f-95af-e04e3ef2a95a.png)
+![image](https://user-images.githubusercontent.com/88828097/179438717-b1def962-c43b-49a6-8482-8d20dc2fa055.png)
 3. Enter the email address and password you used when creating your *PathFinder* account
 4. Click `Log In` to log into your account
 
@@ -100,13 +100,33 @@ Fret not! We got your back!
 
 
 ## Log Out
-At the main page, click on `Logout` found at the top right corner
+At the top-right of the page, click on the hamburger icon (the 3 lines icon) and then click `Logout`  
+![image](https://user-images.githubusercontent.com/88828097/179439284-4e526b21-9838-46b6-88b8-e0217b73f8b9.png)
+
+
+## My Modules Table
+1. [Login](#log-in) to your account (duh)
+2. At the main page, click on the **Modules** tab  
+![image](https://user-images.githubusercontent.com/88828097/179440398-fdfad9cf-6ccf-4141-a1c2-1c84e593727f.png)
+
+### Adding a new modules
+![image](https://user-images.githubusercontent.com/88828097/179441155-1bb36c47-8b14-4b70-bd87-f4844bdea07d.png)
+![image](https://user-images.githubusercontent.com/88828097/179440788-44885f04-1bb7-444a-8a1c-cedfede081f0.png)  
+At the textbox, type in the module code. If the module code is valid, a green tick appears and you can click `Add`
+
+### Marking a module as Completed
+Under the **COMPLETED** heade, toggle the switch of the row of the module (grey: not cimpleted | blue: completed)
+
+### Removing module
+Click on the bin icon found at the far right of the row of the module
+
+If you face any issues, [check this out](./common-issues#my-modules-table).
 
 
 ## Update personal information
-1. Log into your account (duh)
-2. At the main page, click on `Profile` found at the top right corner
-3. Look under the **Personal Information** section
+1. [Login](#log-in) to your account (duh)
+2. At the top-right of the page, click on the hamburger icon (the 3 lines icon) and then click `Profile`
+3. Click the **Personal** tab and look under the **Personal Information** tab
 4. Click on the textbox and change whatever you wish to update
 5. Click on `Update Profile` to update your personal infomation
 
@@ -114,17 +134,17 @@ If you face any issues, [check this out](./common-issues#update-profile).
 
 
 ## Update academic information
-1. Log into your account (duh)
-2. At the main page, click on `Profile` found at the top right corner
-3. Look under the **Academic Information** section
+1. [Login](#log-in) to your account (duh)
+2. At the top-right of the page, click on the hamburger icon (the 3 lines icon) and then click `Profile`
+3. Click the **Academic** tab and look under the **Academic Information** section
 4. Click on the dropdown box and select the correct option
 5. Click on `Update Profile` to update your academic infomation
 
 
 ## Change Password
-1. Log into your account (duh)
-2. At the main page, click on `Profile` found at the top right corner
-3. Look under the **Change password** section
+1. [Login](#log-in) to your account (duh)
+2. At the top-right of the page, click on the hamburger icon (the 3 lines icon) and then click `Profile`
+3. Click the **Security** tab and look under the **Change password** section
 4. Enter your new password, and re-enter it again to verify
 5. Click on `Reset Password` to change your password
 
