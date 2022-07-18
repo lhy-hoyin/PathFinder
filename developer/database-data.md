@@ -3,7 +3,7 @@
 Run this SQL to quickly provide some data to your database.
 > *HINT*  
 > If you are using Supabase, you can quickly insert the data to your database by pasting this into the Supabase SQL Editor.  
-> Log into Supabase > Project > `SQL Editor` > `+ New query` > paste schema > `Run`
+> Log into Supabase > Project > `SQL Editor` > `+ New query` > paste sql > `Run`
 
 ``` sql
 insert into courses (course_name, cohort, grad_requirement, position) values
