@@ -10,4 +10,4 @@ You can find some our user and developer guides [here](https://lhy-hoyin.github.
 ## Branches
 `main` : Main development branch  
 `production` : A stable version of the application  
-`gh-pages` : Used to hold the GitHub Pages files  
+`gh-pages` : Used to hold the GitHub Pages files (consist of our guides)  
