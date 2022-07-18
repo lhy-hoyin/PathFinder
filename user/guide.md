@@ -113,8 +113,9 @@ Upon successful [login](#log-in) to the main page, click on the **Modules** tab
 ![image](https://user-images.githubusercontent.com/88828097/179440788-44885f04-1bb7-444a-8a1c-cedfede081f0.png)  
 At the textbox, type in the module code. If the module code is valid, a green tick appears and you can click `Add`
 
-### Marking a module as Completed
+### Marking a module as completed
 Under the **COMPLETED** header, toggle the switch of the row of the module (grey: not cimpleted | blue: completed)
+> **TIP!** If you indicate the module as completed, the graph will automatically indicate it as completed
 
 ### Removing module
 Click on the bin icon found at the far right of the row of the module
