@@ -66,10 +66,10 @@ Unfortunately, you can't change your email address as it's the core of your acco
 ## My Modules Table
 
 #### Im trying to add a module, but I see a red cross / the `Add` button is disabled
-It appears that the module code you entered is invalid (it doesn't exist inside the NUSMods)  
-Double check the module code to ensureyou did not type it wrong
+It appears that the module code you entered is invalid (it doesn't exist inside the NUSMods).
+Double check the module code to ensure you did not type it wrong. (Hint: it doesn't matter if the letters are capitalized)
 
 #### I deleted the module but I still see it in my table
-Click on the refresh icon found beside the "Add module" textbox  
-Otherwise, refresh your broswer
+Click on the refresh icon found beside the "Add module" textbox.
+Otherwise, refresh your broswer.
 
