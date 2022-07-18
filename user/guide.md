@@ -105,8 +105,7 @@ At the top-right of the page, click on the hamburger icon (the 3 lines icon) and
 
 
 ## My Modules Table
-1. [Login](#log-in) to your account (duh)
-2. At the main page, click on the **Modules** tab  
+Upon successful [login](#log-in) to the main page, click on the **Modules** tab  
 ![image](https://user-images.githubusercontent.com/88828097/179440398-fdfad9cf-6ccf-4141-a1c2-1c84e593727f.png)
 
 ### Adding a new modules
@@ -115,7 +114,7 @@ At the top-right of the page, click on the hamburger icon (the 3 lines icon) and
 At the textbox, type in the module code. If the module code is valid, a green tick appears and you can click `Add`
 
 ### Marking a module as Completed
-Under the **COMPLETED** heade, toggle the switch of the row of the module (grey: not cimpleted | blue: completed)
+Under the **COMPLETED** header, toggle the switch of the row of the module (grey: not cimpleted | blue: completed)
 
 ### Removing module
 Click on the bin icon found at the far right of the row of the module
