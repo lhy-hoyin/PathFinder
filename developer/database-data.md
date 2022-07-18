@@ -26,7 +26,8 @@ insert into courses (course_name, cohort, grad_requirement, position) values
       "CS2101",
       "IS1103",
       "ES2660"
-    }', '{
+    }',
+    '{
       { "CS1101S", "-340", "-200" },
       { "CS1231S", "0","-200"},
       { "MA1521", "300", "-200" },
