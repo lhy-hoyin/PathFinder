@@ -56,3 +56,12 @@
 > | position | `ARRAY`| `_text` |
 >
 > Remarks: `position` stores the position of the modules at the graph
+
+> Table Name: `academic`
+> 
+> | Column Name | Data Type | Format |
+> | --- | --- | --- |
+> | id | `uuid` | `uuid` |
+> | user_id | `uuid`| `uuid`|
+> | module | `uuid` | `uuid` |
+> | completed | `boolean` | `bool` |
