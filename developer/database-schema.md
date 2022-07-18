@@ -6,6 +6,12 @@ Copy this database sechma to quickly generate the required database tables.
 > Log into Supabase > Project > `SQL Editor` > `+ New query` > paste schema > `Run`
 
 ``` sql
+-- Drop any existing tables
+drop table if exist profiles;
+drop table if exist modules;
+drop table if exist courses;
+drop table if exist academic;
+
 -- Create 'profiles' table
 create table profiles (
       user_id uuid references auth.users primary key,
@@ -20,11 +26,11 @@ create table profiles (
 -- set RLS for 'profiles' table
 alter table profiles enable row level security;
 create policy "Public profiles are viewable by everyone." on profiles for
-    select using (true);
+      select using (true);
 create policy "Users can insert their own profile." on profiles for
-    insert with check (auth.uid() = user_id);
+      insert with check (auth.uid() = user_id);
 create policy "Users can update own profile" on profiles for
-    update using (auth.uid() = user_id);
+      update using (auth.uid() = user_id);
 
 -- Create 'modules' table
 create table modules (
@@ -51,5 +57,20 @@ create table courses (
 -- set RLS for 'courses' table
 alter table courses enable row level security;
 create policy "Enable read access for all users" on courses for
-    select using (true);
+      select using (true);
+
+-- Create 'academic' table
+create table academic (
+      id uuid default uuid_generate_v4() primary key,
+      user_id uuid references auth.users not null,
+      module uuid references public.modules not null,
+      completed boolean not null default false
+);
+
+-- set RLS for 'academic' table
+alter table academic enable row level security;
+create policy "Users can insert their own modules" on academic for
+      insert with check (auth.uid() = user_id);
+create policy "Users can update their own modules" on academic for
+      update using (auth.uid() = user_id);
 ```
