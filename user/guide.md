@@ -30,7 +30,7 @@ If you face any issues, [check this out](./common-issues#create-an-account).
 
 
 ## Module Dependency Graph
-![image](https://user-images.githubusercontent.com/88828097/175800557-bb0a928f-8867-47aa-90cf-26979249186e.png)
+![image](https://user-images.githubusercontent.com/88828097/179452604-d8ae6009-c34b-44c9-9bfd-84b3e454328d.png)
 1. From the dropdown, select which course you wish to see the dependency graph
     > *TIP!* If you indicated your course in your profile page, it will automatically be displayed here  
     > You can skip this step!
@@ -51,18 +51,18 @@ The modules you need to take to graduate is displayed:
 * Left Click & Drag (on empty part of graph): move the graph around
 * Scrolling (on graph): zoom in/out of the grpah
 
-
-## Module Information
-![image](https://user-images.githubusercontent.com/88828097/175800862-49ebaf33-94d3-40af-a522-d00c4b1e2a62.png)  
-When you click on the module, its information is displayed here. Its the same information you can find on NUSMods (save you the trouble to switching over to another tab.  
+### Module Information
+This portion is displayed beside the graph. When you click on the module, its information is displayed here. Its the same information you can find on NUSMods (save you the trouble to switching over to another tab).  
 
 
 ## Semester Planning
-![image](https://user-images.githubusercontent.com/88828097/175801191-35503e34-cf20-4f87-bde1-ccd37c10a934.png)
+![image](https://user-images.githubusercontent.com/88828097/179453083-95b48024-1470-45c7-b675-e7ecf8aa048b.png)
 1. Required modules (for selected course) are listed on the left
 2. Drag and drop which module you want to take to which semester
-3. Module will be returned if pre-requities are not met  
-![image](https://user-images.githubusercontent.com/88828097/175801249-fccf837d-6ff6-46f3-87a2-2c3450a7d28d.png)
+3. If module pre-requities are not completed in the previous semesters, the module will turn red
+4. Hover cursor over the module to see the pre-requities  
+![image](https://user-images.githubusercontent.com/88828097/179453442-db9338b4-6762-4f0d-8720-f068d59a51a8.png)
+5. You can add more semesters to put all your modules
 
 
 # Account User
@@ -83,7 +83,7 @@ If you face any issues, [check this out](./common-issues#log-in).
 ## Setting up new account
 1. Login, or click the link in your verification email
 2. You should see this page  
-![image](https://user-images.githubusercontent.com/88828097/175558722-0c39540a-6996-4009-84c9-211380829694.png)
+![image](https://user-images.githubusercontent.com/88828097/179453933-1a1f2aff-64fa-42a1-a0de-f61865982918.png)
 2. Fill in your first and last name
 3. Click `Update Profile` to finish setting up your account
 
