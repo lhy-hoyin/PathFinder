@@ -11,4 +11,5 @@ We have put together some resources who we hope will be useful for you to get st
 ## Resources
 * [Getting Started](./getting-started)
 * [Project Design](./design)
-* [Database schema](./database-schema)
+* [Database Schema](./database-schema)
+* [Database Sample Data](./database-data)
