@@ -74,14 +74,12 @@ export default function SemesterSchedule() {
     }
 
     const findPreqCol = (col, mod, index) => {
-        let x = false;
+        // check all previous semesters, ie. sems < current sem (aka index), for mod
         for (var colIdx = 1; colIdx < index; colIdx++) {
-            x = col[colIdx].modules.some((y) => y.id === mod.toString());
-            if (x) {
-                return x;
-            }
+            if (col[colIdx].modules.some((y) => y.id === mod.toString()))
+                return true;
         }
-        return x;
+        return false;
     };
 
     const findDepCol = (col, mod) => {
@@ -109,14 +107,11 @@ export default function SemesterSchedule() {
 
         let totalOrPreqCount = 0;
         for (var preqOrIndex = 0; preqOrIndex < checkOrPreq.length; preqOrIndex++) {
-            let orCount = 0;
             for (var orIndex = 0; orIndex < checkOrPreq[preqOrIndex].length; orIndex++) {
                 if (findPreqCol(columns, checkOrPreq[preqOrIndex][orIndex], desIndex)) {
-                    orCount++;
+                    totalOrPreqCount++;
+                    break;
                 }
-            }
-            if (orCount > 0) {
-                totalOrPreqCount++;
             }
         }
 
@@ -193,7 +188,6 @@ export default function SemesterSchedule() {
         backwardCheck(result.draggableId, columnCopy);
 
         setSemesters(columnCopy);
-        backwardCheck(result.draggableId, columnCopy);
     };
 
     const handleAddSemester = () => {
