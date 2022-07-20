@@ -25,6 +25,7 @@ export default function LoginPop() {
 
                 <Input
                     id="email"
+                    data-testid="email_input"
                     type="email"
                     placeholder="Email"
                     autoComplete="email"
@@ -36,6 +37,7 @@ export default function LoginPop() {
                 <InputGroup size='md' margin={1}>
                     <Input
                         id="password"
+                        data-testid="password-input"
                         type={showPassword ? 'text' : 'password'}
                         placeholder="Enter Password"
                         autoComplete="password"
@@ -51,6 +53,7 @@ export default function LoginPop() {
                 </InputGroup>
 
                 <Button
+                    data-testid="login-btn"
                     type="submit"
                     colorScheme='blue'
                     margin={1}>
