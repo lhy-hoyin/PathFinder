@@ -210,7 +210,11 @@ export default function SemesterSchedule() {
             return
 
         const prevSem = semesters[semesters.length - 1]
+        prevSem.modules.map(x => x.semColor = ModuleColor.Normal.hex)
+        prevSem.modules.map(x => x.tooltip = "")
+            
         semesters[0].addModules(prevSem.modules) // return modules on the semester to the pool of semester
+
         setSemesters(semesters.filter((sem) => { return sem.id !== prevSem.id })); // remove previous semester
     };
 
