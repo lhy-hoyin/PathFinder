@@ -30,8 +30,8 @@ We used different branches to concurrently develop on different features of the 
 
 ## Manual Testing
 During our development, we did our own testing to ensure that the various features work 
-as we had imagined to it. We also testing the features which the other member did and provided
-feedback on what we think can be improved on, or and issues we faced when trying the feature.
+as we had imagined it to. We also tested the features which the other member did and provided
+feedback on what we think can be improved on, or and issues we faced when trying out the feature.
 
 ## User Testing
 To have a better idea on how other users would find out application, we created a Google Form which user can fill in. The form clearly indicated various task which the users can completed. Each task has specific steps to tests a certain part of our application. Within the form, testers are provided with the steps to accomplish the task, and can also indicate any issues they faced when trying to complete the task. This allowed us to determined pinpoint whichever part of our application that needed improvement.
