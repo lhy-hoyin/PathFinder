@@ -83,13 +83,13 @@ function useProvideGraphData() {
 
         if (allMods[index].preq.length === 0 && allMods[index].orPreq.length === 0 && !allMods[index].isCompleted) {
             allMods[index].color = setColor(ModuleColor.Available.rgb);
-        }
+        } 
 
         if (allMods[index].dependentMods.length !== 0) {
 
             //if it is a User Module that where isCompleted = true then dont need to do anything
-            const isFixed =  custom.findIndex((x) => x === allMods[index].id)
-            if (isFixed > 0) {
+            let isFixed =  custom.findIndex((x) => x === allMods[index].id)
+            if (isFixed !== -1) {
               return
             }
 
@@ -97,7 +97,7 @@ function useProvideGraphData() {
 
             for (var xx = 0; xx < depMod.length; xx++) {
                 const index2 = allMods.findIndex((x) => x.id === depMod[xx]);
-
+                
                 // The preq and the orpreq of the current dependant mod in the loop
                 const modPreq = allMods[index2].preq;
                 const modOrPreq = allMods[index2].orPreq;
@@ -131,15 +131,22 @@ function useProvideGraphData() {
                     } else {
                         allMods[indexOr].color = setColor(ModuleColor.Locked.rgb);
                     }
+                }  
+                
+                // Don't need to change status of dependency mod if it is a User Module 
+                isFixed =  custom.findIndex((x) => x === allMods[index2].id)                 
+                if (isFixed !== -1) {
+                  continue
                 }
-
+               
                 if (totalCount === modPreq.length && totalOrCount === modOrPreq.length) {
                     allMods[index2].color = allMods[index2].isCompleted
                         ? setColor(ModuleColor.Completed.rgb)
                         : setColor(ModuleColor.Available.rgb);
-                } else {                 
+                } else {  
                     allMods[index2].isCompleted = false;
                     allMods[index2].color = setColor(ModuleColor.Locked.rgb);
+                    
                 }
             }
         }
@@ -326,11 +333,8 @@ function useProvideGraphData() {
             }
             userModuleGraph(mod)
 
-            console.log(mod)
-
             setPreq(edges)
             setModules(mod)
-
             setTimeTableMods(tableMods);
 
         } catch (error) {
@@ -341,27 +345,43 @@ function useProvideGraphData() {
     const userModuleGraph = (mod) => {
         
       // Setting up the colour for the module and the dependant mod
-        for (var userModIndex = 0; userModIndex < userModules.length; userModIndex++) {
-            const index = mod.findIndex((x) => x.id === userModules[userModIndex].code)
-            if (index !== -1 && userModules[userModIndex].isCompleted) {
-                mod[index].isCompleted = true
-                updateColour(mod, mod[index].id, []);
-            }
-
-            if (index !== -1 && !userModules[userModIndex].isCompleted) {
-                mod[index].isCompleted = false
-                updateColour(mod, mod[index].id, []);
-            }
-        }
-
-        //Reverting the colour for those module that have been override
-        for (var userModIndex = 0; userModIndex < userModules.length; userModIndex++) {
+      for (var userModIndex = 0; userModIndex < userModules.length; userModIndex++) {
           const index = mod.findIndex((x) => x.id === userModules[userModIndex].code)
           if (index !== -1 && userModules[userModIndex].isCompleted) {
               mod[index].isCompleted = true
-              mod[index].color = setColor(ModuleColor.Completed.rgb)
+              updateColour(mod, mod[index].id, []);
+          }
+
+          if (index !== -1 && !userModules[userModIndex].isCompleted) {
+              mod[index].isCompleted = false
+              updateColour(mod, mod[index].id, []);
+          }   
+      }       
+              
+      //Reverting the colour for those module that have been override
+      for (var userModIndex = 0; userModIndex < userModules.length; userModIndex++) {
+          const index = mod.findIndex((x) => x.id === userModules[userModIndex].code)
+          
+          if (index !== -1 && !userModules[userModIndex].isCompleted) {
+            
+            if (mod[index].preq.length !== 0 ) {
+              updateColour(mod, mod[index].preq[0], [])
+            }
+
+            if(mod[index].orPreq.length !== 0 ) {
+              updateColour(mod, mod[index].orPreq[0][0], [])
+            }
           }
       }
+
+      for (var userModIndex = 0; userModIndex < userModules.length; userModIndex++) {
+        const index = mod.findIndex((x) => x.id === userModules[userModIndex].code)
+        if (index !== -1 && userModules[userModIndex].isCompleted) {
+            mod[index].isCompleted = true
+            mod[index].color = setColor(ModuleColor.Completed.rgb)
+        }
+      }
+
     }
 
     const unchangeMod = (modsCount, currentModsState) => {
@@ -384,6 +404,7 @@ function useProvideGraphData() {
             const unchange = []
 
             modulesCopy[index].isCompleted = state
+            
           
             for (var userModIndex = 0; userModIndex < userModules.length; userModIndex++) {
               let temp = modulesCopy.findIndex((x) => x.id === userModules[userModIndex].code)
@@ -397,19 +418,27 @@ function useProvideGraphData() {
               return
             }
 
+
             for (var index1 = 0; index1 < modulesCopy.length; index1++) {
               updateColour(modulesCopy, modulesCopy[index1].id, customMod);
-
               //Overriding User related modules to orignal state
               unchangeMod(unchange, modulesCopy)
             }
+
+            // Checking again this time 
+            for (var index1 = modulesCopy.length - 1; index1 >= 0; index1--) {
+              updateColour(modulesCopy, modulesCopy[index1].id, customMod);
+              //Overriding User related modules to orignal state
+              unchangeMod(unchange, modulesCopy)
+            }
+
 
             // Overriding selected module that may have been affected
             modulesCopy[index].isCompleted = state
             modulesCopy[index].color = modulesCopy[index].isCompleted 
               ?  setColor(ModuleColor.Completed.rgb) 
               : setColor(ModuleColor.Available.rgb)
-            
+
             setModules(modulesCopy);
         }
     };
