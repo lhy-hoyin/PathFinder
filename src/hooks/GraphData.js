@@ -20,20 +20,16 @@ export const graphData = () => {
 
 function useProvideGraphData() {
 
-    const user = supabase.auth.user();
-    const isLoggedIn = (user !== null);
     const [userModules, setUserModules] = useState([])
-
     const [userModUpdate, isUserModUpdate] = useState(false)
 
-    // Error with auto update
+    // Error with auto update. Sometimes it updates sometimes it does not.
     useEffect(() => {
         if (userModUpdate && modules.length !== 0) {
 
             const modulesCopy = cloneDeep(modules)
-            userModuleGraph(modulesCopy)
+            userModuleGraph(modulesCopy, true)
             setModules(modulesCopy)
-            //console.log(userModules)
         }
 
         isUserModUpdate(false)
@@ -275,7 +271,6 @@ function useProvideGraphData() {
             let orNodes = [];
 
             let edges = [];
-            let edgesCount = 0;
 
             let tableMods = [];
             let blank1 = [];
@@ -323,7 +318,7 @@ function useProvideGraphData() {
             for (var count1 = 0; count1 < mod.length; count1++) {
                 updateColour(mod, mod[count1].id);
             }
-            userModuleGraph(mod)
+            userModuleGraph(mod, true)
 
             setPreq(edges)
             setModules(mod)
@@ -335,7 +330,8 @@ function useProvideGraphData() {
         }
     };
 
-    const userModuleGraph = (mod) => {
+    const userModuleGraph = (mod, update) => {
+        
         for (var userModIndex = 0; userModIndex < userModules.length; userModIndex++) {
             const index = mod.findIndex((x) => x.id === userModules[userModIndex].code)
             if (index !== -1 && userModules[userModIndex].isCompleted) {
@@ -343,7 +339,7 @@ function useProvideGraphData() {
                 updateColour(mod, mod[index].id);
             }
 
-            if (index !== -1 && !userModules[userModIndex].isCompleted) {
+            if (index !== -1 && !userModules[userModIndex].isCompleted && update) {
                 mod[index].isCompleted = false
                 updateColour(mod, mod[index].id);
             }
@@ -363,6 +359,7 @@ function useProvideGraphData() {
             for (var index1 = 0; index1 < modulesCopy.length; index1++) {
                 updateColour(modulesCopy, modulesCopy[index1].id);
             }
+            userModuleGraph(modulesCopy, false)
             setModules(modulesCopy);
         }
     };
@@ -374,6 +371,7 @@ function useProvideGraphData() {
 
         setUserModules,
         isUserModUpdate,
+        userModules,
         modules,
         preq,
 

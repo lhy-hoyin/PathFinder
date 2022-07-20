@@ -30,7 +30,7 @@ export default function ModulesTable() {
 
     const user = supabase.auth.user()
     const toast = useToast()
-    const { isUserModUpdate, setUserModules } = graphData()
+    const { isUserModUpdate, setUserModules, userModules } = graphData()
 
     const [newRecord, setNewRecord] = useState("");
     const [newModValid, setNewModValid] = useState();
@@ -68,7 +68,7 @@ export default function ModulesTable() {
         setIsLoading.on()
 
         const userAcadMods = await getUserAcademic(user.id)
-
+        const graphSemMod = []
         for (var i = 0; i < userAcadMods.length; i++) {
             const modInfo = await getModInfo(userAcadMods[i].module)
 
@@ -82,12 +82,19 @@ export default function ModulesTable() {
                 isCompleted: userAcadMods[i].completed,
             }
 
+            graphSemMod[i] = {
+                code: modInfo.code,
+                name: modInfo.name,
+                isCompleted: userAcadMods[i].completed,
+            }
+
             setModRecords(current => [...current, thisMod])
-            setUserModules(current => [...current, thisMod]) // update graph side variable
+            //setUserModules(current => [...current, thisMod]) // update graph side variable
         }
         setIsLoading.off()
 
         // Update Graph
+        setUserModules(graphSemMod)
         isUserModUpdate(true)
     }
 
@@ -172,6 +179,11 @@ export default function ModulesTable() {
             if (item.id == e.target.id)
                 item.isCompleted = e.target.checked
         })
+
+        setUserModules ( modRecords)
+        isUserModUpdate(true)
+
+        
     }
 
     const handleDeleteRecord = (recordId) => async e => {
