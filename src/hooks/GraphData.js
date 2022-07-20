@@ -98,12 +98,6 @@ function useProvideGraphData() {
             for (var xx = 0; xx < depMod.length; xx++) {
                 const index2 = allMods.findIndex((x) => x.id === depMod[xx]);
                 
-                // Don't need to check the dependency mod if it is a User Module 
-                isFixed =  custom.findIndex((x) => x === allMods[index2].id)                 
-                if (isFixed !== -1) {
-                  continue
-                }
-                
                 // The preq and the orpreq of the current dependant mod in the loop
                 const modPreq = allMods[index2].preq;
                 const modOrPreq = allMods[index2].orPreq;
@@ -137,8 +131,14 @@ function useProvideGraphData() {
                     } else {
                         allMods[indexOr].color = setColor(ModuleColor.Locked.rgb);
                     }
-                }
+                }  
                 
+                // Don't need to change status of dependency mod if it is a User Module 
+                isFixed =  custom.findIndex((x) => x === allMods[index2].id)                 
+                if (isFixed !== -1) {
+                  continue
+                }
+               
                 if (totalCount === modPreq.length && totalOrCount === modOrPreq.length) {
                     allMods[index2].color = allMods[index2].isCompleted
                         ? setColor(ModuleColor.Completed.rgb)
@@ -146,6 +146,7 @@ function useProvideGraphData() {
                 } else {  
                     allMods[index2].isCompleted = false;
                     allMods[index2].color = setColor(ModuleColor.Locked.rgb);
+                    
                 }
             }
         }
@@ -334,7 +335,6 @@ function useProvideGraphData() {
 
             setPreq(edges)
             setModules(mod)
-
             setTimeTableMods(tableMods);
 
         } catch (error) {
@@ -361,17 +361,25 @@ function useProvideGraphData() {
       //Reverting the colour for those module that have been override
       for (var userModIndex = 0; userModIndex < userModules.length; userModIndex++) {
           const index = mod.findIndex((x) => x.id === userModules[userModIndex].code)
-          if (index !== -1 && userModules[userModIndex].isCompleted) {
-              mod[index].isCompleted = true
-              mod[index].color = setColor(ModuleColor.Completed.rgb)
-          }
           
           if (index !== -1 && !userModules[userModIndex].isCompleted) {
-            if (mod[index].preq.length !== 0 || mod[index].orPreq.length !== 0 ) {
-              mod[index].color = setColor(ModuleColor.Locked.rgb);
+            
+            if (mod[index].preq.length !== 0 ) {
+              updateColour(mod, mod[index].preq[0], [])
+            }
+
+            if(mod[index].orPreq.length !== 0 ) {
+              updateColour(mod, mod[index].orPreq[0][0], [])
             }
           }
+      }
 
+      for (var userModIndex = 0; userModIndex < userModules.length; userModIndex++) {
+        const index = mod.findIndex((x) => x.id === userModules[userModIndex].code)
+        if (index !== -1 && userModules[userModIndex].isCompleted) {
+            mod[index].isCompleted = true
+            mod[index].color = setColor(ModuleColor.Completed.rgb)
+        }
       }
 
     }
