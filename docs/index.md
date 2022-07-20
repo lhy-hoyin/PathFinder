@@ -21,6 +21,8 @@ This documentation provides a brief overview of our project. For in-depth docume
 ## Software Engineering Principles
 * DRY Principle
 * KISS Principle
+* Version Control (see below)
+* Manual & User Testing
 
 ## Version Control
 We used GitHub to host our repository as well as to enforce version control of our code.
