@@ -23,12 +23,11 @@ function useProvideGraphData() {
     const [userModules, setUserModules] = useState([])
     const [userModUpdate, isUserModUpdate] = useState(false)
 
-    // Error with auto update. Sometimes it updates sometimes it does not.
     useEffect(() => {
         if (userModUpdate && modules.length !== 0) {
 
             const modulesCopy = cloneDeep(modules)
-            userModuleGraph(modulesCopy, true)
+            userModuleGraph(modulesCopy)
             setModules(modulesCopy)
         }
 
@@ -72,8 +71,8 @@ function useProvideGraphData() {
         return { from: fromMod, to: toMod };
     };
 
-    const updateColour = (allMods, selectedModule) => {
-        let index = allMods.findIndex((x) => x.id === selectedModule);
+    const updateColour = (allMods, selectedModule, custom) => {
+        const index = allMods.findIndex((x) => x.id === selectedModule);
 
         if (allMods[index].isCompleted) {
             allMods[index].color = setColor(ModuleColor.Completed.rgb);
@@ -87,6 +86,13 @@ function useProvideGraphData() {
         }
 
         if (allMods[index].dependentMods.length !== 0) {
+
+            //if it is a User Module that where isCompleted = true then dont need to do anything
+            const isFixed =  custom.findIndex((x) => x === allMods[index].id)
+            if (isFixed > 0) {
+              return
+            }
+
             const depMod = allMods[index].dependentMods; //the other mods that depend on the selected module
 
             for (var xx = 0; xx < depMod.length; xx++) {
@@ -131,7 +137,7 @@ function useProvideGraphData() {
                     allMods[index2].color = allMods[index2].isCompleted
                         ? setColor(ModuleColor.Completed.rgb)
                         : setColor(ModuleColor.Available.rgb);
-                } else {
+                } else {                 
                     allMods[index2].isCompleted = false;
                     allMods[index2].color = setColor(ModuleColor.Locked.rgb);
                 }
@@ -316,9 +322,11 @@ function useProvideGraphData() {
             mod = mod.concat(orNodes);
 
             for (var count1 = 0; count1 < mod.length; count1++) {
-                updateColour(mod, mod[count1].id);
+                updateColour(mod, mod[count1].id, []);
             }
-            userModuleGraph(mod, true)
+            userModuleGraph(mod)
+
+            console.log(mod)
 
             setPreq(edges)
             setModules(mod)
@@ -330,20 +338,37 @@ function useProvideGraphData() {
         }
     };
 
-    const userModuleGraph = (mod, update) => {
+    const userModuleGraph = (mod) => {
         
+      // Setting up the colour for the module and the dependant mod
         for (var userModIndex = 0; userModIndex < userModules.length; userModIndex++) {
             const index = mod.findIndex((x) => x.id === userModules[userModIndex].code)
             if (index !== -1 && userModules[userModIndex].isCompleted) {
                 mod[index].isCompleted = true
-                updateColour(mod, mod[index].id);
+                updateColour(mod, mod[index].id, []);
             }
 
-            if (index !== -1 && !userModules[userModIndex].isCompleted && update) {
+            if (index !== -1 && !userModules[userModIndex].isCompleted) {
                 mod[index].isCompleted = false
-                updateColour(mod, mod[index].id);
+                updateColour(mod, mod[index].id, []);
             }
         }
+
+        //Reverting the colour for those module that have been override
+        for (var userModIndex = 0; userModIndex < userModules.length; userModIndex++) {
+          const index = mod.findIndex((x) => x.id === userModules[userModIndex].code)
+          if (index !== -1 && userModules[userModIndex].isCompleted) {
+              mod[index].isCompleted = true
+              mod[index].color = setColor(ModuleColor.Completed.rgb)
+          }
+      }
+    }
+
+    const unchangeMod = (modsCount, currentModsState) => {
+      for (var count = 0; count < modsCount.length ; count++) {
+        currentModsState[modsCount[count]].isCompleted = true
+        currentModsState[modsCount[count]].color = setColor(ModuleColor.Completed.rgb)
+      }
     }
 
     const updateGraph = (nodes) => {
@@ -354,12 +379,37 @@ function useProvideGraphData() {
             return; //do nothing
         } else {
             const modulesCopy = cloneDeep(modules);
-            modulesCopy[index].isCompleted = !modulesCopy[index].isCompleted;
+            const state = !modulesCopy[index].isCompleted;
+            const customMod = []
+            const unchange = []
+
+            modulesCopy[index].isCompleted = state
+          
+            for (var userModIndex = 0; userModIndex < userModules.length; userModIndex++) {
+              let temp = modulesCopy.findIndex((x) => x.id === userModules[userModIndex].code)
+              if (temp !== -1 && userModules[userModIndex].isCompleted) { 
+                unchange.push(temp)
+                customMod.push(userModules[userModIndex].code)                
+              }                
+            }
+
+            if (customMod.some((x) => x ===  nodes.toString())) {
+              return
+            }
 
             for (var index1 = 0; index1 < modulesCopy.length; index1++) {
-                updateColour(modulesCopy, modulesCopy[index1].id);
+              updateColour(modulesCopy, modulesCopy[index1].id, customMod);
+
+              //Overriding User related modules to orignal state
+              unchangeMod(unchange, modulesCopy)
             }
-            userModuleGraph(modulesCopy, false)
+
+            // Overriding selected module that may have been affected
+            modulesCopy[index].isCompleted = state
+            modulesCopy[index].color = modulesCopy[index].isCompleted 
+              ?  setColor(ModuleColor.Completed.rgb) 
+              : setColor(ModuleColor.Available.rgb)
+            
             setModules(modulesCopy);
         }
     };
