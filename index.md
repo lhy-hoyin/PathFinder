@@ -5,6 +5,9 @@ Our aim is to provide students with the ease and accessibility in the planning o
 By being aware of the required modules or the different perquisites,
 students would be able to better plan their modules ahead of time and any modules for graduation requirements.
 
+## Documentation
+* [Documentation](./docs)
+
 ## Guides
 * [I am a User](./user)
 * [I am a Developer](./developer)
