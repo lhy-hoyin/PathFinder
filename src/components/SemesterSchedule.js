@@ -192,6 +192,10 @@ export default function SemesterSchedule() {
 
         backwardCheck(result.draggableId, columnCopy);
 
+        //Ensure the module in the module columns is same colour and has no tooltip
+        columnCopy[0].modules.map(x => x.semColor = ModuleColor.Normal.hex)
+        columnCopy[0].modules.map(x => x.tooltip = "")
+
         setSemesters(columnCopy);
         backwardCheck(result.draggableId, columnCopy);
     };
