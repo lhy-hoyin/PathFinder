@@ -222,6 +222,7 @@ export default function ModulesTable() {
                 <form onSubmit={handleAddRecord} style={{ display: "flex" }}>
                     <InputGroup>
                         <Input
+                            data-testid="modCode-input"
                             placeholder="Module Code"
                             onChange={(e) => { setNewRecord(e.target.value) }}
                             value={newRecord}
@@ -229,6 +230,7 @@ export default function ModulesTable() {
                         <InputRightElement children={newRecordValidIcon} />
                     </InputGroup>
                     <Button
+                        data-testid="add-btn"
                         type="submit"
                         colorScheme='blue'
                         disabled={!newModValid}>
