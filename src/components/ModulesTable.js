@@ -60,7 +60,7 @@ export default function ModulesTable() {
         if (newModValid === undefined || newModValid === null)
             setNewRecordValidIcon()
         else
-            setNewRecordValidIcon(<CheckIcon color={newModValid ? 'green.500' : 'red.500'} />)
+            setNewRecordValidIcon(newModValid ? <CheckIcon color='green.500' /> : <CloseIcon color='red.500' />)
     }, [newModValid])
 
     const fetchUserModules = async () => {
