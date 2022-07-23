@@ -33,6 +33,7 @@ export default function SemesterSchedule() {
 
     useEffect(() => {
         setMods(timeTableMods);
+        semesters.map(x => x.modules = [])
         semesters[0].modules = timeTableMods
 
     }, [timeTableMods]);
