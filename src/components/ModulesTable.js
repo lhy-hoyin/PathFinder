@@ -60,7 +60,7 @@ export default function ModulesTable() {
         if (newModValid === undefined || newModValid === null)
             setNewRecordValidIcon()
         else
-            setNewRecordValidIcon(<CheckIcon color={newModValid ? 'green.500' : 'red.500'} />)
+            setNewRecordValidIcon(newModValid ? <CheckIcon color='green.500' /> : <CloseIcon color='red.500' />)
     }, [newModValid])
 
     const fetchUserModules = async () => {
@@ -222,6 +222,7 @@ export default function ModulesTable() {
                 <form onSubmit={handleAddRecord} style={{ display: "flex" }}>
                     <InputGroup>
                         <Input
+                            data-testid="modCode-input"
                             placeholder="Module Code"
                             onChange={(e) => { setNewRecord(e.target.value) }}
                             value={newRecord}
@@ -229,6 +230,7 @@ export default function ModulesTable() {
                         <InputRightElement children={newRecordValidIcon} />
                     </InputGroup>
                     <Button
+                        data-testid="add-btn"
                         type="submit"
                         colorScheme='blue'
                         disabled={!newModValid}>
