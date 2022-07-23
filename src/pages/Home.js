@@ -57,7 +57,6 @@ export default function Home() {
             <AdminAccess />
 
             <Tabs
-                isLazy
                 isManual
                 index={tabIndex}
                 onChange={handleTabsChange}
