@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import {
     CheckIcon,
+    CloseIcon,
     RepeatIcon,
     DeleteIcon
 } from '@chakra-ui/icons';
