@@ -1,11 +1,23 @@
 import React, { useEffect, useState } from "react";
 import Graph from "react-vis-graph-wrapper";
-
+import {
+    Text,
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverHeader,
+    PopoverBody,
+    PopoverArrow,
+    PopoverCloseButton,
+    IconButton
+} from '@chakra-ui/react'
+import { QuestionOutlineIcon } from '@chakra-ui/icons'
 import { graphData } from "../hooks/GraphData";
 
 import "../css/GraphComponent.css";
 
-export default function GradGraph(){
+export default function GradGraph() {
+
     const { modules, preq, updateGraph } = graphData()
 
     const [nodes, setNodes] = useState([])
@@ -19,11 +31,11 @@ export default function GradGraph(){
 
     useEffect(() => {
         setNodes(modules)
-        setEdges(preq)   
+        setEdges(preq)
     }, [modules]);
 
     const graph = { nodes, edges }
-  
+
     const options = {
         layout: {
             randomSeed: 23,
@@ -40,13 +52,13 @@ export default function GradGraph(){
         },
         edges: {
             smooth: {
-                enabled: true,    
+                enabled: true,
                 type: "dynamic",
                 roundness: 1
             },
             arrows: {
-                from:   { enabled: true },
-                to:     { enabled: false }
+                from: { enabled: true },
+                to: { enabled: false }
             }
         },
         nodes: {
@@ -59,7 +71,7 @@ export default function GradGraph(){
             fixed: {
                 x: false,
                 y: false
-              },
+            },
             physics: false,
             color: {
                 border: "red"
@@ -103,29 +115,22 @@ export default function GradGraph(){
 
     const findMod = (mod) => {
         try {
-          for (var index = 0; index <= graph.nodes.length; index++) {
-            if (graph.nodes[index].id === mod) { 
-                return index; }
-          }
+            for (var index = 0; index <= graph.nodes.length; index++) {
+                if (graph.nodes[index].id === mod) {
+                    return index;
+                }
+            }
         } catch { return -1; }
     };
 
     const events = {
         select: ({ nodes, edges }) => {
             const index = findMod(nodes.toString());
-            if (index !== -1) {
-                setCode(graph.nodes[index].id);
-                setName(graph.nodes[index].info[0]);
-                setYear(graph.nodes[index].info[1]);
-                setCredit(graph.nodes[index].info[2]);
-                setDescribe(graph.nodes[index].info[3]);
-            } else {
-                setCode("");
-                setName("");
-                setYear("");
-                setCredit("");
-                setDescribe("");
-            }
+            setCode(graph.nodes[index]?.id || "");
+            setName(graph.nodes[index]?.info[0] || "");
+            setYear(graph.nodes[index]?.info[1] || "");
+            setCredit(graph.nodes[index]?.info[2] || "");
+            setDescribe(graph.nodes[index]?.info[3] || "");
         },
 
         doubleClick: ({ nodes, edges }) => {
@@ -134,29 +139,55 @@ export default function GradGraph(){
             }
         }
     };
-    
+
     return (
         <div style={{ display: "flex", margin: "1%", gap: "1%" }}>
+            <div id="graph" className="graphBox" >
 
-            <div className="graphBox" id="graph">
-                <Graph graph={graph} options={options} events = {events} />
+                <Popover isLazy>
+                    <PopoverTrigger>
+                        <IconButton background="transparent" icon={<QuestionOutlineIcon />} />
+                    </PopoverTrigger>
+                    <PopoverContent>
+                        <PopoverHeader>
+                            <Text>Legend</Text>
+                            <Text style={{ backgroundColor: "grey" }}>Module Completed</Text>
+                            <Text style={{ backgroundColor: "greenyellow" }}>Module Available</Text>
+                            <Text style={{ backgroundColor: "red" }}>Module Locked</Text>
+                        </PopoverHeader>
+                        <PopoverArrow />
+                        <PopoverCloseButton />
+                        <PopoverBody>
+                            <Text>Graph Interation</Text>
+                            <Text>Left Click: display module info</Text>
+                            <Text>Double Left Click: toggle module status</Text>
+                            <Text>Left Click & Drag: move module/graph</Text>
+                            <Text>Scrolling: zoom in/out</Text>
+                        </PopoverBody>
+                    </PopoverContent>
+                </Popover>
+
+                <Graph
+                    style={{ height: "600px" }}
+                    graph={graph}
+                    options={options}
+                    events={events} />
+
             </div>
 
-            <div style={{ flex: "30%"}}>
-                <p>Selected module: {code} </p>
-                <br/>
-                <p>Name: {name} </p>
+            <div style={{ flex: "25%" }}>
+                <p>
+                    {name ? "You have selected: " + name.toString() : "Click on a module to find out more!"}
+                </p>
+                <p>
+                    {code}
+                    {credit ? " (" + credit.toString() + " MC)" : ""}
+                </p>
+                <p>{year ? "Academic Year: " + year.toString() : ""}</p>
                 <br />
-                <p>Academic Year: {year} </p>
-                <br />
-                <p>Credits: {credit} </p>
-                <br />
-                <p>Description: {descibe}</p>
+                <p>{descibe}</p>
             </div>
 
         </div>
     );
 }
-  
-  
-  

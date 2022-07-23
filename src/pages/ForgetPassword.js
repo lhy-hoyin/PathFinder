@@ -6,8 +6,8 @@ import Header from "../components/Header";
 
 export default function sendingResetLink() {
 
-    
-    const {sendPasswordReset} = Auth();
+
+    const { sendPasswordReset } = Auth();
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
 
@@ -19,17 +19,17 @@ export default function sendingResetLink() {
                 <div className="forget_box">
                     <p>Email</p>
                     <input
-                                id="email"
-                                className="inputField"
-                                type="email"
-                                placeholder="Enter Email"
-                                autoComplete="email"
-                                value={email}
-                                onChange={e => setEmail(e.target.value)} />
+                        id="email"
+                        className="inputField"
+                        type="email"
+                        placeholder="Enter Email"
+                        autoComplete="email"
+                        value={email}
+                        onChange={e => setEmail(e.target.value)} />
                     <p> {message} </p>
-                    <button className = "Button block" > Send Link</button>
+                    <button className="Button block" > Send Link</button>
                 </div>
             </form>
         </>
     );
-  }
+}

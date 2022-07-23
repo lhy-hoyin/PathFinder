@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { supabase } from "../supabaseClient";
 import { ProfileRoles } from "../constants";
-import { Auth } from "../hooks/Auth"
-
+import { supabase } from "../helpers/SupabaseClient";
+import { formatPreReq, pullModule } from "../helpers/NUSModsAPI";
+import { Auth } from "../hooks/Auth";
 import Header from "../components/Header";
+
 
 export default function API() {
 
@@ -31,29 +32,21 @@ export default function API() {
             return navigate("/");
 
     }, [profileInfoReady])
-  
+
     const query = async e => {
         e.preventDefault();
 
-        const url = API_BASE_URL + acadYear.replace("/", "-") + "/modules/" + moduleCode.toUpperCase() + ".json"
-        setQueryUrl(url)
-
         setIsLoaded(false)
-        fetch(url)
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    setIsLoaded(true);
-                    setData(result);
-                    setError(null);
-                },
-                (error) => {
-                    setIsLoaded(true);
-                    setError(error);
-                }
-            )
+        const response = await pullModule(moduleCode, acadYear)
+        setData(response.data)
+        setError(response.error)
+        setIsLoaded(true)
+
     }
 
+    // Legacy Code
+    // Too much effort to rewrite the whole thing
+    // See: { upsertModule } from "../hooks/Database"
     const updateModuleInfo = async e => {
         e.preventDefault();
 
@@ -66,7 +59,7 @@ export default function API() {
             // Package data properly
             const updates = {
                 code: data.moduleCode,
-                name:data.title,
+                name: data.title,
                 description: data.description,
                 acad_year: data.acadYear,
                 credit: data.moduleCredit,
@@ -77,7 +70,7 @@ export default function API() {
 
             // if table has existing entry, add the id to update the correct entry
             const existingRow = await getExistingRow(acadYear, moduleCode)
-            if (existingRow) 
+            if (existingRow)
                 updates.id = existingRow.id
 
             let { error } = await supabase.from('modules').upsert(updates, {
@@ -90,32 +83,6 @@ export default function API() {
         } catch (error) {
             console.error(error.message);
         }
-    }
-
-    function formatPreReq(input) {
-        var prereq = []
-
-        if (input == null) {
-            // Do nothing else
-            // This is here to avoid undefined behaviour when attempting
-            // to read data.prereqTree.or or data.prereqTree.and
-        }
-        else if (input.or) {
-            // Only have OR pre-req
-            prereq[0] = input.or.toString()
-        }
-        else if (data.prereqTree.and) {
-            // Only AND pre-req, which may include OR pre-req
-            const d = input.and
-            for (var i = 0; i < d.length; i++) {
-                prereq[i] = (d[i].or) ? d[i].or.toString() : d[i]
-            }
-        }
-        else if (input) {
-            prereq[0] = data.prereqTree.toString()
-        }
-
-        return prereq
     }
 
     async function getExistingRow(aYear, mCode) {
@@ -178,7 +145,7 @@ export default function API() {
             </form>
 
             <h3>Searching</h3>
-            { queryUrl }
+            {queryUrl}
             {error ? <div>Error: {error.message}</div> : <></>}
             {isLoaded ? <></> : <div>Loading...</div>}
 

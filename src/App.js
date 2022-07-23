@@ -18,9 +18,9 @@ export default function App() {
             <BrowserRouter>
                 <Routes>
                     // Open to all
-                    <Route path="/" element={<Home/>}/>
-                    <Route path="/sign-up" element={<SignUp/>}/>
-                    <Route path="/forget-password" element={<ForgetPassword/>}/>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/sign-up" element={<SignUp />} />
+                    <Route path="/forget-password" element={<ForgetPassword />} />
 
                     // Accessible only when logged in
                     <Route path='/' element={<UserOnlyRoute />}>

@@ -1,34 +1,42 @@
 import { useState, useEffect } from "react";
-import { Text, Select, Button, useToast } from '@chakra-ui/react';
+import {
+    Text, Select, Button, Tooltip,
+    Tabs, TabList, TabPanels, Tab, TabPanel
+} from '@chakra-ui/react';
 
 import { Auth } from "../hooks/Auth";
 import { graphData } from "../hooks/GraphData";
-import { getCourseNames } from "../hooks/Database";
+import { getCourseNames } from "../helpers/Database";
+import { supabase } from "../helpers/SupabaseClient";
 
 import Header from "../components/Header";
 import AdminAccess from "../components/AdminAccess";
 import GraphComponent from "../components/GraphComponent";
-import SemesterSchedule from "../components/SemesterSchedule"
+import SemesterSchedule from "../components/SemesterSchedule";
+import ModulesTable from "../components/ModulesTable";
 
-import "../css/Home.css";
 
 export default function Home() {
 
-    const { getData, getCoursesRequirement } = graphData();
-    const { profileInfoReady,  course } = Auth();
+    const user = supabase.auth.user();
+    const isLoggedIn = (user !== null);
 
+    const { getData, getCoursesRequirement } = graphData();
+    const { profileInfoReady, course } = Auth();
+
+    const [tabIndex, setTabIndex] = useState(0);
     const [selectedCourse, setSelectedCourse] = useState("");
     const [courseSelection, setCourseSelection] = useState([]);
 
     useEffect(() => {
 
         const fetchCourses = async () => {
-            getCoursesRequirement() 
+            getCoursesRequirement()
             const courseNames = await getCourseNames()
             setCourseSelection(courseNames)
         }
         fetchCourses().catch(console.error)
-        
+
     }, [])
 
     useEffect(() => {
@@ -38,63 +46,79 @@ export default function Home() {
         setSelectedCourse(course);
     }, [profileInfoReady])
 
+    const handleTabsChange = (index) => {
+        setTabIndex(index)
+    }
+
     return (
         <>
             <Header />
 
             <AdminAccess />
 
-            <div className="generalinfo">
-                <h1> Design YOUR path today</h1>
-                <p> Only limited to Computer Science for now</p>
-            </div>
+            <Tabs
+                isLazy
+                isManual
+                index={tabIndex}
+                onChange={handleTabsChange}
+                variant='enclosed'>
+                <TabList>
+                    <Tab>Graph</Tab>
 
-            <form onSubmit={ getData(selectedCourse) }>
-                
-                <div style={{
-                    gap: "5px",
-                    display: "flex",
-                    flexFlow: "row wrap",
-                    alignItems: "center"
-                }}>
-                    <Text style={{ whiteSpace: "nowrap" }} margin={1}>
-                        Course: 
-                    </Text>
+                    <Tooltip
+                        label={isLoggedIn ? "" : "Requires login"}
+                        placement='top'
+                        closeOnClick={false}
+                        shouldWrapChildren>
+                        <Tab isDisabled={!user}>Modules</Tab>
+                    </Tooltip>
 
-                    <div style={{ width: "fit-content" }}>
-                        <Select
-                            onChange={(e) => setSelectedCourse(e.target.value)}
-                            required >
-                            <option key="default" hidden>{selectedCourse}</option>
-                            {
-                                courseSelection.map(item => ( <option key={item}>{item}</option> ))
-                            }
-                        </Select>
-                    </div>
+                </TabList>
 
-                    <Button
-                        type="submit"
-                        colorScheme='blue'>
-                        Generate Module Dependency Graph
-                    </Button>
-                </div>
+                <TabPanels>
+                    <TabPanel>
 
-            </form>
+                        <form onSubmit={getData(selectedCourse)}>
 
-            <div style={{
-                display: "flex",
-                width: "50%",
-                justifyContent: "space-between"
-            }}>
-                <p>Legend:</p>
-                <p >Gray = Module Completed</p>
-                <p>Green = Module availble</p>
-                <p>Red = Module Lock</p>
-            </div>
+                            <div style={{
+                                gap: "5px",
+                                display: "flex",
+                                flexFlow: "row wrap",
+                                alignItems: "center"
+                            }}>
 
-            <GraphComponent />
+                                <Text style={{ whiteSpace: "nowrap" }} margin={1}>
+                                    Course:
+                                </Text>
 
-            <SemesterSchedule />
+                                <div style={{ width: "fit-content" }}>
+                                    <Select
+                                        onChange={(e) => setSelectedCourse(e.target.value)}
+                                        required >
+                                        <option key="default" hidden>{selectedCourse}</option>
+                                        {
+                                            courseSelection.map(item => (<option key={item}>{item}</option>))
+                                        }
+                                    </Select>
+                                </div>
+
+                                <Button type="submit" colorScheme='blue'>
+                                    Generate Module Dependency Graph
+                                </Button>
+                            </div>
+                        </form>
+
+                        <GraphComponent />
+                        <SemesterSchedule />
+                    </TabPanel>
+
+                    <TabPanel>
+                        <ModulesTable />
+                    </TabPanel>
+                </TabPanels>
+            </Tabs>
+
+
 
         </>
     );

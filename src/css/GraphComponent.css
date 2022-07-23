@@ -1,13 +1,11 @@
 .graphBox {
     border: 2px solid rgb(184, 181, 182);
-    height: 700px;
     width: 100%;
     left: 100px;
-    text-align: center;
+    text-align: left;
     box-shadow: 1px 3px 1px slategrey;
-  }
+}
 
-  .disModuleText {
+.disModuleText {
     min-height: 200px;
-  }
-  
+}

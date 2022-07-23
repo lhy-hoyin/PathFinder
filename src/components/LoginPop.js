@@ -19,8 +19,8 @@ export default function LoginPop() {
 
     return (
         <div >
-            <form onSubmit={ login(email, password) }>
-            
+            <form onSubmit={login(email, password)}>
+
                 <Text> Login Details</Text>
 
                 <Input
@@ -63,4 +63,4 @@ export default function LoginPop() {
 
         </div>
     );
-  }
+}

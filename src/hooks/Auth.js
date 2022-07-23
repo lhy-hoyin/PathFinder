@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, createContext } from "react";
 
 import { ProfileRoles } from "../constants";
-import { supabase } from "../supabaseClient";
+import { supabase } from "../helpers/SupabaseClient";
 
 const authContext = createContext();
 
@@ -28,7 +28,7 @@ function useProvideAuth() {
 
     useEffect(() => {
         setSession(supabase.auth.session());
-        supabase.auth.onAuthStateChange((_event, session) => {setSession();})
+        supabase.auth.onAuthStateChange((_event, session) => { setSession(); })
     }, []);
 
     useEffect(() => {
@@ -179,7 +179,7 @@ function useProvideAuth() {
                 title: "Account created!",
                 description: "Check your email for the verification email!"
             };
-            
+
         } catch (error) {
             console.error(error.error_description || error.message);
             return {
@@ -217,12 +217,12 @@ function useProvideAuth() {
 
             resetLocalState()
             console.log("User logged out");
-            
+
             window.location = window.location.origin.toString();
         } catch (error) {
             console.error(error.error_description || error.message);
         }
-    };  
+    };
 
     const sendPasswordReset = (email, setMessage) => async e => {
         e.preventDefault();
@@ -232,7 +232,7 @@ function useProvideAuth() {
 
             const { data, error } = await supabase.auth.api.resetPasswordForEmail(email, {
                 redirectTo: `${window.location.origin}/reset-password`,
-              });
+            });
             if (error) throw error;
 
             alert("Recovery link has been sent to your email");
@@ -292,6 +292,6 @@ function useProvideAuth() {
         lastName,
         cohort,
         course,
-        role, 
+        role,
     };
 }

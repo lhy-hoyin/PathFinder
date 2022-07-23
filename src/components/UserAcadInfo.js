@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Text, Select, Button, useToast } from '@chakra-ui/react';
 
 import { Auth } from "../hooks/Auth";
-import { getCourseNames } from "../hooks/Database";
+import { getCourseNames } from "../helpers/Database";
 import NUM_OF_COHORT_YEARS from "../definitions";
 
 export default function UserAcadInfo() {
@@ -14,7 +14,7 @@ export default function UserAcadInfo() {
     const [profileCourse, setProfileCourse] = useState("");
     const [cohortYears, setCohortYears] = useState([]);
     const [allCourses, setAllCourses] = useState([]);
-    
+
     useEffect(() => {
         const cohortYrs = []
         const currentYear = new Date().getFullYear()
@@ -71,10 +71,10 @@ export default function UserAcadInfo() {
                         required>
                         <option key="default" hidden>{profileCohort}</option>
                         {
-                            cohortYears.map(item => ( <option key={item}>{item}</option> ))
+                            cohortYears.map(item => (<option key={item}>{item}</option>))
                         }
                     </Select>
-                </div>                
+                </div>
 
                 <div style={{ display: "flex", alignItems: "center" }}>
                     <Text style={{ whiteSpace: "nowrap" }} margin={1}>Course:</Text>
@@ -84,7 +84,7 @@ export default function UserAcadInfo() {
                         required>
                         <option key="default" hidden>{profileCourse}</option>
                         {
-                            allCourses.map(item => ( <option key={item}>{item}</option> ))
+                            allCourses.map(item => (<option key={item}>{item}</option>))
                         }
                     </Select>
                 </div>

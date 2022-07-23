@@ -60,7 +60,7 @@ export default function ChangePassword() {
                 margin={1}
                 value={passwordRepeat}
                 onChange={(e) => setPasswordRepeat(e.target.value)} />
-                
+
 
             <Text>{message}</Text>
 

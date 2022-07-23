@@ -25,7 +25,7 @@ export default function NewUser() {
             <Heading as='h1'>Set Up Your New Profile</Heading>
             <UserBasicInfo />
 
-            <form onSubmit={ logout }>
+            <form onSubmit={logout}>
                 <Button type="submit">Logout Now</Button>
             </form>
         </>
