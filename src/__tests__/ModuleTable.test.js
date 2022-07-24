@@ -1,4 +1,4 @@
-import { render, screen, cleanup, fireEvent, waitFor } from '@testing-library/react';
+import { render, cleanup, screen, waitFor, fireEvent } from '@testing-library/react';
 import { ProvideGraphData } from "../hooks/GraphData";
 import ModulesTable from "../components/ModulesTable";
 

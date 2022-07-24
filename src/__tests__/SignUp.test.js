@@ -1,4 +1,4 @@
-import { render, screen, cleanup, waitFor, fireEvent } from '@testing-library/react';
+import { render, cleanup, screen, waitFor, fireEvent } from '@testing-library/react';
 import renderer from 'react-test-renderer';
 
 import { ChakraProvider } from '@chakra-ui/react';
