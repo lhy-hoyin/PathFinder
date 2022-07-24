@@ -249,6 +249,7 @@ function useProvideGraphData() {
     const getData = (selectedCourse) => async e => {
         e.preventDefault();
 
+        setTimeTableMods([]);
         const selectedCourseIndex = gradReq.findIndex((x) => x.id === selectedCourse)
 
         // Graph related     
