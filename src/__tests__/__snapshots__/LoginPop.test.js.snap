@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders without crashing 1`] = `
+Array [
+  <div>
+    <form
+      onSubmit={[Function]}
+    >
+      <p
+        className="chakra-text css-0"
+      >
+        Login Details
+      </p>
+      <input
+        aria-required={true}
+        autoComplete="email"
+        className="chakra-input css-14sef68"
+        id="email"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        placeholder="Email"
+        required={true}
+        type="email"
+        value=""
+      />
+      <div
+        className="chakra-input__group css-86lbzn"
+      >
+        <input
+          aria-required={true}
+          autoComplete="password"
+          className="chakra-input css-1fjljm8"
+          id="password"
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          placeholder="Enter Password"
+          required={true}
+          type="password"
+          value=""
+        />
+        <div
+          className="chakra-input__right-element css-ohd79a"
+          size="md"
+        >
+          <button
+            className="chakra-button css-19wuo85"
+            onClick={[Function]}
+            type="button"
+          >
+            Show
+          </button>
+        </div>
+      </div>
+      <button
+        className="chakra-button css-eu2w2k"
+        type="submit"
+      >
+        Log In
+      </button>
+    </form>
+    <a
+      className="clickable"
+      href="/forget-password"
+    >
+      Forget Password?
+    </a>
+  </div>,
+  <span />,
+  <span
+    className="chakra-env"
+    hidden={true}
+  />,
+]
+`;
