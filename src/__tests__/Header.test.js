@@ -46,7 +46,7 @@ it("renders without crashing", () => {
     ).toJSON()).toMatchSnapshot();
 });
 
-test("elements in guest mode", () => {
+it("has elements in guest mode", () => {
     expect(screen.getByText("Sign Up")).toBeDefined()
     expect(screen.getByText("Login")).toBeDefined()
 
@@ -54,7 +54,7 @@ test("elements in guest mode", () => {
     expect(screen.queryByText("Logout")).toBeNull()
 })
 
-test("elements in user mode", async () => {
+it("has elements in user mode", async () => {
     await login()
 
     await waitFor(() => {

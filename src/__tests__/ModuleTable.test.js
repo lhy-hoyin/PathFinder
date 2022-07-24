@@ -13,7 +13,7 @@ const setup = () => {
     return { addModInput, addBtn, ...comp }
 }
 
-it("valid module code", async () => {
+test("valid module code", async () => {
     const { addModInput, addBtn } = setup()
 
     await waitFor(() => {
@@ -28,7 +28,7 @@ it("valid module code", async () => {
     })
 })
 
-it("invalid module code", async () => {
+test("invalid module code", async () => {
     const { addModInput, addBtn } = setup()
 
     await waitFor(() => {
