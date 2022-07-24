@@ -33,6 +33,8 @@ it("renders without crashing", () => {
 });
 
 it("text display correctly", () => {
+    expect(screen.getByRole("heading", { name:"Sign Up"})).toBeDefined()
+
     expect(screen.getByPlaceholderText("Email")).toBeDefined()
 
     expect(screen.getByPlaceholderText("Enter Password")).toBeDefined()
