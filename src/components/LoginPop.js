@@ -18,10 +18,10 @@ export default function LoginPop() {
     const [showPassword, setShowPassword] = useBoolean();
 
     return (
-        <div >
+        <div>
             <form onSubmit={login(email, password)}>
 
-                <Text> Login Details</Text>
+                <Text>Login Details</Text>
 
                 <Input
                     id="email"
