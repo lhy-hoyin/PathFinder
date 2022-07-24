@@ -4,7 +4,7 @@ import { Heading, Text, Input, Button } from '@chakra-ui/react';
 import { Auth } from "../hooks/Auth";
 import Header from "../components/Header";
 
-export default function sendingResetLink() {
+export default function SendResetLink() {
 
     const { sendPasswordReset } = Auth();
 
@@ -15,7 +15,7 @@ export default function sendingResetLink() {
         <>
             <Header />
 
-            <Heading>Send Recovery Link </Heading>
+            <Heading>Send Recovery Link</Heading>
 
             <form onSubmit={sendPasswordReset(email, setMessage)}>
 
