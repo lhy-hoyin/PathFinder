@@ -35,7 +35,6 @@ function useProvideGraphData() {
 
     }, [userModUpdate])
 
-
     const [gradReq, setGradReq] = useState([]);
     const [modules, setModules] = useState([]);
     const [preq, setPreq] = useState([]);
@@ -250,6 +249,7 @@ function useProvideGraphData() {
     const getData = (selectedCourse) => async e => {
         e.preventDefault();
 
+        setTimeTableMods([]);
         const selectedCourseIndex = gradReq.findIndex((x) => x.id === selectedCourse)
 
         // Graph related     
@@ -343,20 +343,21 @@ function useProvideGraphData() {
     };
 
     const userModuleGraph = (mod) => {
-        
+      const modifiedMods = []
       // Setting up the colour for the module and the dependant mod
       for (var userModIndex = 0; userModIndex < userModules.length; userModIndex++) {
           const index = mod.findIndex((x) => x.id === userModules[userModIndex].code)
           if (index !== -1 && userModules[userModIndex].isCompleted) {
               mod[index].isCompleted = true
               updateColour(mod, mod[index].id, []);
+              modifiedMods.push(userModules[userModIndex].code)
           }
 
           if (index !== -1 && !userModules[userModIndex].isCompleted) {
               mod[index].isCompleted = false
               updateColour(mod, mod[index].id, []);
           }   
-      }       
+      } 
               
       //Reverting the colour for those module that have been override
       for (var userModIndex = 0; userModIndex < userModules.length; userModIndex++) {
@@ -365,30 +366,23 @@ function useProvideGraphData() {
           if (index !== -1 && !userModules[userModIndex].isCompleted) {
             
             if (mod[index].preq.length !== 0 ) {
-              updateColour(mod, mod[index].preq[0], [])
+              updateColour(mod, mod[index].preq[0], [modifiedMods])
             }
 
             if(mod[index].orPreq.length !== 0 ) {
-              updateColour(mod, mod[index].orPreq[0][0], [])
+              updateColour(mod, mod[index].orPreq[0][0], [ modifiedMods])
             }
-          }
+          }          
       }
 
+      //Reverting the colour for those module that have been override
       for (var userModIndex = 0; userModIndex < userModules.length; userModIndex++) {
         const index = mod.findIndex((x) => x.id === userModules[userModIndex].code)
         if (index !== -1 && userModules[userModIndex].isCompleted) {
             mod[index].isCompleted = true
             mod[index].color = setColor(ModuleColor.Completed.rgb)
         }
-      }
-
-    }
-
-    const unchangeMod = (modsCount, currentModsState) => {
-      for (var count = 0; count < modsCount.length ; count++) {
-        currentModsState[modsCount[count]].isCompleted = true
-        currentModsState[modsCount[count]].color = setColor(ModuleColor.Completed.rgb)
-      }
+      } 
     }
 
     const updateGraph = (nodes) => {
@@ -421,15 +415,11 @@ function useProvideGraphData() {
 
             for (var index1 = 0; index1 < modulesCopy.length; index1++) {
               updateColour(modulesCopy, modulesCopy[index1].id, customMod);
-              //Overriding User related modules to orignal state
-              unchangeMod(unchange, modulesCopy)
             }
 
-            // Checking again this time 
+            // Checking again this time in for the front arrays
             for (var index1 = modulesCopy.length - 1; index1 >= 0; index1--) {
               updateColour(modulesCopy, modulesCopy[index1].id, customMod);
-              //Overriding User related modules to orignal state
-              unchangeMod(unchange, modulesCopy)
             }
 
 
