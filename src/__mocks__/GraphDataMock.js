@@ -107,7 +107,7 @@ export const updateColour = (allMods, selectedModule, custom) => {
 export const updateGraph = (nodes, modules) => {
     let index = modules.findIndex((x) => x.id === nodes.toString());
     if (modules[index].color.background === ModuleColor.Locked.rgb) {
-        alert("Module is locked. Please clear the prequities first.");
+        // Prompt user this: "Module is locked. Please clear the prequities first."
         return "no change"
     } else if (modules[index].label === "or") {
         return ; //do nothing
