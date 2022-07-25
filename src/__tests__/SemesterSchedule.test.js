@@ -27,7 +27,7 @@ test("Adding modules into the Semester Table", () => {
     expect(temp[0].modules.length === 2).toBeTruthy();
 });
 
-test("When ST2334 into the semester 2 wihout clearing its prerequitites, it will turn red", () => {
+test("When ST2334 is move into the semester 2 wihout clearing its prerequitites, it will turn red", () => {
     const movingModules = {
         destination: {droppableId: '2', index: 0}, draggableId: "ST2334", source: {index: 1, droppableId: '0'}
     }
@@ -35,7 +35,7 @@ test("When ST2334 into the semester 2 wihout clearing its prerequitites, it will
     expect(temp[2].modules[0].semColor ==="#FF0000").toBeTruthy();
 });
 
-test("When MA1521 into the semester 1, ST2334 will be reverted back to the normal color", () => {
+test("When MA1521 is move into the semester 1, ST2334 will be reverted back to the normal color", () => {
     const movingModules = {
         destination: {droppableId: '1', index: 0}, draggableId: "MA1521", source: {index: 0, droppableId: '0'}
     }
