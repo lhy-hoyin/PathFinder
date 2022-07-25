@@ -278,6 +278,9 @@ export default function ModulesTable() {
                     </Table>
                 </TableContainer>
             </Skeleton>
+            <div style={{color: "red", userSelect:"none"}}>
+                Please click on generate module dependency graph button again if you have added or delete any modules and want to update the Semester Planner
+            </div>
         </>
     );
 }
