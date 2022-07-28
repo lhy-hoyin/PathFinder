@@ -63,7 +63,7 @@ export default function Header() {
                         <li>Welcome, {firstName ?? lastName ?? email ?? "user"}!</li>
                         <li>
                             <Menu isLazy computePositionOnMount>
-                                <MenuButton as={IconButton} icon={<HamburgerIcon />} variant='outline' />
+                                <MenuButton data-testid="hamburger-btn" as={IconButton} icon={<HamburgerIcon />} variant='outline' />
                                 <MenuList>
                                     <MenuItem onClick={goProfilePage}>Profile</MenuItem>
                                     <MenuItem onClick={logout}>Logout</MenuItem>

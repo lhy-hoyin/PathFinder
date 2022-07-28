@@ -199,6 +199,8 @@ export default function ModulesTable() {
             row.parentNode.removeChild(row)
         }
 
+        fetchUserModules().catch(console.error)
+
         // Display a toast
         toast({
             title: status === 200 ? "Record Deleted" : "Delete Failed",
@@ -223,6 +225,7 @@ export default function ModulesTable() {
                 <form onSubmit={handleAddRecord} style={{ display: "flex" }}>
                     <InputGroup>
                         <Input
+                            data-testid="modCode-input"
                             placeholder="Module Code"
                             onChange={(e) => { setNewRecord(e.target.value) }}
                             value={newRecord}
@@ -230,6 +233,7 @@ export default function ModulesTable() {
                         <InputRightElement children={newRecordValidIcon} />
                     </InputGroup>
                     <Button
+                        data-testid="add-btn"
                         type="submit"
                         colorScheme='blue'
                         disabled={!newModValid}>
@@ -278,9 +282,11 @@ export default function ModulesTable() {
                     </Table>
                 </TableContainer>
             </Skeleton>
+            
             <div style={{color: "red", userSelect:"none"}}>
                 Please click on generate module dependency graph button again if you have added or delete any modules and want to update the Semester Planner
             </div>
+
         </>
     );
 }
