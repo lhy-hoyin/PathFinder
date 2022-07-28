@@ -41,9 +41,5 @@ Array [
     </div>
   </div>,
   <span />,
-  <span
-    className="chakra-env"
-    hidden={true}
-  />,
 ]
 `;
