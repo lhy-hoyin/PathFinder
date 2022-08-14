@@ -7,7 +7,8 @@ We have hosted our web application [here](https://path-finder-one.vercel.app/).
 
 You can find some our user and developer guides [here](https://lhy-hoyin.github.io/PathFinder/).
 
-## Branches
+## Github Branches
+You can find the main repo [here](https://github.com/lhy-hoyin/PathFinder).
 `main` : Main development branch  
 `production` : A stable version of the application  
 `gh-pages` : Used to hold the GitHub Pages files (consist of our guides)  
